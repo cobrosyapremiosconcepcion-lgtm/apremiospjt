@@ -79,16 +79,15 @@
                 Turnos SAE
             </button>
         </nav>
+        <div class="p-6 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
+    <p>V 2.5 • Judicial Pro Dashboard</p>
+    <p class="mt-1 uppercase tracking-wider">Derechos Reservados <br> Matias Corbalan (RMC) 2026</p>
+</div>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 p-4 md:p-10 overflow-y-auto">
 
-        <!-- Footer del Sidebar -->
-<div class="p-6 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
-    <p>V 2.5 • Judicial Pro Dashboard</p>
-    <p class="mt-1 uppercase tracking-wider">Derechos Reservados <br> Matias Corbalan (RMC) 2026</p>
-</div>
 
         <!-- 1. GESTIÓN CARÁTULAS -->
         <section id="tab-caratulas" class="tab-content active max-w-6xl mx-auto space-y-6">
@@ -129,7 +128,7 @@
                                 <th class="p-4 w-12 text-center">OK</th>
                                 <th class="p-4 w-32">Expediente</th>
                                 <th class="p-4">Trámite / Carátula</th>
-                                <th class="p-4 w-48">N° Cuenta Judicial</th>
+                                <th class="p-4 w-48">N° Cuenta </th>
                             </tr>
                         </thead>
                         <tbody id="car-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
@@ -294,10 +293,10 @@
         function toggleDarkMode() {
             const html = document.documentElement;
             const isDark = html.classList.toggle('dark');
-            localStorage.setItem('judicial_theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('_theme', isDark ? 'dark' : 'light');
         }
 
-        if (localStorage.getItem('judicial_theme') === 'dark' || (!localStorage.getItem('judicial_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.getItem('_theme') === 'dark' || (!localStorage.getItem('_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
 
@@ -361,7 +360,7 @@
                 if (a.includes("YERBA BUENA")) return "MUN YERBA BUENA";
                 return "MUNICIPALIDAD";
             }
-            if (a.includes("PODER JUDICIAL")) return "PJ TUCUMAN";
+            if (a.includes("PODER ")) return "PJ TUCUMAN";
             if (a.includes("RENTAS") || a.includes("DGR")) return "RENTAS DGR";
             if (a.includes("AGUAS DEL TUCUMAN") || a.includes("SAT")) return "SAT SAPEM";
             if (a.includes("SECRETARIA") && a.includes("TRABAJO")) return "SEC TRABAJO";
