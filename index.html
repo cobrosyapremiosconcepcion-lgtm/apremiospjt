@@ -414,10 +414,10 @@
         function hon_calc() {
             const emb = parseFloat(document.getElementById('hon-embargo').value)||0, reg = parseFloat(document.getElementById('hon-regulados').value)||0;
             const neto = emb < (reg*1.1) ? emb/1.1 : reg;
-            const format = (v) => `PESOS: ${mon_coreLe(Math.floor(v))} CON ${Math.round((v-Math.floor(v))*100).toString().padStart(2,'0')} CTVS ($${new Intl.NumberFormat('es-AR').format(v.toFixed(2))})`;
-            document.getElementById('hon-cobrar-txt').innerText = "NETO: " + format(neto);
-            document.getElementById('hon-10-txt').innerText = "10%: " + format(neto*0.1);
-            document.getElementById('hon-8-txt').innerText = "8%: " + format(neto*0.08);
+            const format = (v) => `PESOS: ${mon_coreLe(Math.floor(v))} CON ${Math.round((v-Math.floor(v))*100).toString().padStart(2,'0')} CENTAVOS ($${new Intl.NumberFormat('es-AR').format(v.toFixed(2))})`;
+            document.getElementById('hon-cobrar-txt').innerText = format(neto);
+            document.getElementById('hon-10-txt').innerText = format(neto*0.1);
+            document.getElementById('hon-8-txt').innerText =  format(neto*0.08);
         }
 
         function mon_coreLe(n) {
