@@ -243,9 +243,15 @@
             </div>
 
             <div id="sae-emp" class="sub-tab-content bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="font-bold text-lg tracking-tight underline decoration-indigo-500 decoration-4">Sincronización con Nube</h3>
-                    <p id="sae-cloud-status" class="loading-pulse text-xs font-bold text-indigo-500 italic">Conectando con Google Sheets...</p>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                    <div>
+                        <h3 class="font-bold text-lg tracking-tight underline decoration-indigo-500 decoration-4">Sincronización con Nube</h3>
+                        <a href="https://docs.google.com/spreadsheets/d/11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI/edit" target="_blank" class="text-indigo-500 hover:underline text-[10px] font-bold uppercase italic block mt-1">Editar en Google Sheets ↗</a>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <p id="sae-cloud-status" class="loading-pulse text-xs font-bold text-indigo-500 italic">Conectando...</p>
+                        <button onclick="sae_loadCloud()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-indigo-700 transition shadow-sm">Actualizar Nómina</button>
+                    </div>
                 </div>
                 <table class="w-full text-left text-sm font-medium">
                     <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-400 text-[10px] uppercase font-bold tracking-widest border-b dark:border-slate-800">
@@ -429,6 +435,7 @@
 
         let sae_e = [];
         function sae_loadCloud() {
+            document.getElementById('sae-cloud-status').innerText = "Sincronizando...";
             const script = document.createElement('script');
             const sheetID = "11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI";
             script.src = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=responseHandler:sae_handleResponse`;
@@ -443,7 +450,7 @@
                     n: (row.c[1]?.v || "Sin Nombre").toUpperCase(), 
                     f: row.c[2]?.v ? row.c[2].v.toString().split(',').map(Number) : [], 
                     r: row.c[3]?.v ? row.c[3].v.toString().split(',').map(Number) : [],
-                    a: (row.c[4]?.v || "SI").toUpperCase() // NUEVA COLUMNA ACTIVO
+                    a: (row.c[4]?.v || "SI").toUpperCase()
                 })).sort((a,b)=>a.o - b.o);
                 sae_renE(); sae_selU();
                 document.getElementById('sae-cloud-status').innerText = "Nube Conectada ✅";
@@ -471,18 +478,13 @@
             const mes = document.getElementById('sae-mes').value; if(!mes) return;
             const [y,m] = mes.split('-').map(Number), ult = new Date(y,m,0).getDate(), grid = document.getElementById('sae-grid');
             grid.innerHTML = ""; 
-            
-            // FILTRAR SOLO EMPLEADOS ACTIVOS PARA EL CRONOGRAMA
             const sae_activos = sae_e.filter(e => e.a === 'SI');
             if(sae_activos.length === 0) return alert("No hay agentes activos en la nómina.");
-
             let ptr = sae_activos.findIndex(e=>e.id===parseInt(document.getElementById('sae-sel-inicio').value));
             if(ptr === -1) ptr = 0;
-
             for(let d=1; d<=ult; d++){
                 const f = new Date(y,m-1,d,12,0,0), ds = f.getDay(), iso = f.toISOString().split('T')[0];
                 if(ds===0||ds===6||sae_f.some(fer => iso>=fer.d && iso<=fer.h)) continue;
-                
                 let as = sae_activos.filter(e => e.f.includes(ds)).slice(0,2);
                 let i=0; 
                 while(as.length<2 && i<sae_activos.length){ 
