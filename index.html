@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -79,6 +80,10 @@
                 <svg class="w-5 h-5 text-amber-500 group-hover:text-amber-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 Honorarios
             </button>
+            <button onclick="switchMainTab('tab-turnos-juz')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                Turnos Juzgado
+            </button>
             <button onclick="switchMainTab('tab-montos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 Monto a Letras
@@ -96,6 +101,29 @@
         <button onclick="toggleSidebar()" class="toggle-btn-hidden fixed left-4 top-4 z-40 p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-lg" title="Mostrar menú">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
+
+        <!-- Modal de Contraseña para Turnos Juzgado -->
+        <div id="tur-password-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-2xl max-w-sm w-full mx-4">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Acceso Restringido</h2>
+                    <p class="text-slate-500 dark:text-slate-400">Ingrese la contraseña para acceder a Turnos Juzgado</p>
+                </div>
+                
+                <div class="mb-6">
+                    <input type="password" id="tur-password-input" placeholder="Contraseña" class="w-full p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-bold text-center tracking-widest" onkeypress="if(event.key==='Enter') tur_verificarContrasena()">
+                </div>
+
+                <button onclick="tur_verificarContrasena()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition mb-3">
+                    Acceder
+                </button>
+
+                <div id="tur-error-msg" class="hidden text-red-600 dark:text-red-400 text-sm font-bold text-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg"></div>
+            </div>
+        </div>
 
 
         <!-- 1. GESTIÓN CARÁTULAS -->
@@ -212,6 +240,129 @@
                         <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
                             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Tasa Justicia 8%</label>
                             <button onclick="mon_copyRaw('hon-8-txt')" class="text-sm font-bold hover:text-indigo-500 transition text-left" id="hon-8-txt">-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TURNOS JUZGADO -->
+        <section id="tab-turnos-juz" class="tab-content max-w-6xl mx-auto space-y-6" data-requires-password="true">
+            <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h2 class="text-2xl font-bold mb-2">⚖️ Asignación de Responsables</h2>
+                <p class="text-slate-500 dark:text-slate-400 mb-6">Turno Tarde - Juzgado de Cobros</p>
+                
+                <div class="flex flex-wrap gap-3 mb-6 justify-between items-center">
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://docs.google.com/spreadsheets/d/11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI/edit" target="_blank" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">
+                            📂 Abrir Nómina
+                        </a>
+                        <button onclick="tur_actualizarDatos()" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">
+                            🔄 Actualizar Datos
+                        </button>
+                    </div>
+                    <button onclick="if(confirm('¿Cerrar sesión de Turnos?')) { tur_cerrarAcceso(); switchMainTab('tab-caratulas'); }" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">
+                        🚪 Cerrar Sesión
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Mes</label>
+                        <select id="tur-mes" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold">
+                            <option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option>
+                            <option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option>
+                            <option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option>
+                            <option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Año</label>
+                        <select id="tur-anio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Inicia con</label>
+                        <select id="tur-inicio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select>
+                    </div>
+
+                    <div class="flex items-end">
+                        <button onclick="tur_generarCronograma()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold transition text-xs">
+                            ⚡ Generar
+                        </button>
+                    </div>
+
+                    <div class="flex items-end">
+                        <button onclick="tur_copiarFormatoExcel()" id="tur-btn-copiar" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition text-xs" disabled>
+                            📋 Copiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                <div class="flex border-b border-slate-200 dark:border-slate-800">
+                    <button onclick="tur_switchTab(event, 'tur-cronograma')" class="flex-1 p-4 text-center font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 transition active-tab">
+                        📅 Cronograma
+                    </button>
+                    <button onclick="tur_switchTab(event, 'tur-datos')" class="flex-1 p-4 text-center font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition hover:text-slate-600">
+                        ⚙️ Configuración
+                    </button>
+                </div>
+
+                <!-- TAB CRONOGRAMA -->
+                <div id="tur-cronograma" class="p-4 md:p-6">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-4 w-20">Fecha</th>
+                                    <th class="p-4 w-20">Día</th>
+                                    <th class="p-4">Responsable 1</th>
+                                    <th class="p-4">Responsable 2</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tur-tabla-cuerpo" class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr>
+                                    <td colspan="4" class="p-8 text-center text-slate-500 dark:text-slate-400">
+                                        📋 Presione "Generar" para ver los turnos
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="tur-div-resumen" class="mt-8 hidden">
+                        <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">📊 Carga de Trabajo Mensual</h3>
+                        <div id="tur-contenedor-stats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                    </div>
+                </div>
+
+                <!-- TAB CONFIGURACIÓN -->
+                <div id="tur-datos" class="p-4 md:p-6 hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Personal Activo</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-slate-50 dark:bg-slate-800/50 text-xs font-bold uppercase">
+                                        <tr>
+                                            <th class="p-2 text-left">Orden</th>
+                                            <th class="p-2 text-left">Nombre</th>
+                                            <th class="p-2 text-left">Día Fijo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tur-lista-personal" class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Feriados Detectados</h3>
+                            <div id="tur-lista-feriados" class="space-y-2"></div>
                         </div>
                     </div>
                 </div>
@@ -410,12 +561,220 @@
 
         function mon_copyRaw(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); }
         function mon_copy() { navigator.clipboard.writeText(document.getElementById('mon-out').innerText); }
-        function switchMainTab(id) { 
+        
+        function switchMainTab(id) {
+            const section = document.getElementById(id);
+            
+            // Verificar si requiere contraseña
+            if (section && section.getAttribute('data-requires-password') === 'true') {
+                const accessGranted = localStorage.getItem('tur_access_granted');
+                if (!accessGranted) {
+                    document.getElementById('tur-password-modal').classList.remove('hidden');
+                    document.getElementById('tur-password-input').focus();
+                    return;
+                }
+            }
+            
+            // Mostrar la sección
             document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active')); 
             document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
-            document.getElementById(id).classList.add('active'); 
+            section.classList.add('active'); 
             event.currentTarget.classList.add('active');
         }
+
+        /** TURNOS JUZGADO **/
+        const TUR_SHEET_ID = '11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI';
+        const TUR_PASSWORD = '123654';
+        let tur_rawPersonal = [];
+        let tur_feriados = [];
+        const tur_nombresDias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+        function tur_verificarContrasena() {
+            const password = document.getElementById('tur-password-input').value;
+            const errorMsg = document.getElementById('tur-error-msg');
+            
+            if (password === TUR_PASSWORD) {
+                localStorage.setItem('tur_access_granted', 'true');
+                document.getElementById('tur-password-modal').classList.add('hidden');
+                document.getElementById('tur-password-input').value = '';
+                errorMsg.classList.add('hidden');
+                
+                // Mostrar la sección de Turnos
+                document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+                document.getElementById('tab-turnos-juz').classList.add('active');
+                
+                // Marcar botón como activo
+                document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+                document.querySelector('button[onclick="switchMainTab(\'tab-turnos-juz\')"]').classList.add('active');
+            } else {
+                errorMsg.textContent = '❌ Contraseña incorrecta';
+                errorMsg.classList.remove('hidden');
+                document.getElementById('tur-password-input').value = '';
+            }
+        }
+
+        function tur_cerrarAcceso() {
+            localStorage.removeItem('tur_access_granted');
+        }
+
+        function tur_actualizarDatos() {
+            tur_fetchSheet('personal', 'tur_resPersonal');
+            tur_fetchSheet('feriados', 'tur_resFeriados');
+        }
+
+        function tur_fetchSheet(sheetName, callback) {
+            const script = document.createElement('script');
+            script.src = `https://docs.google.com/spreadsheets/d/${TUR_SHEET_ID}/gviz/tq?sheet=${sheetName}&tqx=responseHandler:${callback}&cb=${Date.now()}`;
+            document.body.appendChild(script);
+        }
+
+        window.tur_resPersonal = function(data) {
+            tur_rawPersonal = data.table.rows.map(r => ({
+                orden: r.c[0] ? r.c[0].v : 0,
+                nombre: r.c[1] ? r.c[1].v : '',
+                fijo: r.c[2] ? parseInt(r.c[2].v) : null,
+                restringidos: r.c[3] ? String(r.c[3].v).split(',').map(n => parseInt(n.trim())) : [],
+                activo: r.c[4] ? r.c[4].v.toLowerCase() : 'no'
+            })).filter(p => p.activo === 'si').sort((a,b) => a.orden - b.orden);
+            
+            document.getElementById('tur-inicio').innerHTML = tur_rawPersonal.map(p => `<option value="${p.orden}">${p.nombre}</option>`).join('');
+            document.getElementById('tur-lista-personal').innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-2">${p.orden}</td><td class="p-2 font-bold">${p.nombre}</td><td class="p-2">${p.fijo?tur_nombresDias[p.fijo]:'-'}</td></tr>`).join('');
+        };
+
+        window.tur_resFeriados = function(data) {
+            tur_feriados = data.table.rows.map(r => {
+                if (!r.c[0]) return null;
+                const v = r.c[0].v;
+                if (typeof v === 'string' && v.includes('Date')) {
+                    const p = v.match(/\d+/g);
+                    return `${p[0]}-${String(parseInt(p[1])+1).padStart(2,'0')}-${p[2].padStart(2,'0')}`;
+                }
+                return v;
+            }).filter(f => f);
+            
+            document.getElementById('tur-lista-feriados').innerHTML = tur_feriados.length > 0 
+                ? tur_feriados.map(f => `<div class="p-2 bg-slate-50 dark:bg-slate-800 rounded text-sm">📌 ${f}</div>`).join('')
+                : '<div class="p-2 text-slate-400 text-sm">Sin feriados en este período</div>';
+        };
+
+        function tur_switchTab(event, tabId) {
+            event.preventDefault();
+            document.getElementById('tur-cronograma').style.display = 'none';
+            document.getElementById('tur-datos').style.display = 'none';
+            document.getElementById(tabId).style.display = 'block';
+            
+            document.querySelectorAll('#tur-datos').parentElement?.querySelectorAll('button').forEach(b => b.classList.remove('border-indigo-600', 'border-indigo-400', 'text-indigo-600', 'text-indigo-400'));
+            event.target.classList.add('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
+        }
+
+        function tur_generarCronograma() {
+            const mes = parseInt(document.getElementById('tur-mes').value);
+            const anio = parseInt(document.getElementById('tur-anio').value);
+            const startId = parseInt(document.getElementById('tur-inicio').value);
+            const diasMes = new Date(anio, mes, 0).getDate();
+            
+            let fila = [...tur_rawPersonal];
+            while (fila[0].orden != startId) { fila.push(fila.shift()); }
+
+            const tbody = document.getElementById('tur-tabla-cuerpo');
+            tbody.innerHTML = "";
+
+            for (let d = 1; d <= diasMes; d++) {
+                const fecha = new Date(anio, mes - 1, d);
+                const diaSem = fecha.getDay();
+                const fechaIso = `${anio}-${String(mes).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+                if (diaSem === 0 || diaSem === 6 || tur_feriados.some(f => String(f).includes(fechaIso))) continue;
+
+                let asignadosHoy = [];
+                fila.filter(p => p.fijo === diaSem).forEach(p => { if (asignadosHoy.length < 2) asignadosHoy.push(p); });
+
+                for (let i = 0; i < fila.length && asignadosHoy.length < 2; i++) {
+                    let cand = fila[i];
+                    if (!asignadosHoy.includes(cand) && !cand.restringidos.includes(diaSem)) {
+                        asignadosHoy.push(cand);
+                    }
+                }
+
+                asignadosHoy.forEach(p => {
+                    const idx = fila.indexOf(p);
+                    if (idx > -1) { fila.splice(idx, 1); fila.push(p); }
+                });
+
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40';
+                tr.innerHTML = `
+                    <td class="p-4 font-bold">${String(d).padStart(2,'0')}/${String(mes).padStart(2,'0')}</td>
+                    <td class="p-4">${tur_nombresDias[diaSem]}</td>
+                    <td class="p-4">${tur_renderSelect(asignadosHoy[0]?.nombre)}</td>
+                    <td class="p-4">${tur_renderSelect(asignadosHoy[1]?.nombre)}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+            document.getElementById('tur-btn-copiar').disabled = false;
+            tur_calcStats();
+        }
+
+        function tur_renderSelect(nombreOriginal) {
+            let opciones = tur_rawPersonal.map(p => `<option value="${p.nombre}" ${p.nombre===nombreOriginal?'selected':''}>${p.nombre}</option>`).join('');
+            return `<select class="w-full p-2 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-indigo-500" data-original="${nombreOriginal}" onchange="tur_marcarCambio(this)">${opciones}</select>`;
+        }
+
+        function tur_marcarCambio(el) {
+            const original = el.getAttribute('data-original');
+            if (el.value !== original) {
+                el.style.color = '#dc2626';
+                el.style.fontWeight = '600';
+                el.style.border = '2px solid #fca5a5';
+                el.style.backgroundColor = '#fef2f2';
+            } else {
+                el.style.color = '';
+                el.style.fontWeight = '';
+                el.style.border = '';
+                el.style.backgroundColor = '';
+            }
+            tur_calcStats();
+        }
+
+        function tur_calcStats() {
+            const counts = {};
+            tur_rawPersonal.forEach(p => counts[p.nombre] = 0);
+            document.querySelectorAll('#tur-tabla-cuerpo select').forEach(s => { if(s.value) counts[s.value]++; });
+
+            document.getElementById('tur-div-resumen').classList.remove('hidden');
+            document.getElementById('tur-contenedor-stats').innerHTML = Object.entries(counts)
+                .sort((a,b) => b[1] - a[1])
+                .map(([nom, cant]) => `
+                    <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-1">Empleado</div>
+                        <div class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">${nom}</div>
+                        <div class="inline-block bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-bold">${cant} días</div>
+                    </div>`).join('');
+        }
+
+        function tur_copiarFormatoExcel() {
+            let txt = `FECHA\tDIA\tRESPONSABLE 1\tRESPONSABLE 2\n`;
+            document.querySelectorAll('#tur-tabla-cuerpo tr').forEach(tr => {
+                const sels = tr.querySelectorAll('select');
+                txt += `${tr.cells[0].innerText}\t${tr.cells[1].innerText}\t${sels[0].value}\t${sels[1].value}\n`;
+            });
+
+            navigator.clipboard.writeText(txt.trim()).then(() => {
+                const b = document.getElementById('tur-btn-copiar');
+                const originalText = b.innerHTML;
+                b.innerHTML = "✅ ¡Listo!";
+                setTimeout(() => b.innerHTML = originalText, 2500);
+            });
+        }
+
+        // Inicializar años y cargar datos
+        window.addEventListener('DOMContentLoaded', () => {
+            const selAnio = document.getElementById('tur-anio');
+            const anio = new Date().getFullYear();
+            for(let i=anio-1; i<=anio+1; i++) selAnio.add(new Option(i, i, i===anio, i===anio));
+            document.getElementById('tur-mes').value = new Date().getMonth()+1;
+            tur_actualizarDatos();
+        });
     </script>
 </body>
 </html>
