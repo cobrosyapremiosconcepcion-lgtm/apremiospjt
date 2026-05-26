@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -90,14 +89,13 @@
             </button>
         </nav>
         <div class="p-6 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
-    <p>V 2.5 • Judicial Pro Dashboard</p>
-    <p class="mt-1 uppercase tracking-wider">Derechos Reservados <br> Matias Corbalan (RMC) 2026</p>
-</div>
+            <p>V 2.5 • Judicial Pro Dashboard</p>
+            <p class="mt-1 uppercase tracking-wider">Derechos Reservados <br> Matias Corbalan (RMC) 2026</p>
+        </div>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 p-4 md:p-10 overflow-y-auto relative">
-        <!-- Botón flotante para mostrar sidebar cuando está oculto -->
         <button onclick="toggleSidebar()" class="toggle-btn-hidden fixed left-4 top-4 z-40 p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-lg" title="Mostrar menú">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
@@ -112,19 +110,13 @@
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Acceso Restringido</h2>
                     <p class="text-slate-500 dark:text-slate-400">Ingrese la contraseña para acceder a Turnos Juzgado</p>
                 </div>
-                
                 <div class="mb-6">
                     <input type="password" id="tur-password-input" placeholder="Contraseña" class="w-full p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-bold text-center tracking-widest" onkeypress="if(event.key==='Enter') tur_verificarContrasena()">
                 </div>
-
-                <button onclick="tur_verificarContrasena()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition mb-3">
-                    Acceder
-                </button>
-
+                <button onclick="tur_verificarContrasena()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition mb-3">Acceder</button>
                 <div id="tur-error-msg" class="hidden text-red-600 dark:text-red-400 text-sm font-bold text-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg"></div>
             </div>
         </div>
-
 
         <!-- 1. GESTIÓN CARÁTULAS -->
         <section id="tab-caratulas" class="tab-content active max-w-6xl mx-auto space-y-6">
@@ -139,37 +131,14 @@
                     <input type="file" id="car-file" accept=".xlsx, .xls" class="hidden" onchange="car_cargar(event)">
                 </button>
             </div>
-
             <div id="car-main" class="hidden space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Filtrar Trámite</label>
-                        <input type="text" id="car-f-tra" oninput="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Ejecución...">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Responsable</label>
-                        <select id="car-f-res" onchange="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"></select>
-                    </div>
-                    <div class="flex items-end">
-                        <button onclick="car_exportar()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            Exportar Resultado
-                        </button>
-                    </div>
+                    <div class="space-y-1"><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Filtrar Trámite</label><input type="text" id="car-f-tra" oninput="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Ejecución..."></div>
+                    <div class="space-y-1"><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Responsable</label><select id="car-f-res" onchange="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"></select></div>
+                    <div class="flex items-end"><button onclick="car_exportar()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>Exportar Resultado</button></div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                    <table class="w-full text-sm text-left">
-                        <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase tracking-wider">
-                            <tr>
-                                <th class="p-4 w-12 text-center">OK</th>
-                                <th class="p-4 w-32">Expediente</th>
-                                <th class="p-4">Trámite / Carátula</th>
-                                <th class="p-4 w-48">N° Cuenta </th>
-                            </tr>
-                        </thead>
-                        <tbody id="car-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
-                    </table>
+                    <table class="w-full text-sm text-left"><thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase tracking-wider"><tr><th class="p-4 w-12 text-center">OK</th><th class="p-4 w-32">Expediente</th><th class="p-4">Trámite / Carátula</th><th class="p-4 w-48">N° Cuenta</th></tr></thead><tbody id="car-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody></table>
                 </div>
             </div>
         </section>
@@ -177,32 +146,12 @@
         <!-- 2. PROTOCOLOS -->
         <section id="tab-protocolos" class="tab-content max-w-3xl mx-auto space-y-6">
             <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 text-center shadow-xl">
-                <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                </div>
+                <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div>
                 <h2 class="text-2xl font-bold mb-2">Procesador de Protocolos</h2>
                 <p class="text-slate-500 dark:text-slate-400 mb-8">Organiza y numera automáticamente tus archivos Excel de SAE.</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left font-medium">
-                    <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1">Número Inicial</label>
-                        <input type="number" id="pro-inicio" value="1" class="w-full bg-transparent text-2xl font-bold outline-none text-indigo-600 dark:text-indigo-400">
-                    </div>
-                    <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center text-xs text-slate-500">
-                        Distribución lógica automática:<br>ayanicelli → Juz 2 | mtorres → Juz 1
-                    </div>
-                </div>
-
-                <label class="block cursor-pointer border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors mb-6 group">
-                    <input type="file" id="pro-files" accept=".xls, .xlsx" multiple class="hidden">
-                    <div class="text-slate-400 group-hover:text-indigo-500 transition-colors font-medium">
-                        Click para seleccionar archivos XLSX
-                    </div>
-                </label>
-
-                <button onclick="pro_procesar()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-4 rounded-2xl font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-lg">
-                    Generar y Copiar Datos
-                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left font-medium"><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1">Número Inicial</label><input type="number" id="pro-inicio" value="1" class="w-full bg-transparent text-2xl font-bold outline-none text-indigo-600 dark:text-indigo-400"></div><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center text-xs text-slate-500">Distribución lógica automática:<br>ayanicelli → Juz 2 | mtorres → Juz 1</div></div>
+                <label class="block cursor-pointer border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors mb-6 group"><input type="file" id="pro-files" accept=".xls, .xlsx" multiple class="hidden"><div class="text-slate-400 group-hover:text-indigo-500 transition-colors font-medium">Click para seleccionar archivos XLSX</div></label>
+                <button onclick="pro_procesar()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-4 rounded-2xl font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-lg">Generar y Copiar Datos</button>
                 <div id="pro-status" class="mt-4 text-xs font-bold text-slate-400 animate-pulse uppercase tracking-widest">Esperando carga...</div>
             </div>
         </section>
@@ -211,175 +160,50 @@
         <section id="tab-honorarios" class="tab-content max-w-4xl mx-auto">
             <div class="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl">
                 <h2 class="text-2xl font-bold text-center mb-10">Liquidación de Honorarios y Aportes</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                    <div class="p-6 bg-indigo-50 dark:bg-indigo-900/10 rounded-3xl border border-indigo-100 dark:border-indigo-900/30">
-                        <label class="block text-[10px] font-bold text-indigo-500 uppercase mb-2">Honorarios Regulados ($)</label>
-                        <input type="text" id="hon-regulados" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-indigo-900 dark:text-indigo-100 outline-none" placeholder="123.456,78">
-                    </div>
-                    <div class="p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-3xl border border-emerald-100 dark:border-emerald-900/30">
-                        <label class="block text-[10px] font-bold text-emerald-500 uppercase mb-2">Embargo Disponible ($)</label>
-                        <input type="text" id="hon-embargo" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-emerald-900 dark:text-emerald-100 outline-none" placeholder="123.456,78">
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="bg-slate-900 dark:bg-slate-800 p-8 rounded-3xl text-white shadow-xl relative overflow-hidden group">
-                        <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                            <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
-                        </div>
-                        <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Importe Neto Final</p>
-                        <button onclick="mon_copyRaw('hon-cobrar-txt')" class="text-lg md:text-xl font-bold leading-relaxed hover:text-indigo-400 transition text-left" id="hon-cobrar-txt">Esperando datos...</button>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Aportes 10%</label>
-                            <button onclick="mon_copyRaw('hon-10-txt')" class="text-sm font-bold hover:text-indigo-500 transition text-left" id="hon-10-txt">-</button>
-                        </div>
-                        <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Tasa Justicia 8%</label>
-                            <button onclick="mon_copyRaw('hon-8-txt')" class="text-sm font-bold hover:text-indigo-500 transition text-left" id="hon-8-txt">-</button>
-                        </div>
-                    </div>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10"><div class="p-6 bg-indigo-50 dark:bg-indigo-900/10 rounded-3xl border border-indigo-100 dark:border-indigo-900/30"><label class="block text-[10px] font-bold text-indigo-500 uppercase mb-2">Honorarios Regulados ($)</label><input type="text" id="hon-regulados" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-indigo-900 dark:text-indigo-100 outline-none" placeholder="123.456,78"></div><div class="p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-3xl border border-emerald-100 dark:border-emerald-900/30"><label class="block text-[10px] font-bold text-emerald-500 uppercase mb-2">Embargo Disponible ($)</label><input type="text" id="hon-embargo" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-emerald-900 dark:text-emerald-100 outline-none" placeholder="123.456,78"></div></div>
+                <div class="space-y-4"><div class="bg-slate-900 dark:bg-slate-800 p-8 rounded-3xl text-white shadow-xl relative overflow-hidden group"><div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition"><svg class="w-20 h-20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg></div><p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Importe Neto Final</p><button onclick="mon_copyRaw('hon-cobrar-txt')" class="text-lg md:text-xl font-bold leading-relaxed hover:text-indigo-400 transition text-left" id="hon-cobrar-txt">Esperando datos...</button></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Aportes 10%</label><button onclick="mon_copyRaw('hon-10-txt')" class="text-sm font-bold hover:text-indigo-500 transition text-left" id="hon-10-txt">-</button></div><div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Tasa Justicia 8%</label><button onclick="mon_copyRaw('hon-8-txt')" class="text-sm font-bold hover:text-indigo-500 transition text-left" id="hon-8-txt">-</button></div></div></div>
             </div>
         </section>
 
-        <!-- 4. TURNOS JUZGADO -->
+        <!-- 4. TURNOS JUZGADO (CORREGIDO) -->
         <section id="tab-turnos-juz" class="tab-content max-w-6xl mx-auto space-y-6" data-requires-password="true">
             <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <h2 class="text-2xl font-bold mb-2">⚖️ Asignación de Responsables</h2>
                 <p class="text-slate-500 dark:text-slate-400 mb-6">Turno Tarde - Juzgado de Cobros</p>
-                
                 <div class="flex flex-wrap gap-3 mb-6 justify-between items-center">
                     <div class="flex flex-wrap gap-3">
-                        <a href="https://docs.google.com/spreadsheets/d/11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI/edit" target="_blank" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">
-                            📂 Abrir Nómina
-                        </a>
-                        <button onclick="tur_actualizarDatos()" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">
-                            🔄 Actualizar Datos
-                        </button>
+                        <a href="https://docs.google.com/spreadsheets/d/11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI/edit" target="_blank" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">📂 Abrir Nómina</a>
+                        <button onclick="tur_actualizarDatos()" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">🔄 Actualizar Datos</button>
                     </div>
-                    <button onclick="if(confirm('¿Cerrar sesión de Turnos?')) { tur_cerrarAcceso(); switchMainTab('tab-caratulas'); }" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">
-                        🚪 Cerrar Sesión
-                    </button>
+                    <button onclick="if(confirm('¿Cerrar sesión de Turnos?')) { tur_cerrarAcceso(); switchMainTab('tab-caratulas'); }" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">🚪 Cerrar Sesión</button>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Mes</label>
-                        <select id="tur-mes" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold">
-                            <option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option>
-                            <option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option>
-                            <option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option>
-                            <option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Año</label>
-                        <select id="tur-anio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Inicia con</label>
-                        <select id="tur-inicio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select>
-                    </div>
-
-                    <div class="flex items-end">
-                        <button onclick="tur_generarCronograma()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold transition text-xs">
-                            ⚡ Generar
-                        </button>
-                    </div>
-
-                    <div class="flex items-end">
-                        <button onclick="tur_copiarFormatoExcel()" id="tur-btn-copiar" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition text-xs" disabled>
-                            📋 Copiar
-                        </button>
-                    </div>
+                    <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Mes</label><select id="tur-mes" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div>
+                    <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Año</label><select id="tur-anio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select></div>
+                    <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Inicia con</label><select id="tur-inicio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select></div>
+                    <div class="flex items-end"><button id="tur-btn-generar" onclick="tur_generarCronograma()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold transition text-xs" disabled>⚡ Generar</button></div>
+                    <div class="flex items-end"><button onclick="tur_copiarFormatoExcel()" id="tur-btn-copiar" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition text-xs" disabled>📋 Copiar</button></div>
                 </div>
+                <div id="tur-loading-status" class="text-sm text-amber-600 dark:text-amber-400 mb-4 text-center font-semibold">⏳ Cargando datos de personal y feriados...</div>
             </div>
 
-            <!-- TABS -->
             <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
                 <div class="flex border-b border-slate-200 dark:border-slate-800">
-                    <button onclick="tur_switchTab(event, 'tur-cronograma')" class="flex-1 p-4 text-center font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 transition active-tab">
-                        📅 Cronograma
-                    </button>
-                    <button onclick="tur_switchTab(event, 'tur-datos')" class="flex-1 p-4 text-center font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition hover:text-slate-600">
-                        ⚙️ Configuración
-                    </button>
+                    <button onclick="tur_switchTab(event, 'tur-cronograma')" class="flex-1 p-4 text-center font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 transition active-tab">📅 Cronograma</button>
+                    <button onclick="tur_switchTab(event, 'tur-datos')" class="flex-1 p-4 text-center font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition hover:text-slate-600">⚙️ Configuración</button>
                 </div>
-
-                <!-- TAB CRONOGRAMA -->
-                <div id="tur-cronograma" class="p-4 md:p-6">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
-                                <tr>
-                                    <th class="p-4 w-20">Fecha</th>
-                                    <th class="p-4 w-20">Día</th>
-                                    <th class="p-4">Responsable 1</th>
-                                    <th class="p-4">Responsable 2</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tur-tabla-cuerpo" class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <tr>
-                                    <td colspan="4" class="p-8 text-center text-slate-500 dark:text-slate-400">
-                                        📋 Presione "Generar" para ver los turnos
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="tur-div-resumen" class="mt-8 hidden">
-                        <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">📊 Carga de Trabajo Mensual</h3>
-                        <div id="tur-contenedor-stats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
-                    </div>
-                </div>
-
-                <!-- TAB CONFIGURACIÓN -->
-                <div id="tur-datos" class="p-4 md:p-6 hidden">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Personal Activo</h3>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm">
-                                    <thead class="bg-slate-50 dark:bg-slate-800/50 text-xs font-bold uppercase">
-                                        <tr>
-                                            <th class="p-2 text-left">Orden</th>
-                                            <th class="p-2 text-left">Nombre</th>
-                                            <th class="p-2 text-left">Día Fijo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tur-lista-personal" class="divide-y divide-slate-100 dark:divide-slate-800">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Feriados Detectados</h3>
-                            <div id="tur-lista-feriados" class="space-y-2"></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="tur-cronograma" class="p-4 md:p-6"><div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"><tr><th class="p-4 w-20">Fecha</th><th class="p-4 w-20">Día</th><th class="p-4">Responsable 1</th><th class="p-4">Responsable 2</th></tr></thead><tbody id="tur-tabla-cuerpo" class="divide-y divide-slate-100 dark:divide-slate-800"><tr><td colspan="4" class="p-8 text-center text-slate-500 dark:text-slate-400">📋 Presione "Generar" para ver los turnos</td></tr></tbody></table></div><div id="tur-div-resumen" class="mt-8 hidden"><h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">📊 Carga de Trabajo Mensual</h3><div id="tur-contenedor-stats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div></div></div>
+                <div id="tur-datos" class="p-4 md:p-6 hidden"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Personal Activo</h3><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-50 dark:bg-slate-800/50 text-xs font-bold uppercase"><tr><th class="p-2 text-left">Orden</th><th class="p-2 text-left">Nombre</th><th class="p-2 text-left">Día Fijo</th></tr></thead><tbody id="tur-lista-personal" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody></table></div></div><div><h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Feriados Detectados</h3><div id="tur-lista-feriados" class="space-y-2"></div></div></div></div>
             </div>
         </section>
 
-        <!-- 4. MONTO A LETRAS -->
+        <!-- 5. MONTO A LETRAS -->
         <section id="tab-montos" class="tab-content max-w-2xl mx-auto">
             <div class="bg-white dark:bg-slate-900 p-12 rounded-[3rem] border border-slate-200 dark:border-slate-800 shadow-2xl text-center">
                 <h2 class="text-2xl font-bold mb-10 tracking-tight italic uppercase">Monto a Letras</h2>
                 <input type="text" id="mon-in" oninput="mon_main()" placeholder="100.200,52" class="w-full p-6 bg-slate-50 dark:bg-slate-800 rounded-3xl text-5xl font-black text-indigo-600 dark:text-indigo-400 text-center outline-none ring-4 ring-transparent focus:ring-indigo-500/10 transition mb-8">
-                <div id="mon-out" class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 font-bold text-lg italic leading-relaxed mb-8 min-h-[120px] flex items-center justify-center border border-slate-100 dark:border-slate-800">
-                    PESOS CERO CON 00 CENTAVOS
-                </div>
-                <button onclick="mon_copy()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-5 rounded-2xl font-bold uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all">
-                    Copiar Texto Legal
-                </button>
+                <div id="mon-out" class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 font-bold text-lg italic leading-relaxed mb-8 min-h-[120px] flex items-center justify-center border border-slate-100 dark:border-slate-800">PESOS CERO CON 00 CENTAVOS</div>
+                <button onclick="mon_copy()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-5 rounded-2xl font-bold uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all">Copiar Texto Legal</button>
             </div>
         </section>
     </main>
@@ -393,25 +217,22 @@
             body.classList.toggle('sidebar-is-collapsed', isCollapsed);
             localStorage.setItem('_sidebar_collapsed', isCollapsed);
         }
-
-        // Restaurar estado del sidebar
         if (localStorage.getItem('_sidebar_collapsed') === 'true') {
             document.getElementById('sidebar').classList.add('sidebar-collapsed');
             document.body.classList.add('sidebar-is-collapsed');
         }
 
-        /** LOGICA DE MODO OSCURO **/
+        /** MODO OSCURO **/
         function toggleDarkMode() {
             const html = document.documentElement;
             const isDark = html.classList.toggle('dark');
             localStorage.setItem('_theme', isDark ? 'dark' : 'light');
         }
-
         if (localStorage.getItem('_theme') === 'dark' || (!localStorage.getItem('_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
 
-        /** FUNCIONALIDAD ORIGINAL **/
+        /** GESTIÓN CARÁTULAS (sin cambios) **/
         let car_data = [];
         function car_cargar(e) {
             const r = new FileReader();
@@ -433,28 +254,16 @@
             };
             r.readAsArrayBuffer(e.target.files[0]);
         }
-
         function car_render() {
             const fTra = document.getElementById('car-f-tra').value.toUpperCase();
             const fRes = document.getElementById('car-f-res').value;
             const filtered = car_data.filter(i => (!fRes || i.res === fRes) && (i.tra.toString().toUpperCase().includes(fTra)));
             document.getElementById('car-body').innerHTML = filtered.map(i => {
                 const caption = `${car_mapActor(i.act)} C ${car_clean(i.dem)}`;
-                return `
-                <tr id="cr-${i.id}" class="${i.com ? 'row-completed' : ''} transition hover:bg-slate-50 dark:hover:bg-slate-800/40">
-                    <td class="p-4 text-center"><input type="checkbox" ${i.com ? 'checked' : ''} onchange="car_data[${i.id}].com = !car_data[${i.id}].com; car_render()" class="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-indigo-600"></td>
-                    <td class="p-4"><button onclick="car_cpy('${i.exp}','cr-${i.id}')" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 hover:underline">${i.exp}</button></td>
-                    <td class="p-4">
-                        <div class="text-[9px] text-slate-400 font-bold uppercase mb-0.5">${i.tra}</div>
-                        <button onclick="car_cpy('${caption}','cr-${i.id}')" class="text-left hover:text-indigo-600 dark:hover:text-indigo-400 font-bold uppercase transition text-xs">${caption}</button>
-                    </td>
-                    <td class="p-4"><input type="text" value="${i.cue}" placeholder="Cargar N°..." oninput="car_data[${i.id}].cue=this.value; if(this.value.length>3) car_data[${i.id}].com=true;" class="w-full p-2 bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 rounded-lg text-xs font-mono"></td>
-                </tr>`;
+                return `<tr id="cr-${i.id}" class="${i.com ? 'row-completed' : ''} transition hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="p-4 text-center"><input type="checkbox" ${i.com ? 'checked' : ''} onchange="car_data[${i.id}].com = !car_data[${i.id}].com; car_render()" class="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-indigo-600"></td><td class="p-4"><button onclick="car_cpy('${i.exp}','cr-${i.id}')" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 hover:underline">${i.exp}</button></td><td class="p-4"><div class="text-[9px] text-slate-400 font-bold uppercase mb-0.5">${i.tra}</div><button onclick="car_cpy('${caption}','cr-${i.id}')" class="text-left hover:text-indigo-600 dark:hover:text-indigo-400 font-bold uppercase transition text-xs">${caption}</button></td><td class="p-4"><input type="text" value="${i.cue}" placeholder="Cargar N°..." oninput="car_data[${i.id}].cue=this.value; if(this.value.length>3) car_data[${i.id}].com=true;" class="w-full p-2 bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 rounded-lg text-xs font-mono"></td></tr>`;
             }).join('');
         }
-
         function car_clean(t) { return t?.toString().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[.,()\[\]\-\/\*]/g, " ").replace(/\s+/g, " ").trim() || ""; }
-        
         function car_mapActor(n) {
             const a = car_clean(n);
             if (a.includes("CAJA POPULAR")) return "CAJA POPULAR";
@@ -480,7 +289,6 @@
             if (a.includes("TRIBUNAL DE CUENTAS")) return "TRIB CUENTAS";
             return "VARIOS";
         }
-
         function car_cpy(t, rid) { navigator.clipboard.writeText(t.toUpperCase()); document.querySelectorAll('tr').forEach(r=>r.classList.remove('row-copied')); document.getElementById(rid).classList.add('row-copied'); }
         function car_exportar() { 
             const fTra = document.getElementById('car-f-tra').value.toUpperCase();
@@ -493,6 +301,7 @@
             XLSX.writeFile(wb, "Judicial_Export_Filtrado.xlsx"); 
         }
 
+        /** PROTOCOLOS (sin cambios) **/
         async function pro_procesar() {
             const sId = parseInt(document.getElementById('pro-inicio').value) || 1, files = document.getElementById('pro-files').files;
             if(!files.length) return alert("Cargue archivos");
@@ -503,7 +312,9 @@
                 if(typeof v === 'number') return new Date(Math.round((v-25569)*864e5)); return null;
             };
             for (let f of files) {
-                const sheet = XLSX.read(await f.arrayBuffer()).Sheets[XLSX.read(await f.arrayBuffer()).SheetNames[0]];
+                const ab = await f.arrayBuffer();
+                const wb = XLSX.read(ab);
+                const sheet = wb.Sheets[wb.SheetNames[0]];
                 XLSX.utils.sheet_to_json(sheet).forEach(r => {
                     const escrito = (r["ESCRITO"]||"").toString().toUpperCase();
                     if(["FONDO", "SENTENCIA INTERLOCUTORIA NOTIFICACION INDIVIDUAL", "SENTENCIA MONITORIA EJECUTIVA"].includes(escrito)) {
@@ -522,13 +333,9 @@
             navigator.clipboard.writeText(clipboardText.trim()).then(() => { document.getElementById('pro-status').innerText = `✅ ${dataArr.length} COPIADOS`; });
         }
 
+        /** HONORARIOS **/
         function hon_calc() {
-            // Convertir formato argentino (100.200,52) a número válido
-            const parseArg = (str) => {
-                let val = (str || '0').toString();
-                val = val.replace(/\./g, '').replace(',', '.');
-                return parseFloat(val) || 0;
-            };
+            const parseArg = (str) => { let val = (str || '0').toString(); val = val.replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; };
             const emb = parseArg(document.getElementById('hon-embargo').value);
             const reg = parseArg(document.getElementById('hon-regulados').value);
             const neto = emb < (reg*1.1) ? emb/1.1 : reg;
@@ -538,6 +345,7 @@
             document.getElementById('hon-8-txt').innerText =  format(neto*0.08);
         }
 
+        /** MONTO A LETRAS **/
         function mon_coreLe(n) {
             if(n===0) return 'CERO';
             const u=['','UN','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'], d=['DIEZ','VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'], e=['ONCE','DOCE','TRECE','CATORCE','QUINCE','DIECISÉIS','DIECISIETE','DIECIOCHO','DIECINUEVE'], c=['','CIENTO','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
@@ -549,61 +357,44 @@
             else if(n>=11) o+=e[n-11]; else if(n===10) o+='DIEZ'; else if(n>0) o+=u[n];
             return o.trim();
         }
-
-        function mon_main() {
-            let inputValue = document.getElementById('mon-in').value || '0';
-            // Convertir formato 100.200,52 a 100200.52
-            inputValue = inputValue.replace(/\./g, '').replace(',', '.');
-            const v = parseFloat(inputValue) || 0;
-            const cent = Math.round((v-Math.floor(v))*100).toString().padStart(2,'0');
-            document.getElementById('mon-out').innerText = `PESOS ${mon_coreLe(Math.floor(v))} CON ${cent} CENTAVOS`;
-        }
-
+        function mon_main() { let inputValue = document.getElementById('mon-in').value || '0'; inputValue = inputValue.replace(/\./g, '').replace(',', '.'); const v = parseFloat(inputValue) || 0; const cent = Math.round((v-Math.floor(v))*100).toString().padStart(2,'0'); document.getElementById('mon-out').innerText = `PESOS ${mon_coreLe(Math.floor(v))} CON ${cent} CENTAVOS`; }
         function mon_copyRaw(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); }
         function mon_copy() { navigator.clipboard.writeText(document.getElementById('mon-out').innerText); }
-        
+
         function switchMainTab(id) {
             const section = document.getElementById(id);
-            
-            // Verificar si requiere contraseña
             if (section && section.getAttribute('data-requires-password') === 'true') {
-                const accessGranted = localStorage.getItem('tur_access_granted');
-                if (!accessGranted) {
+                if (!localStorage.getItem('tur_access_granted')) {
                     document.getElementById('tur-password-modal').classList.remove('hidden');
                     document.getElementById('tur-password-input').focus();
                     return;
                 }
             }
-            
-            // Mostrar la sección
             document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active')); 
             document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
             section.classList.add('active'); 
             event.currentTarget.classList.add('active');
         }
 
-        /** TURNOS JUZGADO **/
+        /** TURNOS JUZGADO - CORRECCIONES APLICADAS **/
         const TUR_SHEET_ID = '11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI';
         const TUR_PASSWORD = '123654';
         let tur_rawPersonal = [];
         let tur_feriados = [];
         const tur_nombresDias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
+        let datosCargados = { personal: false, feriados: false };
+
         function tur_verificarContrasena() {
             const password = document.getElementById('tur-password-input').value;
             const errorMsg = document.getElementById('tur-error-msg');
-            
             if (password === TUR_PASSWORD) {
                 localStorage.setItem('tur_access_granted', 'true');
                 document.getElementById('tur-password-modal').classList.add('hidden');
                 document.getElementById('tur-password-input').value = '';
                 errorMsg.classList.add('hidden');
-                
-                // Mostrar la sección de Turnos
                 document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
                 document.getElementById('tab-turnos-juz').classList.add('active');
-                
-                // Marcar botón como activo
                 document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
                 document.querySelector('button[onclick="switchMainTab(\'tab-turnos-juz\')"]').classList.add('active');
             } else {
@@ -618,6 +409,10 @@
         }
 
         function tur_actualizarDatos() {
+            datosCargados = { personal: false, feriados: false };
+            document.getElementById('tur-btn-generar').disabled = true;
+            document.getElementById('tur-loading-status').classList.remove('hidden');
+            document.getElementById('tur-loading-status').innerHTML = '⏳ Cargando datos de personal y feriados...';
             tur_fetchSheet('personal', 'tur_resPersonal');
             tur_fetchSheet('feriados', 'tur_resFeriados');
         }
@@ -638,36 +433,79 @@
             })).filter(p => p.activo === 'si').sort((a,b) => a.orden - b.orden);
             
             document.getElementById('tur-inicio').innerHTML = tur_rawPersonal.map(p => `<option value="${p.orden}">${p.nombre}</option>`).join('');
-            document.getElementById('tur-lista-personal').innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-2">${p.orden}</td><td class="p-2 font-bold">${p.nombre}</td><td class="p-2">${p.fijo?tur_nombresDias[p.fijo]:'-'}</td></tr>`).join('');
+            document.getElementById('tur-lista-personal').innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-2">${p.order}</td><td class="p-2 font-bold">${p.nombre}</td><td class="p-2">${p.fijo?tur_nombresDias[p.fijo]:'-'}</td></tr>`).join('');
+            
+            datosCargados.personal = true;
+            verificarHabilitarGenerar();
         };
 
         window.tur_resFeriados = function(data) {
+            // Normalización de fechas a YYYY-MM-DD
             tur_feriados = data.table.rows.map(r => {
-                if (!r.c[0]) return null;
-                const v = r.c[0].v;
+                let v = r.c[0]?.v;
+                if (!v) return null;
+                // Si es objeto Date de Google (string que contiene 'Date')
                 if (typeof v === 'string' && v.includes('Date')) {
                     const p = v.match(/\d+/g);
-                    return `${p[0]}-${String(parseInt(p[1])+1).padStart(2,'0')}-${p[2].padStart(2,'0')}`;
+                    if (p && p.length >= 3) {
+                        const year = p[0];
+                        const month = String(parseInt(p[1]) + 1).padStart(2, '0');
+                        const day = p[2].padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    }
                 }
-                return v;
+                // Si es string con formato dd/mm/aaaa o dd-mm-aaaa
+                if (typeof v === 'string') {
+                    let partes = v.split(/[\/\-]/);
+                    if (partes.length === 3) {
+                        let [dia, mes, anio] = partes;
+                        // Asegurar año completo (si es 26 -> 2026)
+                        if (anio.length === 2) anio = '20' + anio;
+                        return `${anio}-${String(mes).padStart(2,'0')}-${String(dia).padStart(2,'0')}`;
+                    }
+                }
+                // Si ya es un número (serial de Excel) o fecha nativa de JS
+                if (typeof v === 'number') {
+                    let d = new Date(Math.round((v - 25569) * 864e5));
+                    if (!isNaN(d.getTime())) {
+                        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                    }
+                }
+                return null;
             }).filter(f => f);
             
             document.getElementById('tur-lista-feriados').innerHTML = tur_feriados.length > 0 
                 ? tur_feriados.map(f => `<div class="p-2 bg-slate-50 dark:bg-slate-800 rounded text-sm">📌 ${f}</div>`).join('')
                 : '<div class="p-2 text-slate-400 text-sm">Sin feriados en este período</div>';
+            
+            datosCargados.feriados = true;
+            verificarHabilitarGenerar();
         };
+
+        function verificarHabilitarGenerar() {
+            if (datosCargados.personal && datosCargados.feriados) {
+                document.getElementById('tur-btn-generar').disabled = false;
+                document.getElementById('tur-loading-status').classList.add('hidden');
+            } else {
+                document.getElementById('tur-btn-generar').disabled = true;
+            }
+        }
 
         function tur_switchTab(event, tabId) {
             event.preventDefault();
             document.getElementById('tur-cronograma').style.display = 'none';
             document.getElementById('tur-datos').style.display = 'none';
             document.getElementById(tabId).style.display = 'block';
-            
-            document.querySelectorAll('#tur-datos').parentElement?.querySelectorAll('button').forEach(b => b.classList.remove('border-indigo-600', 'border-indigo-400', 'text-indigo-600', 'text-indigo-400'));
+            const parent = document.querySelector('#tab-turnos-juz .flex.border-b');
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('border-indigo-600', 'border-indigo-400', 'text-indigo-600', 'text-indigo-400'));
             event.target.classList.add('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
         }
 
         function tur_generarCronograma() {
+            if (!datosCargados.personal || !datosCargados.feriados) {
+                alert("Aún se están cargando los datos. Por favor espera.");
+                return;
+            }
             const mes = parseInt(document.getElementById('tur-mes').value);
             const anio = parseInt(document.getElementById('tur-anio').value);
             const startId = parseInt(document.getElementById('tur-inicio').value);
@@ -684,7 +522,8 @@
                 const diaSem = fecha.getDay();
                 const fechaIso = `${anio}-${String(mes).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
-                if (diaSem === 0 || diaSem === 6 || tur_feriados.some(f => String(f).includes(fechaIso))) continue;
+                // Saltar sábados (6), domingos (0) y feriados exactos
+                if (diaSem === 0 || diaSem === 6 || tur_feriados.includes(fechaIso)) continue;
 
                 let asignadosHoy = [];
                 fila.filter(p => p.fijo === diaSem).forEach(p => { if (asignadosHoy.length < 2) asignadosHoy.push(p); });
@@ -703,12 +542,7 @@
 
                 const tr = document.createElement('tr');
                 tr.className = 'border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40';
-                tr.innerHTML = `
-                    <td class="p-4 font-bold">${String(d).padStart(2,'0')}/${String(mes).padStart(2,'0')}</td>
-                    <td class="p-4">${tur_nombresDias[diaSem]}</td>
-                    <td class="p-4">${tur_renderSelect(asignadosHoy[0]?.nombre)}</td>
-                    <td class="p-4">${tur_renderSelect(asignadosHoy[1]?.nombre)}</td>
-                `;
+                tr.innerHTML = `<td class="p-4 font-bold">${String(d).padStart(2,'0')}/${String(mes).padStart(2,'0')}</td><td class="p-4">${tur_nombresDias[diaSem]}</td><td class="p-4">${tur_renderSelect(asignadosHoy[0]?.nombre)}</td><td class="p-4">${tur_renderSelect(asignadosHoy[1]?.nombre)}</td>`;
                 tbody.appendChild(tr);
             }
             document.getElementById('tur-btn-copiar').disabled = false;
@@ -740,16 +574,8 @@
             const counts = {};
             tur_rawPersonal.forEach(p => counts[p.nombre] = 0);
             document.querySelectorAll('#tur-tabla-cuerpo select').forEach(s => { if(s.value) counts[s.value]++; });
-
             document.getElementById('tur-div-resumen').classList.remove('hidden');
-            document.getElementById('tur-contenedor-stats').innerHTML = Object.entries(counts)
-                .sort((a,b) => b[1] - a[1])
-                .map(([nom, cant]) => `
-                    <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <div class="text-xs font-bold text-slate-400 uppercase mb-1">Empleado</div>
-                        <div class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">${nom}</div>
-                        <div class="inline-block bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-bold">${cant} días</div>
-                    </div>`).join('');
+            document.getElementById('tur-contenedor-stats').innerHTML = Object.entries(counts).sort((a,b) => b[1] - a[1]).map(([nom, cant]) => `<div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700"><div class="text-xs font-bold text-slate-400 uppercase mb-1">Empleado</div><div class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">${nom}</div><div class="inline-block bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-bold">${cant} días</div></div>`).join('');
         }
 
         function tur_copiarFormatoExcel() {
@@ -758,7 +584,6 @@
                 const sels = tr.querySelectorAll('select');
                 txt += `${tr.cells[0].innerText}\t${tr.cells[1].innerText}\t${sels[0].value}\t${sels[1].value}\n`;
             });
-
             navigator.clipboard.writeText(txt.trim()).then(() => {
                 const b = document.getElementById('tur-btn-copiar');
                 const originalText = b.innerHTML;
@@ -767,7 +592,7 @@
             });
         }
 
-        // Inicializar años y cargar datos
+        // Inicialización
         window.addEventListener('DOMContentLoaded', () => {
             const selAnio = document.getElementById('tur-anio');
             const anio = new Date().getFullYear();
