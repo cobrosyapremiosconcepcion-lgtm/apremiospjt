@@ -87,6 +87,11 @@
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 Monto a Letras
             </button>
+            <!-- NUEVO BOTÓN: CÓMPUTO PLAZOS -->
+            <button onclick="switchMainTab('tab-plazos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path><path d="M12 11v4m0 0v4m0-4h4m-4 0H8"></path></svg>
+                Cómputo Plazos
+            </button>
         </nav>
         <div class="p-6 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
             <p>V 2.5 • Judicial Pro Dashboard</p>
@@ -165,7 +170,7 @@
             </div>
         </section>
 
-        <!-- 4. TURNOS JUZGADO (CORREGIDO) -->
+        <!-- 4. TURNOS JUZGADO -->
         <section id="tab-turnos-juz" class="tab-content max-w-6xl mx-auto space-y-6" data-requires-password="true">
             <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <h2 class="text-2xl font-bold mb-2">⚖️ Asignación de Responsables</h2>
@@ -206,10 +211,38 @@
                 <button onclick="mon_copy()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-5 rounded-2xl font-bold uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all">Copiar Texto Legal</button>
             </div>
         </section>
+
+        <!-- 6. NUEVO MÓDULO: CÓMPUTO DE PLAZOS (DÍAS HÁBILES) -->
+        <section id="tab-plazos" class="tab-content max-w-2xl mx-auto">
+            <div class="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-2xl">
+                <h2 class="text-2xl font-bold text-center mb-8">📅 Cómputo de Plazos</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-center mb-8 text-sm">Suma días hábiles excluyendo sábados, domingos y feriados judiciales.</p>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Fecha de inicio</label>
+                        <input type="date" id="pl-fecha-inicio" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Cantidad de días hábiles</label>
+                        <input type="number" id="pl-dias" min="0" step="1" value="0" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-bold text-2xl text-center">
+                    </div>
+                    <button onclick="pl_calcular()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl font-bold transition-all shadow-md">Calcular plazo</button>
+                    <div id="pl-resultado" class="mt-8 p-6 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-200 dark:border-slate-700 text-center">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Fecha resultante</div>
+                        <div class="text-2xl md:text-3xl font-black text-indigo-600 dark:text-indigo-400 break-words" id="pl-fecha-resultado">—</div>
+                        <div class="text-xs text-slate-500 mt-3" id="pl-detalle"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
-        /** TOGGLE SIDEBAR **/
+        // ---------- VARIABLES GLOBALES ----------
+        let car_data = [];
+        let globalFeriados = [];   // Lista de feriados en formato "YYYY-MM-DD" (compartida con Turnos)
+        
+        // ---------- TOGGLE SIDEBAR ----------
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const body = document.body;
@@ -222,7 +255,7 @@
             document.body.classList.add('sidebar-is-collapsed');
         }
 
-        /** MODO OSCURO **/
+        // ---------- MODO OSCURO ----------
         function toggleDarkMode() {
             const html = document.documentElement;
             const isDark = html.classList.toggle('dark');
@@ -232,8 +265,7 @@
             document.documentElement.classList.add('dark');
         }
 
-        /** GESTIÓN CARÁTULAS (sin cambios) **/
-        let car_data = [];
+        // ---------- GESTIÓN CARÁTULAS (sin cambios) ----------
         function car_cargar(e) {
             const r = new FileReader();
             r.onload = (ev) => {
@@ -301,7 +333,7 @@
             XLSX.writeFile(wb, "Judicial_Export_Filtrado.xlsx"); 
         }
 
-        /** PROTOCOLOS (sin cambios) **/
+        // ---------- PROTOCOLOS ----------
         async function pro_procesar() {
             const sId = parseInt(document.getElementById('pro-inicio').value) || 1, files = document.getElementById('pro-files').files;
             if(!files.length) return alert("Cargue archivos");
@@ -333,7 +365,7 @@
             navigator.clipboard.writeText(clipboardText.trim()).then(() => { document.getElementById('pro-status').innerText = `✅ ${dataArr.length} COPIADOS`; });
         }
 
-        /** HONORARIOS **/
+        // ---------- HONORARIOS ----------
         function hon_calc() {
             const parseArg = (str) => { let val = (str || '0').toString(); val = val.replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; };
             const emb = parseArg(document.getElementById('hon-embargo').value);
@@ -345,7 +377,7 @@
             document.getElementById('hon-8-txt').innerText =  format(neto*0.08);
         }
 
-        /** MONTO A LETRAS **/
+        // ---------- MONTO A LETRAS ----------
         function mon_coreLe(n) {
             if(n===0) return 'CERO';
             const u=['','UN','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'], d=['DIEZ','VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'], e=['ONCE','DOCE','TRECE','CATORCE','QUINCE','DIECISÉIS','DIECISIETE','DIECIOCHO','DIECINUEVE'], c=['','CIENTO','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
@@ -361,6 +393,7 @@
         function mon_copyRaw(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); }
         function mon_copy() { navigator.clipboard.writeText(document.getElementById('mon-out').innerText); }
 
+        // ---------- CAMBIO DE PESTAÑA PRINCIPAL ----------
         function switchMainTab(id) {
             const section = document.getElementById(id);
             if (section && section.getAttribute('data-requires-password') === 'true') {
@@ -373,16 +406,17 @@
             document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active')); 
             document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
             section.classList.add('active'); 
-            event.currentTarget.classList.add('active');
+            // event.currentTarget está disponible si se llama desde el onclick, pero usamos querySelector para el botón correspondiente
+            const activeButton = Array.from(document.querySelectorAll('.nav-link')).find(btn => btn.getAttribute('onclick')?.includes(id));
+            if (activeButton) activeButton.classList.add('active');
         }
 
-        /** TURNOS JUZGADO - CORRECCIONES APLICADAS **/
+        // ---------- MÓDULO TURNOS JUZGADO (con ajuste para compartir feriados) ----------
         const TUR_SHEET_ID = '11sywHCYuQai5PoJOR7yaVzQT8nNCri19Rz6JgPSvbSI';
         const TUR_PASSWORD = '123654';
         let tur_rawPersonal = [];
-        let tur_feriados = [];
+        let tur_feriados = [];      // Se mantiene local para turnos, pero globalFeriados se actualizará igual
         const tur_nombresDias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-
         let datosCargados = { personal: false, feriados: false };
 
         function tur_verificarContrasena() {
@@ -433,18 +467,16 @@
             })).filter(p => p.activo === 'si').sort((a,b) => a.orden - b.orden);
             
             document.getElementById('tur-inicio').innerHTML = tur_rawPersonal.map(p => `<option value="${p.orden}">${p.nombre}</option>`).join('');
-            document.getElementById('tur-lista-personal').innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-2">${p.order}</td><td class="p-2 font-bold">${p.nombre}</td><td class="p-2">${p.fijo?tur_nombresDias[p.fijo]:'-'}</td></tr>`).join('');
+            document.getElementById('tur-lista-personal').innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-2">${p.orden}</td><td class="p-2 font-bold">${p.nombre}</td><td class="p-2">${p.fijo?tur_nombresDias[p.fijo]:'-'}</td></tr>`).join('');
             
             datosCargados.personal = true;
             verificarHabilitarGenerar();
         };
 
         window.tur_resFeriados = function(data) {
-            // Normalización de fechas a YYYY-MM-DD
             tur_feriados = data.table.rows.map(r => {
                 let v = r.c[0]?.v;
                 if (!v) return null;
-                // Si es objeto Date de Google (string que contiene 'Date')
                 if (typeof v === 'string' && v.includes('Date')) {
                     const p = v.match(/\d+/g);
                     if (p && p.length >= 3) {
@@ -454,17 +486,14 @@
                         return `${year}-${month}-${day}`;
                     }
                 }
-                // Si es string con formato dd/mm/aaaa o dd-mm-aaaa
                 if (typeof v === 'string') {
                     let partes = v.split(/[\/\-]/);
                     if (partes.length === 3) {
                         let [dia, mes, anio] = partes;
-                        // Asegurar año completo (si es 26 -> 2026)
                         if (anio.length === 2) anio = '20' + anio;
                         return `${anio}-${String(mes).padStart(2,'0')}-${String(dia).padStart(2,'0')}`;
                     }
                 }
-                // Si ya es un número (serial de Excel) o fecha nativa de JS
                 if (typeof v === 'number') {
                     let d = new Date(Math.round((v - 25569) * 864e5));
                     if (!isNaN(d.getTime())) {
@@ -473,7 +502,8 @@
                 }
                 return null;
             }).filter(f => f);
-            
+            // Actualizar también la variable global de feriados para el módulo de plazos
+            globalFeriados = [...tur_feriados];
             document.getElementById('tur-lista-feriados').innerHTML = tur_feriados.length > 0 
                 ? tur_feriados.map(f => `<div class="p-2 bg-slate-50 dark:bg-slate-800 rounded text-sm">📌 ${f}</div>`).join('')
                 : '<div class="p-2 text-slate-400 text-sm">Sin feriados en este período</div>';
@@ -522,7 +552,6 @@
                 const diaSem = fecha.getDay();
                 const fechaIso = `${anio}-${String(mes).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
-                // Saltar sábados (6), domingos (0) y feriados exactos
                 if (diaSem === 0 || diaSem === 6 || tur_feriados.includes(fechaIso)) continue;
 
                 let asignadosHoy = [];
@@ -592,13 +621,122 @@
             });
         }
 
-        // Inicialización
+        // ---------- NUEVO MÓDULO: CÓMPUTO DE PLAZOS (DÍAS HÁBILES) ----------
+        function pl_calcular() {
+            const fechaInput = document.getElementById('pl-fecha-inicio').value;
+            const dias = parseInt(document.getElementById('pl-dias').value);
+            if (!fechaInput) {
+                alert("Por favor seleccione una fecha de inicio.");
+                return;
+            }
+            if (isNaN(dias) || dias < 0) {
+                alert("Ingrese una cantidad de días hábiles válida (0 o más).");
+                return;
+            }
+            
+            let fechaActual = new Date(fechaInput);
+            if (isNaN(fechaActual.getTime())) {
+                alert("Fecha de inicio inválida.");
+                return;
+            }
+            
+            // Si se pide 0 días, la fecha resultante es la fecha de inicio siempre que sea hábil. 
+            // Pero la consigna típica: sumar 0 días hábiles devuelve la misma fecha si es hábil, 
+            // sino el próximo hábil. Lo haremos así.
+            let diasRestantes = dias;
+            let iterador = new Date(fechaActual);
+            // Normalizar hora a mediodía para evitar problemas de zona horaria
+            iterador.setHours(12, 0, 0, 0);
+            
+            // Función auxiliar para saber si una fecha es hábil
+            function esHabil(fecha) {
+                const diaSem = fecha.getDay(); // 0 domingo, 6 sábado
+                if (diaSem === 0 || diaSem === 6) return false;
+                const iso = `${fecha.getFullYear()}-${String(fecha.getMonth()+1).padStart(2,'0')}-${String(fecha.getDate()).padStart(2,'0')}`;
+                return !globalFeriados.includes(iso);
+            }
+            
+            // Si empezamos en día no hábil, avanzamos hasta encontrar uno hábil
+            while (!esHabil(iterador)) {
+                iterador.setDate(iterador.getDate() + 1);
+                iterador.setHours(12,0,0,0);
+            }
+            
+            // Ahora sumamos los días hábiles solicitados
+            while (diasRestantes > 0) {
+                iterador.setDate(iterador.getDate() + 1);
+                iterador.setHours(12,0,0,0);
+                if (esHabil(iterador)) {
+                    diasRestantes--;
+                }
+            }
+            
+            // Formatear resultado
+            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+            const fechaFormateada = iterador.toLocaleDateString('es-AR', opciones);
+            const isoFinal = `${iterador.getFullYear()}-${String(iterador.getMonth()+1).padStart(2,'0')}-${String(iterador.getDate()).padStart(2,'0')}`;
+            document.getElementById('pl-fecha-resultado').innerText = fechaFormateada;
+            document.getElementById('pl-detalle').innerHTML = `<span class="font-mono text-xs">${isoFinal}</span><br><span class="text-[10px]">(Se excluyen sábados, domingos y ${globalFeriados.length} feriados)</span>`;
+        }
+
+        // ---------- CARGA GLOBAL DE FERIADOS (para el módulo de plazos, sin depender de turnos) ----------
+        function cargarFeriadosGlobal() {
+            const script = document.createElement('script');
+            script.src = `https://docs.google.com/spreadsheets/d/${TUR_SHEET_ID}/gviz/tq?sheet=feriados&tqx=responseHandler:cargarFeriadosCallback&cb=${Date.now()}`;
+            document.body.appendChild(script);
+        }
+        window.cargarFeriadosCallback = function(data) {
+            const feriados = data.table.rows.map(r => {
+                let v = r.c[0]?.v;
+                if (!v) return null;
+                if (typeof v === 'string' && v.includes('Date')) {
+                    const p = v.match(/\d+/g);
+                    if (p && p.length >= 3) {
+                        const year = p[0];
+                        const month = String(parseInt(p[1]) + 1).padStart(2, '0');
+                        const day = p[2].padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    }
+                }
+                if (typeof v === 'string') {
+                    let partes = v.split(/[\/\-]/);
+                    if (partes.length === 3) {
+                        let [dia, mes, anio] = partes;
+                        if (anio.length === 2) anio = '20' + anio;
+                        return `${anio}-${String(mes).padStart(2,'0')}-${String(dia).padStart(2,'0')}`;
+                    }
+                }
+                if (typeof v === 'number') {
+                    let d = new Date(Math.round((v - 25569) * 864e5));
+                    if (!isNaN(d.getTime())) {
+                        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                    }
+                }
+                return null;
+            }).filter(f => f);
+            globalFeriados = feriados;
+            // Opcional: mostrar en consola que se cargaron
+            console.log(`Feriados globales cargados: ${globalFeriados.length}`);
+        };
+
+        // ---------- INICIALIZACIÓN ----------
         window.addEventListener('DOMContentLoaded', () => {
+            // Años para turnos
             const selAnio = document.getElementById('tur-anio');
             const anio = new Date().getFullYear();
             for(let i=anio-1; i<=anio+1; i++) selAnio.add(new Option(i, i, i===anio, i===anio));
             document.getElementById('tur-mes').value = new Date().getMonth()+1;
             tur_actualizarDatos();
+            
+            // Cargar feriados globalmente para el módulo de plazos
+            cargarFeriadosGlobal();
+            
+            // Establecer fecha por defecto en el campo del cómputo (hoy)
+            const hoy = new Date();
+            const yyyy = hoy.getFullYear();
+            const mm = String(hoy.getMonth()+1).padStart(2,'0');
+            const dd = String(hoy.getDate()).padStart(2,'0');
+            document.getElementById('pl-fecha-inicio').value = `${yyyy}-${mm}-${dd}`;
         });
     </script>
 </body>
