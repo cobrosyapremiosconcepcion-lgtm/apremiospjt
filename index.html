@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -40,6 +41,171 @@
         @media (max-width: 768px) {
             .sidebar-collapsed { display: none !important; }
         }
+/* INICIO: Estilos específicos para módulo Turno Tarde (resaltado de hoy, cumpleaños, etc.) */
+.tt-banner {
+    background: linear-gradient(135deg, #f43f5e, #fb7185);
+}
+.dark .tt-banner {
+    background: linear-gradient(135deg, #be123c, #e11d48);
+}
+.tt-countdown {
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(4px);
+}
+.dark .tt-countdown {
+    background: rgba(0,0,0,0.3);
+}
+.tt-bday-card {
+    transition: all 0.2s ease;
+}
+.tt-bday-card:hover {
+    transform: translateY(-3px);
+    border-color: #f43f5e !important;
+}
+.tt-highlight-row {
+    background-color: #fff9c4 !important;
+    border-left: 4px solid #eab308 !important;
+}
+.dark .tt-highlight-row {
+    background-color: #422c0e !important;
+    border-left-color: #fbbf24 !important;
+}
+.tt-bday-row {
+    background-color: #fff1f2 !important;
+}
+.dark .tt-bday-row {
+    background-color: #2d1a24 !important;
+}
+.tt-badge-cake {
+    color: #f43f5e;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.tt-month-section {
+    margin-bottom: 2rem;
+}
+.tt-month-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #4f46e5;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+.dark .tt-month-title {
+    color: #818cf8;
+    border-bottom-color: #334155;
+}
+.tt-bday-card.passed {
+    opacity: 0.6;
+    filter: grayscale(0.5);
+}
+.tt-today-badge {
+    background: #0ea5e9;
+    color: white;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 800;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+/* INICIO: Estilos específicos para módulo Turno Tarde (resaltado de hoy, cumpleaños, etc.) */
+.tt-banner {
+    background: linear-gradient(135deg, #f43f5e, #fb7185);
+}
+.dark .tt-banner {
+    background: linear-gradient(135deg, #be123c, #e11d48);
+}
+.tt-countdown {
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(4px);
+}
+.dark .tt-countdown {
+    background: rgba(0,0,0,0.3);
+}
+.tt-bday-card {
+    transition: all 0.2s ease;
+}
+.tt-bday-card:hover {
+    transform: translateY(-3px);
+    border-color: #f43f5e !important;
+}
+.tt-highlight-row {
+    background-color: #fff9c4 !important;
+    border-left: 4px solid #eab308 !important;
+}
+.dark .tt-highlight-row {
+    background-color: #422c0e !important;
+    border-left-color: #fbbf24 !important;
+}
+.tt-bday-row {
+    background-color: #fff1f2 !important;
+}
+.dark .tt-bday-row {
+    background-color: #2d1a24 !important;
+}
+/* NUEVA CLASE PARA LA FILA DEL DÍA ACTUAL (HOY) */
+.tt-today-row {
+    background-color: #e0f2fe !important;   /* azul muy claro */
+    border-left: 4px solid #0ea5e9 !important;
+}
+.dark .tt-today-row {
+    background-color: #0c4a6e !important;   /* azul oscuro para modo oscuro */
+    border-left: 4px solid #38bdf8 !important;
+    color: #f8fafc !important;
+}
+.tt-badge-cake {
+    color: #f43f5e;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.tt-month-section {
+    margin-bottom: 2rem;
+}
+.tt-month-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #4f46e5;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+.dark .tt-month-title {
+    color: #818cf8;
+    border-bottom-color: #334155;
+}
+.tt-bday-card.passed {
+    opacity: 0.6;
+    filter: grayscale(0.5);
+}
+.tt-today-badge {
+    background: #0ea5e9;
+    color: white;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 800;
+    margin-left: 8px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.dark .tt-today-badge {
+    background: #38bdf8;
+    color: #0f172a;
+}
+/* FIN: Estilos específicos para módulo Turno Tarde */
+/* FIN: Estilos específicos para módulo Turno Tarde */
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col md:flex-row">
@@ -93,6 +259,12 @@
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path><path d="M12 11v4m0 0v4m0-4h4m-4 0H8"></path></svg>
                 Cómputo Plazos
             </button>
+            <!-- INICIO: Botón para módulo Turno Tarde (menú lateral) -->
+            <button onclick="switchMainTab('tab-turno-tarde')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                 <svg class="w-5 h-5 text-rose-500 group-hover:text-rose-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Turno Tarde
+            </button>
+<!-- FIN: Botón para módulo Turno Tarde -->
         </nav>
         <div class="p-6 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
             <p>V 2.5 • Judicial Pro Dashboard</p>
@@ -236,9 +408,274 @@
                 </div>
             </div>
         </section>
+<!-- INICIO: Sección del módulo Turno Tarde (Cronograma y Cumpleaños) -->
+<section id="tab-turno-tarde" class="tab-content max-w-6xl mx-auto space-y-6">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <!-- Banner próximo cumpleaños -->
+        <div id="tt-banner" class="tt-banner text-white p-6 flex flex-col md:flex-row justify-between items-center gap-4 rounded-none">
+            <div>
+                <h2 class="text-xs font-bold uppercase tracking-wider opacity-90">🎂 Próximo Cumpleaños</h2>
+                <p id="tt-next-name" class="text-2xl font-bold mt-1">Cargando...</p>
+            </div>
+            <div id="tt-countdown" class="tt-countdown px-5 py-2 rounded-full text-sm font-bold backdrop-blur-sm">--</div>
+        </div>
+
+        <!-- Controles -->
+        <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Seleccionar Mes</label>
+                    <select id="tt-sel-mes" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-medium"></select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Resaltar Usuario</label>
+                    <input type="text" id="tt-search" placeholder="Nombre del responsable..." class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs internos -->
+        <div class="flex border-b border-slate-200 dark:border-slate-800">
+            <button id="tt-tab-cal" class="tt-tab-btn flex-1 p-4 text-center font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 transition" onclick="tt_switchTab('calendario')">📅 Cronograma</button>
+            <button id="tt-tab-cum" class="tt-tab-btn flex-1 p-4 text-center font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition" onclick="tt_switchTab('cumples')">🎈 Cumpleaños</button>
+        </div>
+
+        <!-- Vista Calendario -->
+        <div id="tt-view-calendario" class="p-4 md:p-6">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase">
+                        <tr><th class="p-4">Fecha</th><th class="p-4">Día</th><th class="p-4">Responsable 1</th><th class="p-4">Responsable 2</th><th class="p-4">Responsable 3</th><th class="p-4">Evento</th></tr>
+                    </thead>
+                    <tbody id="tt-tbody-cal" class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tr><td colspan="6" class="p-8 text-center text-slate-400">Cargando turnos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Vista Cumpleaños (organizada por meses) -->
+        <div id="tt-view-cumples" class="p-6 hidden">
+            <div id="tt-cumples-container"></div>
+        </div>
+    </div>
+</section>
+<!-- FIN: Sección del módulo Turno Tarde -->
     </main>
 
     <script>
+  // ==================== INICIO: Módulo Turno Tarde (Cronograma + Cumpleaños mejorado) ====================
+const TT_SHEET_ID = '1o4GF68NpedRTXByvEuR5JehBaoDG1s2vKyrvwAwcpv4';
+let tt_turnosData = [];
+let tt_cumplesData = [];
+const tt_mesesNombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+const tt_now = new Date();
+const tt_todayStr = `${tt_now.getDate().toString().padStart(2,'0')}/${(tt_now.getMonth()+1).toString().padStart(2,'0')}/${tt_now.getFullYear()}`;
+
+function tt_toProperCase(str) {
+    if (!str) return "";
+    return str.toString().toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
+function tt_toDDMM(s) {
+    if (!s) return "";
+    const m = s.match(/(\d{1,2})\/(\d{1,2})/);
+    return m ? `${m[1].padStart(2,'0')}/${m[2].padStart(2,'0')}` : "";
+}
+
+function tt_cargarTurnos() {
+    const script = document.createElement('script');
+    script.src = `https://docs.google.com/spreadsheets/d/${TT_SHEET_ID}/gviz/tq?sheet=Turno%20Tarde&tqx=responseHandler:tt_callbackTurnos&cb=${Date.now()}`;
+    document.body.appendChild(script);
+}
+function tt_cargarCumples() {
+    const script = document.createElement('script');
+    script.src = `https://docs.google.com/spreadsheets/d/${TT_SHEET_ID}/gviz/tq?sheet=Cumples&tqx=responseHandler:tt_callbackCumples&cb=${Date.now()}`;
+    document.body.appendChild(script);
+}
+
+window.tt_callbackTurnos = (res) => {
+    tt_turnosData = res.table.rows.map(r => ({
+        mes: r.c[0]?.v || '',
+        fecha: r.c[1]?.f || r.c[1]?.v || '',
+        dia: r.c[2]?.v || '',
+        r1: r.c[3] ? tt_toProperCase(r.c[3].v) : '',
+        r2: r.c[4] ? tt_toProperCase(r.c[4].v) : '',
+        r3: r.c[5] ? tt_toProperCase(r.c[5].v) : '',
+        extra: r.c[6]?.v || ''
+    })).filter(r => r.mes && r.mes !== 'Mes');
+    tt_verificarCargaCompleta();
+};
+
+window.tt_callbackCumples = (res) => {
+    tt_cumplesData = res.table.rows.map(r => {
+        const fechaRaw = r.c[0]?.f || r.c[0]?.v || '';
+        const [d, m] = fechaRaw.split('/');
+        return {
+            fecha: fechaRaw,
+            dia: parseInt(d),
+            mesNum: parseInt(m),
+            nombre: r.c[1] ? tt_toProperCase(r.c[1].v) : ''
+        };
+    }).filter(r => r.nombre && r.nombre !== 'Nombre');
+    tt_verificarCargaCompleta();
+};
+
+let tt_cargadoTurnos = false, tt_cargadoCumples = false;
+function tt_verificarCargaCompleta() {
+    if (tt_turnosData.length) tt_cargadoTurnos = true;
+    if (tt_cumplesData.length) tt_cargadoCumples = true;
+    if (tt_cargadoTurnos && tt_cargadoCumples) {
+        tt_inicializarSelectores();
+        tt_calcularProximoCumple();
+        tt_renderCalendario();
+        tt_renderCumples();
+    }
+}
+
+function tt_inicializarSelectores() {
+    const selMes = document.getElementById('tt-sel-mes');
+    const mesesUnicos = [...new Set(tt_turnosData.map(t => t.mes))].reverse();
+    selMes.innerHTML = '';
+    mesesUnicos.forEach(m => { let opt = document.createElement('option'); opt.value = m; opt.textContent = m; selMes.appendChild(opt); });
+    selMes.addEventListener('change', () => tt_renderCalendario());
+    document.getElementById('tt-search').addEventListener('input', () => tt_renderCalendario());
+}
+
+function tt_calcularProximoCumple() {
+    const year = tt_now.getFullYear();
+    let lista = tt_cumplesData.map(c => {
+        let bdate = new Date(year, c.mesNum - 1, c.dia);
+        if (bdate < tt_now && bdate.toDateString() !== tt_now.toDateString()) bdate.setFullYear(year + 1);
+        let diff = Math.ceil((bdate - tt_now) / (1000 * 60 * 60 * 24));
+        if (bdate.toDateString() === tt_now.toDateString()) diff = 0;
+        return { ...c, diff };
+    }).sort((a,b) => a.diff - b.diff);
+
+    if (lista.length) {
+        const proximo = lista[0];
+        const proximosMismoDia = lista.filter(item => item.diff === proximo.diff);
+        const nombres = proximosMismoDia.map(n => n.nombre).join(' y ');
+        document.getElementById('tt-next-name').innerText = nombres;
+        document.getElementById('tt-countdown').innerHTML = proximo.diff === 0 ? "🎉 ¡ES HOY!" : `Faltan ${proximo.diff} días`;
+    } else {
+        document.getElementById('tt-next-name').innerText = "Sin datos";
+        document.getElementById('tt-countdown').innerHTML = "--";
+    }
+}
+
+function tt_renderCalendario() {
+    const mesSeleccionado = document.getElementById('tt-sel-mes').value;
+    const query = document.getElementById('tt-search').value.toLowerCase();
+    const tbody = document.getElementById('tt-tbody-cal');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    const filtrados = tt_turnosData.filter(t => t.mes === mesSeleccionado);
+    if (filtrados.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-400">No hay turnos para este mes</td></tr>';
+        return;
+    }
+    filtrados.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition';
+        const dm = tt_toDDMM(r.fecha);
+        const cumpleañeros = tt_cumplesData.filter(c => tt_toDDMM(c.fecha) === dm);
+        const isToday = (r.fecha === tt_todayStr);
+        
+        // Asignar clase para el día actual (en lugar de estilo inline)
+        if (isToday) tr.classList.add('tt-today-row');
+        
+        if (query && (r.r1.toLowerCase().includes(query) || r.r2.toLowerCase().includes(query) || r.r3.toLowerCase().includes(query))) {
+            tr.classList.add('tt-highlight-row');
+        }
+        if (cumpleañeros.length) {
+            tr.classList.add('tt-bday-row');
+        }
+        
+        let eventoHtml = "";
+        if (cumpleañeros.length) {
+            eventoHtml = `<span class="tt-badge-cake">🎂 Cumple ${cumpleañeros.map(c=>c.nombre).join(' y ')}</span>`;
+        } else if (r.extra) {
+            eventoHtml = r.extra;
+        }
+        
+        tr.innerHTML = `
+            <td class="p-4 font-mono text-sm">${r.fecha}${isToday ? '<span class="tt-today-badge">HOY</span>' : ''}</td>
+            <td class="p-4">${r.dia}</td>
+            <td class="p-4">${r.r1}</td>
+            <td class="p-4">${r.r2}</td>
+            <td class="p-4">${r.r3}</td>
+            <td class="p-4">${eventoHtml}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function tt_renderCumples() {
+    const container = document.getElementById('tt-cumples-container');
+    if (!container) return;
+    container.innerHTML = '';
+    const currentMonth = tt_now.getMonth() + 1;
+    const currentDay = tt_now.getDate();
+    
+    for (let i = 1; i <= 12; i++) {
+        const cumplesDelMes = tt_cumplesData.filter(c => c.mesNum === i).sort((a,b) => a.dia - b.dia);
+        if (cumplesDelMes.length === 0) continue;
+        
+        const section = document.createElement('div');
+        section.className = 'tt-month-section';
+        section.innerHTML = `<div class="tt-month-title">📅 ${tt_mesesNombres[i-1]}</div>`;
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4';
+        
+        cumplesDelMes.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 tt-bday-card';
+            if (c.mesNum < currentMonth || (c.mesNum === currentMonth && c.dia < currentDay)) {
+                card.classList.add('passed');
+            }
+            card.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/40 rounded-full flex items-center justify-center text-lg">🎈</div>
+                    <div>
+                        <div class="font-bold text-slate-800 dark:text-slate-200">${c.nombre}</div>
+                        <div class="text-xs text-slate-500">${c.fecha}</div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        section.appendChild(grid);
+        container.appendChild(section);
+    }
+    if (container.innerHTML === '') container.innerHTML = '<div class="text-center p-8 text-slate-400">No hay cumpleaños registrados</div>';
+}
+
+function tt_switchTab(view) {
+    const calView = document.getElementById('tt-view-calendario');
+    const cumView = document.getElementById('tt-view-cumples');
+    const tabCal = document.getElementById('tt-tab-cal');
+    const tabCum = document.getElementById('tt-tab-cum');
+    if (view === 'calendario') {
+        calView.classList.remove('hidden');
+        cumView.classList.add('hidden');
+        tabCal.classList.add('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
+        tabCal.classList.remove('border-transparent', 'text-slate-500');
+        tabCum.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
+        tabCum.classList.add('border-transparent', 'text-slate-500');
+        tt_renderCalendario();
+    } else {
+        calView.classList.add('hidden');
+        cumView.classList.remove('hidden');
+        tabCum.classList.add('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
+        tabCum.classList.remove('border-transparent', 'text-slate-500');
+        tabCal.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
+        tabCal.classList.add('border-transparent', 'text-slate-500');
+        tt_renderCumples();
+    }
+}
+// ==================== FIN: Módulo Turno Tarde ====================
+
         // ---------- VARIABLES GLOBALES ----------
         let car_data = [];
         let globalFeriados = [];   // Lista de feriados en formato "YYYY-MM-DD" (compartida con Turnos)
@@ -729,7 +1166,9 @@
             
             // Cargar feriados globalmente para el módulo de plazos
             cargarFeriadosGlobal();
-            
+            // Cargar datos del nuevo módulo Turno Tarde
+            tt_cargarTurnos();
+            tt_cargarCumples(); 
             // Establecer fecha por defecto en el campo del cómputo (hoy)
             const hoy = new Date();
             const yyyy = hoy.getFullYear();
