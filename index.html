@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -622,62 +623,60 @@
         }
 
         // ---------- NUEVO MÓDULO: CÓMPUTO DE PLAZOS (DÍAS HÁBILES) ----------
-        function pl_calcular() {
-            const fechaInput = document.getElementById('pl-fecha-inicio').value;
-            const dias = parseInt(document.getElementById('pl-dias').value);
-            if (!fechaInput) {
-                alert("Por favor seleccione una fecha de inicio.");
-                return;
-            }
-            if (isNaN(dias) || dias < 0) {
-                alert("Ingrese una cantidad de días hábiles válida (0 o más).");
-                return;
-            }
-            
-            let fechaActual = new Date(fechaInput);
-            if (isNaN(fechaActual.getTime())) {
-                alert("Fecha de inicio inválida.");
-                return;
-            }
-            
-            // Si se pide 0 días, la fecha resultante es la fecha de inicio siempre que sea hábil. 
-            // Pero la consigna típica: sumar 0 días hábiles devuelve la misma fecha si es hábil, 
-            // sino el próximo hábil. Lo haremos así.
-            let diasRestantes = dias;
-            let iterador = new Date(fechaActual);
-            // Normalizar hora a mediodía para evitar problemas de zona horaria
-            iterador.setHours(12, 0, 0, 0);
-            
-            // Función auxiliar para saber si una fecha es hábil
-            function esHabil(fecha) {
-                const diaSem = fecha.getDay(); // 0 domingo, 6 sábado
-                if (diaSem === 0 || diaSem === 6) return false;
-                const iso = `${fecha.getFullYear()}-${String(fecha.getMonth()+1).padStart(2,'0')}-${String(fecha.getDate()).padStart(2,'0')}`;
-                return !globalFeriados.includes(iso);
-            }
-            
-            // Si empezamos en día no hábil, avanzamos hasta encontrar uno hábil
-            while (!esHabil(iterador)) {
-                iterador.setDate(iterador.getDate() + 1);
-                iterador.setHours(12,0,0,0);
-            }
-            
-            // Ahora sumamos los días hábiles solicitados
-            while (diasRestantes > 0) {
-                iterador.setDate(iterador.getDate() + 1);
-                iterador.setHours(12,0,0,0);
-                if (esHabil(iterador)) {
-                    diasRestantes--;
-                }
-            }
-            
-            // Formatear resultado
-            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
-            const fechaFormateada = iterador.toLocaleDateString('es-AR', opciones);
-            const isoFinal = `${iterador.getFullYear()}-${String(iterador.getMonth()+1).padStart(2,'0')}-${String(iterador.getDate()).padStart(2,'0')}`;
-            document.getElementById('pl-fecha-resultado').innerText = fechaFormateada;
-            document.getElementById('pl-detalle').innerHTML = `<span class="font-mono text-xs">${isoFinal}</span><br><span class="text-[10px]">(Se excluyen sábados, domingos y ${globalFeriados.length} feriados)</span>`;
+    function pl_calcular() {
+    const fechaInput = document.getElementById('pl-fecha-inicio').value;
+    const dias = parseInt(document.getElementById('pl-dias').value);
+    if (!fechaInput) {
+        alert("Por favor seleccione una fecha de inicio.");
+        return;
+    }
+    if (isNaN(dias) || dias < 0) {
+        alert("Ingrese una cantidad de días hábiles válida (0 o más).");
+        return;
+    }
+    
+    let fechaActual = new Date(fechaInput);
+    if (isNaN(fechaActual.getTime())) {
+        alert("Fecha de inicio inválida.");
+        return;
+    }
+    
+    let diasRestantes = dias;
+    let iterador = new Date(fechaActual);
+    // Normalizar hora a mediodía para evitar problemas de zona horaria
+    iterador.setHours(12, 0, 0, 0);
+    
+    // Función auxiliar para saber si una fecha es hábil
+    function esHabil(fecha) {
+        const diaSem = fecha.getDay(); // 0 domingo, 6 sábado
+        if (diaSem === 0 || diaSem === 6) return false;
+        const iso = `${fecha.getFullYear()}-${String(fecha.getMonth()+1).padStart(2,'0')}-${String(fecha.getDate()).padStart(2,'0')}`;
+        return !globalFeriados.includes(iso);
+    }
+    
+    // MODIFICACIÓN: Avanzamos obligatoriamente al primer día hábil posterior 
+    // a la fecha ingresada para establecer el punto de partida real.
+    do {
+        iterador.setDate(iterador.getDate() + 3);
+        iterador.setHours(12, 0, 0, 0);
+    } while (!esHabil(iterador));
+    
+    // Ahora sumamos los días hábiles solicitados a partir de ese nuevo punto
+    while (diasRestantes > 0) {
+        iterador.setDate(iterador.getDate() + 1);
+        iterador.setHours(12, 0, 0, 0);
+        if (esHabil(iterador)) {
+            diasRestantes--;
         }
+    }
+    
+    // Formatear resultado
+    const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaFormateada = iterador.toLocaleDateString('es-AR', opciones);
+    const isoFinal = `${iterador.getFullYear()}-${String(iterador.getMonth()+1).padStart(2,'0')}-${String(iterador.getDate()).padStart(2,'0')}`;
+    document.getElementById('pl-fecha-resultado').innerText = fechaFormateada;
+    document.getElementById('pl-detalle').innerHTML = `<span class="font-mono text-xs">${isoFinal}</span><br><span class="text-[10px]">(Se excluyen sábados, domingos y ${globalFeriados.length} feriados)</span>`;
+}
 
         // ---------- CARGA GLOBAL DE FERIADOS (para el módulo de plazos, sin depender de turnos) ----------
         function cargarFeriadosGlobal() {
