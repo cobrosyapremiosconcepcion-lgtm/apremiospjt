@@ -768,7 +768,7 @@ window.tur_resFeriados = function(data) {
     }
 
     // Paso 1: desde la fecha de firma, avanzar 2 días hábiles
-    let fechaIntermedia = sumarDiasHabiles(new Date(fechaFirma), 2);
+    let fechaIntermedia = sumarDiasHabiles(new Date(fechaFirma), 3);
     // Paso 2: desde esa fecha, contar los días de plazo (también hábiles)
     let fechaFinal = sumarDiasHabiles(fechaIntermedia, diasPlazo);
 
