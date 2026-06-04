@@ -743,15 +743,40 @@ window.tur_resFeriados = function(data) {
 
         // ---------- CÓMPUTO DE PLAZOS ----------
         function pl_calcular() {
-            const fIn = document.getElementById('pl-fecha-inicio').value, dias = parseInt(document.getElementById('pl-dias').value);
-            if (!fIn || isNaN(dias)) return alert("Datos inválidos");
-            let iter = new Date(fIn); iter.setHours(12,0,0,0);
-            const esHabil = (f) => { const s = f.getDay(); if (s===0||s===6) return false; return !globalFeriados.includes(`${f.getFullYear()}-${String(f.getMonth()+1).padStart(2,'0')}-${String(f.getDate()).padStart(2,'0')}`); };
-            do { iter.setDate(iter.getDate() + 1); } while (!esHabil(iter));
-            let r = dias; while (r > 0) { iter.setDate(iter.getDate() + 1); if (esHabil(iter)) r--; }
-            document.getElementById('pl-fecha-resultado').innerText = iter.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('pl-detalle').innerHTML = `<span class="text-[10px]">(Se excluyen fines de semana y ${globalFeriados.length} feriados)</span>`;
-        }
+            const fechaFirma = document.getElementById('pl-fecha-inicio').value;
+            const diasPlazo = parseInt(document.getElementById('pl-dias').value);
+            if (!fechaFirma || isNaN(diasPlazo)) return alert("Datos inválidos");
+
+    // Función para determinar si una fecha es hábil
+            const esHabil = (f) => {
+            const s = f.getDay();
+            if (s === 0 || s === 6) return false; // sábado o domingo
+            const fechaStr = `${f.getFullYear()}-${String(f.getMonth()+1).padStart(2,'0')}-${String(f.getDate()).padStart(2,'0')}`;
+            return !globalFeriados.includes(fechaStr);
+        };
+
+    // Suma N días hábiles a una fecha (sin modificar la fecha original)
+        function sumarDiasHabiles(fecha, dias) {
+            let result = new Date(fecha);
+            result.setHours(12, 0, 0, 0);
+            let agregados = 0;
+            while (agregados < dias) {
+                result.setDate(result.getDate() + 1);
+                if (esHabil(result)) agregados++;
+            }
+            return result;
+    }
+
+    // Paso 1: desde la fecha de firma, avanzar 2 días hábiles
+    let fechaIntermedia = sumarDiasHabiles(new Date(fechaFirma), 2);
+    // Paso 2: desde esa fecha, contar los días de plazo (también hábiles)
+    let fechaFinal = sumarDiasHabiles(fechaIntermedia, diasPlazo);
+
+    document.getElementById('pl-fecha-resultado').innerText = fechaFinal.toLocaleDateString('es-AR', {
+        year: 'numeric', month: 'long', day: 'numeric'
+    });
+    document.getElementById('pl-detalle').innerHTML = `<span class="text-[10px]">(Se suman 2 días hábiles a la firma, luego ${diasPlazo} días hábiles de plazo. Excluye fines de semana y ${globalFeriados.length} feriados)</span>`;
+}
 
         // ---------- INICIALIZACIÓN ----------
         window.addEventListener('DOMContentLoaded', () => {
