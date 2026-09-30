@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Judicial Pro | Dashboard Profesional</title>
+
+    <!-- Favicon: Vector SVG + Fallback Data URI + Touch Icon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234f46e5'/%3E%3Cstop offset='100%25' stop-color='%231e1b4b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23bg)'/%3E%3Cpath d='M20 52h24M32 15v37M25 52l7-5 7 5' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M12 22h40' stroke='%23fbbf24' stroke-width='3.5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='17' r='3.5' fill='%23ffffff'/%3E%3Cpath d='M15 22l-6 13h14l-6-13z' fill='%23ffffff' fill-opacity='0.25' stroke='%23ffffff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M49 22l-6 13h14l-6-13z' fill='%23ffffff' fill-opacity='0.25' stroke='%23ffffff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
@@ -21,57 +27,153 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
-        .sub-tab-content { display: none; }
-        .sub-tab-content.active { display: block; }
+        .subtab-content { display: none; }
+        .subtab-content.active { display: block; }
         .nav-link.active { background-color: #f1f5f9; color: #4f46e5; }
         .dark .nav-link.active { background-color: #1e293b; color: #818cf8; }
         .row-copied { background-color: #eef2ff !important; outline: 2px solid #6366f1 !important; }
         .dark .row-copied { background-color: #1e1b4b !important; outline: 2px solid #818cf8 !important; }
         .row-completed { opacity: 0.5; filter: grayscale(0.8); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .sidebar-collapsed { width: 0 !important; overflow: hidden !important; border-right: none !important; }
+        .sidebar-collapsed { width: 0 !important; min-width: 0 !important; padding: 0 !important; overflow: hidden !important; border-right: none !important; }
         .toggle-btn-hidden { display: none !important; position: fixed !important; }
         body.sidebar-is-collapsed .toggle-btn-hidden { display: flex !important; }
         @media (max-width: 768px) {
             .sidebar-collapsed { display: none !important; }
         }
-/* INICIO: Estilos específicos para módulo Turno Tarde */
-.tt-banner { background: linear-gradient(135deg, #f43f5e, #fb7185); }
-.dark .tt-banner { background: linear-gradient(135deg, #be123c, #e11d48); }
-.tt-countdown { background: rgba(255,255,255,0.25); backdrop-filter: blur(4px); }
-.dark .tt-countdown { background: rgba(0,0,0,0.3); }
-.tt-bday-card { transition: all 0.2s ease; }
-.tt-bday-card:hover { transform: translateY(-3px); border-color: #f43f5e !important; }
-.tt-highlight-row { background-color: #fff9c4 !important; border-left: 4px solid #eab308 !important; }
-.dark .tt-highlight-row { background-color: #422c0e !important; border-left-color: #fbbf24 !important; }
-.tt-bday-row { background-color: #fff1f2 !important; }
-.dark .tt-bday-row { background-color: #2d1a24 !important; }
-.tt-today-row { background-color: #e0f2fe !important; border-left: 4px solid #0ea5e9 !important; }
-.dark .tt-today-row { background-color: #0c4a6e !important; border-left: 4px solid #38bdf8 !important; color: #f8fafc !important; }
-.tt-badge-cake { color: #f43f5e; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-.tt-month-section { margin-bottom: 2rem; }
-.tt-month-title { font-size: 1.2rem; font-weight: 800; color: #4f46e5; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e2e8f0; }
-.dark .tt-month-title { color: #818cf8; border-bottom-color: #334155; }
-.tt-bday-card.passed { opacity: 0.6; filter: grayscale(0.5); }
-.tt-today-badge { background: #0ea5e9; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; font-weight: 800; margin-left: 8px; vertical-align: middle; display: inline-block; }
-.dark .tt-today-badge { background: #38bdf8; color: #0f172a; }
+        /* Estilos específicos para módulo Turno Tarde */
+        .tt-banner { background: linear-gradient(135deg, #f43f5e, #fb7185); }
+        .dark .tt-banner { background: linear-gradient(135deg, #be123c, #e11d48); }
+        .tt-countdown { background: rgba(255,255,255,0.25); backdrop-filter: blur(4px); }
+        .dark .tt-countdown { background: rgba(0,0,0,0.3); }
+        .tt-bday-card { transition: all 0.2s ease; }
+        .tt-bday-card:hover { transform: translateY(-3px); border-color: #f43f5e !important; }
+        .tt-highlight-row { background-color: #fff9c4 !important; border-left: 4px solid #eab308 !important; }
+        .dark .tt-highlight-row { background-color: #422c0e !important; border-left-color: #fbbf24 !important; }
+        .tt-bday-row { background-color: #fff1f2 !important; }
+        .dark .tt-bday-row { background-color: #381a28 !important; }
+        .tt-today-row { background-color: #ffff00 !important; color: #0f172a !important; font-weight: 700; border-left: 5px solid #eab308 !important; }
+        .dark .tt-today-row { background-color: #facc15 !important; color: #020617 !important; font-weight: 700; border-left: 5px solid #ca8a04 !important; }
+        .tt-today-row td { color: #0f172a !important; }
+        .dark .tt-today-row td { color: #020617 !important; }
+        .tt-badge-cake { color: #f43f5e; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+        .dark .tt-badge-cake { color: #fda4af; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; }
+        .tt-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            background-color: #f1f5f9;
+            color: #334155;
+            font-size: 0.825rem;
+            font-weight: 600;
+            min-width: 140px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.15s ease;
+        }
+        .dark .tt-pill {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-color: rgba(51, 65, 85, 0.6);
+        }
+        .tt-pill-empty {
+            display: inline-block;
+            min-width: 140px;
+            height: 1.85rem;
+            border-radius: 9999px;
+            background-color: #f1f5f9;
+            opacity: 0.45;
+        }
+        .dark .tt-pill-empty {
+            background-color: #1e293b;
+            opacity: 0.35;
+        }
+        .tt-today-row .tt-pill {
+            background-color: rgba(255, 255, 255, 0.92) !important;
+            color: #0f172a !important;
+            font-weight: 700;
+            border: 1px solid rgba(0, 0, 0, 0.12) !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .dark .tt-today-row .tt-pill {
+            background-color: rgba(15, 23, 42, 0.85) !important;
+            color: #fef08a !important;
+            font-weight: 700;
+            border-color: rgba(234, 179, 8, 0.4) !important;
+        }
+        .tt-today-row .tt-pill-empty {
+            background-color: rgba(255, 255, 255, 0.45) !important;
+            opacity: 0.6;
+        }
+        .dark .tt-today-row .tt-pill-empty {
+            background-color: rgba(15, 23, 42, 0.4) !important;
+            opacity: 0.4;
+        }
+        .tt-cumple-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem 0.95rem;
+            border-radius: 0.375rem;
+            background-color: #883a66;
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 0.825rem;
+            white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(136, 58, 102, 0.35);
+        }
+        .dark .tt-cumple-pill {
+            background-color: #9d3868;
+            box-shadow: 0 1px 3px rgba(157, 56, 104, 0.45);
+        }
+        .tt-month-section { margin-bottom: 2rem; }
+        .tt-month-title { font-size: 1.2rem; font-weight: 800; color: #4f46e5; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e2e8f0; }
+        .dark .tt-month-title { color: #818cf8; border-bottom-color: #334155; }
+        .tt-bday-card.passed { opacity: 0.6; filter: grayscale(0.5); }
+        .tt-today-badge { background: #0ea5e9; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; font-weight: 800; margin-left: 8px; vertical-align: middle; display: inline-block; }
+        .dark .tt-today-badge { background: #38bdf8; color: #0f172a; }
+        
+        /* Estilo interactivo para inputs de fecha */
+        input[type="date"] { cursor: pointer; }
+        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+        /* Asegurar alto contraste en selects y opciones en cualquier tema */
+        select option {
+            background-color: #ffffff;
+            color: #0f172a;
+        }
+        .dark select option {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+        
+        /* Barra de desplazamiento estética */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col md:flex-row">
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 h-screen overflow-hidden flex flex-col md:flex-row">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="w-full md:w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col flex-shrink-0 z-50 transition-all duration-300">
+    <aside id="sidebar" class="w-full md:w-64 h-auto md:h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col flex-shrink-0 z-50 transition-all duration-300 overflow-y-auto">
         <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-tight flex items-center gap-2">
-                <span class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-xs">JP</span>
+            <h1 class="text-xl font-bold tracking-tight flex items-center gap-2 cursor-pointer" onclick="switchMainTab('tab-caratulas')">
+                <span class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-xs font-black shadow-md shadow-indigo-500/20">JP</span>
                 <span class="hidden md:inline">Judicial<span class="text-indigo-600 dark:text-indigo-400">Pro</span></span>
             </h1>
             <button onclick="toggleSidebar()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition" title="Ocultar/Mostrar menú">
-                <svg id="toggle-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg id="toggle-icon" class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
 
@@ -86,232 +188,886 @@
             </button>
         </div>
         
-        <nav class="flex-grow p-4 space-y-1 text-sm font-medium">
+        <nav class="flex-grow p-4 space-y-1.5 text-sm font-medium">
+            <!-- 1. Gestión Cuentas -->
             <button onclick="switchMainTab('tab-caratulas')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 active group">
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                 Gestión Cuentas
             </button>
+
+            <!-- 2. Protocolos -->
             <button onclick="switchMainTab('tab-protocolos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
                 Protocolos
             </button>
-            <button onclick="switchMainTab('tab-honorarios')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                <svg class="w-5 h-5 text-amber-500 group-hover:text-amber-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                Honorarios
+
+            <!-- 3. MÓDULO UNIFICADO: Honorarios & Montos a Letras -->
+            <button onclick="switchMainTab('tab-honorarios-montos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                <svg class="w-5 h-5 text-amber-500 group-hover:text-amber-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Honorarios & Montos
             </button>
-            <button onclick="switchMainTab('tab-turnos-juz')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                Turnos Juzgado
-            </button>
-            <button onclick="switchMainTab('tab-montos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Monto a Letras
-            </button>
-            <button onclick="switchMainTab('tab-plazos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path><path d="M12 11v4m0 0v4m0-4h4m-4 0H8"></path></svg>
-                Cómputo Plazos
-            </button>
-            <button onclick="switchMainTab('tab-turno-tarde')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+
+            <!-- 4. MÓDULO UNIFICADO: Turnos & Turno Tarde -->
+            <button onclick="switchMainTab('tab-turnos-tarde')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
                  <svg class="w-5 h-5 text-rose-500 group-hover:text-rose-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Turno Tarde
+                Turnos & Turno Tarde
             </button>
         </nav>
         <div class="p-6 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
-            <p>V 2.5 • Judicial Pro Dashboard</p>
+            <p>V 3.0 • Judicial Pro Dashboard</p>
             <p class="mt-1 uppercase tracking-wider">Derechos Reservados <br> Matias Corbalan (RMC) 2026</p>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-4 md:p-10 overflow-y-auto relative">
-        <button onclick="toggleSidebar()" class="toggle-btn-hidden fixed left-4 top-4 z-40 p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-lg" title="Mostrar menú">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </button>
+    <!-- Content Column (Header Fijo + Contenido Scroll + Footer Fijo) -->
+    <div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative">
 
-        <!-- Modal de Contraseña para Turnos Juzgado -->
-        <div id="tur-password-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
-            <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-2xl max-w-sm w-full mx-4">
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        <!-- ==================== HEADER SIEMPRE VISIBLE ARRIBA (CÓMPUTO DE PLAZOS) ==================== -->
+        <header id="global-plazos-header" class="flex-shrink-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 sm:px-6 py-2.5 z-40 shadow-xs transition-colors">
+            <div class="flex flex-wrap items-center justify-between gap-2.5">
+                
+                <!-- Left: Toggle Sidebar + Title Badge -->
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <button onclick="toggleSidebar()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition" title="Mostrar/Ocultar Menú">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <div class="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 px-3 py-1.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50">
+                        <span class="text-sm">⚖️</span>
+                        <div class="flex flex-col">
+                            <span class="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400 leading-none">Cómputo Plazos</span>
+                            <span class="text-xs font-bold leading-tight">Días Hábiles</span>
+                        </div>
                     </div>
-                    <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Acceso Restringido</h2>
-                    <p class="text-slate-500 dark:text-slate-400">Ingrese la contraseña para acceder a Turnos Juzgado</p>
                 </div>
-                <div class="mb-6">
-                    <input type="password" id="tur-password-input" placeholder="Contraseña" class="w-full p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-bold text-center tracking-widest" onkeypress="if(event.key==='Enter') tur_verificarContrasena()">
-                </div>
-                <button onclick="tur_verificarContrasena()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition mb-3">Acceder</button>
-                <div id="tur-error-msg" class="hidden text-red-600 dark:text-red-400 text-sm font-bold text-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg"></div>
-            </div>
-        </div>
 
-        <!-- 1. GESTIÓN CARÁTULAS -->
-        <section id="tab-caratulas" class="tab-content active max-w-6xl mx-auto space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h2 class="text-3xl font-bold tracking-tight">Cuentas Judiciales</h2>
-                    <p class="text-slate-500 dark:text-slate-400">Procesamiento masivo de expedientes y carátulas.</p>
+                <!-- Center: Interactive Date & Result Calculation -->
+                <div class="flex items-center gap-2 sm:gap-3 flex-wrap text-xs">
+                    <!-- Fecha de Firma (Default: Hoy) -->
+                    <div onclick="hdr_abrirCalendario(event)" class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/80 dark:hover:bg-slate-750 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs cursor-pointer transition group" title="Click para abrir el calendario y cambiar la fecha">
+                        <span class="text-xs group-hover:scale-110 transition">📅</span>
+                        <label for="hdr-fecha-firma" class="text-[10px] font-bold uppercase text-slate-700 dark:text-slate-200 tracking-wider cursor-pointer">Firma:</label>
+                        <input type="date" id="hdr-fecha-firma" onchange="hdr_onFechaFirmaChange(this.value)" onclick="event.stopPropagation(); hdr_abrirCalendario(event)" class="bg-transparent font-mono font-bold text-slate-900 dark:text-slate-100 outline-none text-xs cursor-pointer">
+                        <button type="button" onclick="event.stopPropagation(); hdr_setHoy()" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-600 transition" title="Volver a la fecha de hoy">Hoy</button>
+                    </div>
+
+                    <!-- Días a contar (Default: 5) -->
+                    <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs">
+                        <label for="hdr-dias-plazo" class="text-[10px] font-bold uppercase text-slate-700 dark:text-slate-200 tracking-wider">Plazo:</label>
+                        <input type="number" id="hdr-dias-plazo" min="0" step="1" value="5" oninput="hdr_onDiasPlazoChange(this.value)" class="w-12 bg-transparent font-mono font-bold text-indigo-600 dark:text-indigo-400 outline-none text-xs text-center border-b border-indigo-400/40 focus:border-indigo-600">
+                        <span class="text-[10px] text-slate-700 dark:text-slate-200 font-bold uppercase">días</span>
+                    </div>
+
+                    <!-- Arrow Separator -->
+                    <svg class="w-4 h-4 text-indigo-400 dark:text-indigo-500 hidden sm:block flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+
+                    <!-- Fecha de Vencimiento Resultante (CLICK PARA COPIAR: XX/XX/XX - S/Excepciones) -->
+                    <button onclick="hdr_copiarVencimiento()" id="hdr-btn-vencimiento" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white px-3.5 py-1.5 rounded-xl shadow-md shadow-indigo-500/10 transition cursor-pointer group active:scale-95" title="Click para copiar: XX/XX/XX - S/Excepciones">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-indigo-200 leading-none">
+                                <span>Vence el día</span>
+                                <span class="opacity-75 group-hover:opacity-100 transition">(Copiar)</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 mt-0.5">
+                                <span id="hdr-plazo-dia" class="font-black text-xs uppercase text-indigo-100">Viernes</span>
+                                <span id="hdr-plazo-fecha" class="font-mono font-black text-sm tracking-tight">--/--/----</span>
+                                <svg class="w-3.5 h-3.5 text-indigo-200 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                            </div>
+                        </div>
+                        <span id="hdr-plazo-badge" class="hidden text-[9px] font-black px-1.5 py-0.5 rounded-full bg-amber-400 text-amber-950 uppercase ml-1">Feriado</span>
+                    </button>
                 </div>
-                <button onclick="document.getElementById('car-file').click()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-indigo-200 dark:shadow-none">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Cargar Planilla Excel
-                    <input type="file" id="car-file" accept=".xlsx, .xls" class="hidden" onchange="car_cargar(event)">
-                </button>
+
             </div>
-            <div id="car-main" class="hidden space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <div class="space-y-1"><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Filtrar Trámite</label><input type="text" id="car-f-tra" oninput="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Ejecución..."></div>
-                    <div class="space-y-1"><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Responsable</label><select id="car-f-res" onchange="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"></select></div>
-                    <div class="flex items-end"><button onclick="car_exportar()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>Exportar Resultado</button></div>
+        </header>
+
+        <!-- ==================== MAIN CONTENT (SCROLLABLE) ==================== -->
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto relative">
+            <button onclick="toggleSidebar()" class="toggle-btn-hidden fixed left-4 top-4 z-40 p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-lg" title="Mostrar menú">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+
+            <!-- Modal de Contraseña para Asignación / Generador -->
+            <div id="tur-password-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-2xl max-w-sm w-full mx-4">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Acceso Restringido</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs">Ingrese la contraseña para generar cronogramas de turno</p>
+                    </div>
+                    <div class="mb-6">
+                        <input type="password" id="tur-password-input" placeholder="Contraseña" class="w-full p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-bold text-center tracking-widest" onkeypress="if(event.key==='Enter') tur_verificarContrasena()">
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="document.getElementById('tur-password-modal').classList.add('hidden')" class="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 py-3 rounded-lg font-bold transition">Cancelar</button>
+                        <button onclick="tur_verificarContrasena()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition">Acceder</button>
+                    </div>
+                    <div id="tur-error-msg" class="hidden text-red-600 dark:text-red-400 text-sm font-bold text-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg mt-3"></div>
                 </div>
+            </div>
+
+            <!-- Toast Flotante de Copiado -->
+            <div id="toast-copiado" class="fixed bottom-16 right-6 z-50 transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl font-bold text-xs flex items-center gap-2">
+                <span>📋</span>
+                <span id="toast-copiado-texto">Copiado al portapapeles</span>
+            </div>
+
+            <!-- 1. GESTIÓN CARÁTULAS -->
+            <section id="tab-caratulas" class="tab-content active max-w-6xl mx-auto space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold tracking-tight">Cuentas Judiciales</h2>
+                        <p class="text-slate-500 dark:text-slate-400">Procesamiento masivo de expedientes y carátulas.</p>
+                    </div>
+                    <button onclick="document.getElementById('car-file').click()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-indigo-200 dark:shadow-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Cargar Planilla Excel
+                        <input type="file" id="car-file" accept=".xlsx, .xls" class="hidden" onchange="car_cargar(event)">
+                    </button>
+                </div>
+                <div id="car-main" class="hidden space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <div class="space-y-1"><label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase ml-1">Filtrar Trámite</label><input type="text" id="car-f-tra" oninput="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Ejecución..."></div>
+                        <div class="space-y-1"><label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase ml-1">Responsable</label><select id="car-f-res" onchange="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"></select></div>
+                        <div class="flex items-end"><button onclick="car_exportar()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>Exportar Resultado</button></div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <table class="w-full text-sm text-left"><thead class="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[11px] font-bold uppercase tracking-wider"><tr><th class="p-4 w-12 text-center">OK</th><th class="p-4 w-32">Expediente</th><th class="p-4">Trámite / Carátula</th><th class="p-4 w-48">N° Cuenta</th></tr></thead><tbody id="car-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody></table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. PROTOCOLOS -->
+            <section id="tab-protocolos" class="tab-content max-w-4xl mx-auto space-y-6">
+                <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 text-center shadow-xl">
+                    <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div>
+                    <h2 class="text-2xl font-bold mb-2">Procesador de Protocolos</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mb-8">Organiza y numera automáticamente tus archivos Excel de SAE.</p>
+                    
+                    <!-- 3 Cards: Número Inicial (I1), Última Fecha Registro (J1), Distribución Lógica -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 text-left font-medium">
+                        <!-- Card 1: Número Inicial (I1) -->
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <label class="block text-[10px] font-bold text-slate-700 dark:text-slate-200 uppercase ml-1">Número Inicial (I1)</label>
+                                <button type="button" onclick="pro_cargarDatosSheet()" class="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 font-bold flex items-center gap-1 transition" title="Recargar celdas I1 y J1">
+                                    <span>🔄</span> Actualizar
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="pro-inicio" value="1" class="w-full bg-transparent text-2xl font-bold outline-none text-indigo-600 dark:text-indigo-400">
+                                <a href="https://docs.google.com/spreadsheets/d/1Drfj3oF119iTAs2KqIRsWbknIMP56ABDmIuy75Z5TS4/edit?gid=1179070570#gid=1179070570" target="_blank" class="p-2 rounded-lg bg-slate-200/70 dark:bg-slate-700 hover:bg-indigo-100 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition" title="Abrir Google Sheet (Pestaña Protocolos)">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                            </div>
+                            <div class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">
+                                Siguiente número correlativo
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Última Fecha de Registro (J1) -->
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <label class="block text-[10px] font-bold text-slate-700 dark:text-slate-200 uppercase ml-1">Última Fecha Registro (J1)</label>
+                                <span class="text-xs">📅</span>
+                            </div>
+                            <div class="flex items-center h-[36px]">
+                                <span id="pro-fecha-registro" class="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400">--/--/----</span>
+                            </div>
+                            <div class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">
+                                Fecha del último registro asentado
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Distribución Lógica Automática -->
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between text-xs text-slate-700 dark:text-slate-300 font-semibold space-y-2">
+                            <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 uppercase ml-1">Distribución Lógica</span>
+                            <div class="space-y-1 text-xs">
+                                <div class="flex items-center justify-between px-2 py-1 rounded bg-slate-100 dark:bg-slate-700/50">
+                                    <span class="font-mono text-slate-600 dark:text-slate-300">ayanicelli</span>
+                                    <span class="font-bold text-indigo-600 dark:text-indigo-400">Juzgado 2</span>
+                                </div>
+                                <div class="flex items-center justify-between px-2 py-1 rounded bg-slate-100 dark:bg-slate-700/50">
+                                    <span class="font-mono text-slate-600 dark:text-slate-300">mtorres</span>
+                                    <span class="font-bold text-indigo-600 dark:text-indigo-400">Juzgado 1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estado de Sincronización Global de Google Sheets -->
+                    <div id="pro-sheet-status" class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-6">
+                        Obteniendo celdas I1 y J1 de Google Sheets...
+                    </div>
+
+                    <label class="block cursor-pointer border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors mb-6 group"><input type="file" id="pro-files" accept=".xls, .xlsx" multiple class="hidden"><div class="text-slate-400 group-hover:text-indigo-500 transition-colors font-medium">Click para seleccionar archivos XLSX</div></label>
+                    <button onclick="pro_procesar()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-4 rounded-2xl font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-lg">Generar y Copiar Datos</button>
+                    <div id="pro-status" class="mt-4 text-xs font-bold text-slate-400 animate-pulse uppercase tracking-widest">Esperando carga...</div>
+                </div>
+            </section>
+
+            <!-- 3. MÓDULO UNIFICADO: HONORARIOS & MONTO A LETRAS -->
+            <section id="tab-honorarios-montos" class="tab-content max-w-5xl mx-auto space-y-6">
+                <!-- Barra de Sub-Pestañas -->
                 <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                    <table class="w-full text-sm text-left"><thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase tracking-wider"><tr><th class="p-4 w-12 text-center">OK</th><th class="p-4 w-32">Expediente</th><th class="p-4">Trámite / Carátula</th><th class="p-4 w-48">N° Cuenta</th></tr></thead><tbody id="car-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody></table>
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. PROTOCOLOS -->
-        <section id="tab-protocolos" class="tab-content max-w-3xl mx-auto space-y-6">
-            <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 text-center shadow-xl">
-                <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div>
-                <h2 class="text-2xl font-bold mb-2">Procesador de Protocolos</h2>
-                <p class="text-slate-500 dark:text-slate-400 mb-8">Organiza y numera automáticamente tus archivos Excel de SAE.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left font-medium"><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1">Número Inicial</label><input type="number" id="pro-inicio" value="1" class="w-full bg-transparent text-2xl font-bold outline-none text-indigo-600 dark:text-indigo-400"></div><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center text-xs text-slate-500">Distribución lógica automática:<br>ayanicelli → Juz 2 | mtorres → Juz 1</div></div>
-                <label class="block cursor-pointer border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors mb-6 group"><input type="file" id="pro-files" accept=".xls, .xlsx" multiple class="hidden"><div class="text-slate-400 group-hover:text-indigo-500 transition-colors font-medium">Click para seleccionar archivos XLSX</div></label>
-                <button onclick="pro_procesar()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-4 rounded-2xl font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-lg">Generar y Copiar Datos</button>
-                <div id="pro-status" class="mt-4 text-xs font-bold text-slate-400 animate-pulse uppercase tracking-widest">Esperando carga...</div>
-            </div>
-        </section>
-
-        <!-- 3. HONORARIOS -->
-        <section id="tab-honorarios" class="tab-content max-w-4xl mx-auto">
-            <div class="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl">
-                <h2 class="text-2xl font-bold text-center mb-10">Liquidación de Honorarios y Aportes</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10"><div class="p-6 bg-indigo-50 dark:bg-indigo-900/10 rounded-3xl border border-indigo-100 dark:border-indigo-900/30"><label class="block text-[10px] font-bold text-indigo-500 uppercase mb-2">Honorarios Regulados ($)</label><input type="text" id="hon-regulados" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-indigo-900 dark:text-indigo-100 outline-none" placeholder="123.456,78"></div><div class="p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-3xl border border-emerald-100 dark:border-emerald-900/30"><label class="block text-[10px] font-bold text-emerald-500 uppercase mb-2">Embargo Disponible ($)</label><input type="text" id="hon-embargo" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-emerald-900 dark:text-emerald-100 outline-none" placeholder="123.456,78"></div></div>
-                <div class="space-y-4"><div class="bg-slate-900 dark:bg-slate-800 p-8 rounded-3xl text-white shadow-xl relative overflow-hidden group"><div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition"><svg class="w-20 h-20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg></div><p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Importe Neto Final</p><button onclick="mon_copyRaw('hon-cobrar-txt')" class="text-lg md:text-xl font-bold leading-relaxed hover:text-indigo-400 transition text-left" id="hon-cobrar-txt">Esperando datos...</button></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Aportes 10%</label><button onclick="mon_copyRaw('hon-10-txt')" class="text-sm font-bold hover:text-indigo-500 transition text-left" id="hon-10-txt">-</button></div><div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Tasa Justicia 8%</label><button onclick="mon_copyRaw('hon-8-txt')" class="text-sm font-bold hover:text-indigo-500 transition text-left" id="hon-8-txt">-</button></div></div></div>
-            </div>
-        </section>
-
-        <!-- 4. TURNOS JUZGADO -->
-        <section id="tab-turnos-juz" class="tab-content max-w-6xl mx-auto space-y-6" data-requires-password="true">
-            <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <h2 class="text-2xl font-bold mb-2">⚖️ Asignación de Responsables</h2>
-                <p class="text-slate-500 dark:text-slate-400 mb-6">Turno Tarde - Juzgado de Cobros</p>
-                <div class="flex flex-wrap gap-3 mb-6 justify-between items-center">
-                    <div class="flex flex-wrap gap-3">
-                        <a href="https://docs.google.com/spreadsheets/d/1o4GF68NpedRTXByvEuR5JehBaoDG1s2vKyrvwAwcpv4/edit" target="_blank" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">📂 Abrir Nómina Única</a>
-                        <button onclick="tur_actualizarDatos()" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">🔄 Actualizar Datos</button>
+                    <div class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800 flex gap-2">
+                        <button id="btn-subtab-hon" onclick="hon_mon_switchSubTab('honorarios')" class="hon-mon-subtab-btn flex-1 py-3 px-4 rounded-xl text-center font-black text-sm sm:text-base transition-all flex items-center justify-center gap-2 bg-indigo-600 text-white shadow-md shadow-indigo-600/30">
+                            <span>⚖️</span>
+                            <span>Liquidación de Honorarios</span>
+                        </button>
+                        <button id="btn-subtab-mon" onclick="hon_mon_switchSubTab('montos')" class="hon-mon-subtab-btn flex-1 py-3 px-4 rounded-xl text-center font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-slate-700/80 shadow-xs">
+                            <span>✍️</span>
+                            <span>Conversor Monto a Letras</span>
+                        </button>
                     </div>
-                    <button onclick="if(confirm('¿Cerrar sesión de Turnos?')) { tur_cerrarAcceso(); switchMainTab('tab-caratulas'); }" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition">🚪 Cerrar Sesión</button>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                    <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Mes</label><select id="tur-mes" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div>
-                    <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Año</label><select id="tur-anio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select></div>
-                    <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Inicia con</label><select id="tur-inicio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select></div>
-                    <div class="flex items-end"><button id="tur-btn-generar" onclick="tur_generarCronograma()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold transition text-xs" disabled>⚡ Generar</button></div>
-                    <div class="flex items-end"><button onclick="tur_copiarFormatoExcel()" id="tur-btn-copiar" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition text-xs" disabled>📋 Copiar</button></div>
-                </div>
-                <div id="tur-loading-status" class="text-sm text-amber-600 dark:text-amber-400 mb-4 text-center font-semibold">⏳ Cargando datos unificados de personal y feriados...</div>
-            </div>
 
-            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                <div class="flex border-b border-slate-200 dark:border-slate-800">
-                    <button onclick="tur_switchTab(event, 'tur-cronograma')" class="flex-1 p-4 text-center font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 transition active-tab">📅 Cronograma</button>
-                    <button onclick="tur_switchTab(event, 'tur-datos')" class="flex-1 p-4 text-center font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition hover:text-slate-600">⚙️ Configuración</button>
-                </div>
-                <div id="tur-cronograma" class="p-4 md:p-6"><div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"><tr><th class="p-4 w-20">Fecha</th><th class="p-4 w-20">Día</th><th class="p-4">Responsable 1</th><th class="p-4">Responsable 2</th></tr></thead><tbody id="tur-tabla-cuerpo" class="divide-y divide-slate-100 dark:divide-slate-800"><tr><td colspan="4" class="p-8 text-center text-slate-500 dark:text-slate-400">📋 Presione "Generar" para ver los turnos</td></tr></tbody></table></div><div id="tur-div-resumen" class="mt-8 hidden"><h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">📊 Carga de Trabajo Mensual</h3><div id="tur-contenedor-stats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div></div></div>
-                <div id="tur-datos" class="p-4 md:p-6 hidden"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Personal Activo</h3><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-50 dark:bg-slate-800/50 text-xs font-bold uppercase"><tr><th class="p-2 text-left">Orden</th><th class="p-2 text-left">Nombre</th><th class="p-2 text-left">Día Fijo</th></tr></thead><tbody id="tur-lista-personal" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody></table></div></div><div><h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Feriados Detectados</h3><div id="tur-lista-feriados" class="space-y-2"></div></div></div></div>
-            </div>
-        </section>
-
-        <!-- 5. MONTO A LETRAS -->
-        <section id="tab-montos" class="tab-content max-w-2xl mx-auto">
-            <div class="bg-white dark:bg-slate-900 p-12 rounded-[3rem] border border-slate-200 dark:border-slate-800 shadow-2xl text-center">
-                <h2 class="text-2xl font-bold mb-10 tracking-tight italic uppercase">Monto a Letras</h2>
-                <input type="text" id="mon-in" oninput="mon_main()" placeholder="100.200,52" class="w-full p-6 bg-slate-50 dark:bg-slate-800 rounded-3xl text-5xl font-black text-indigo-600 dark:text-indigo-400 text-center outline-none ring-4 ring-transparent focus:ring-indigo-500/10 transition mb-8">
-                <div id="mon-out" class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 font-bold text-lg italic leading-relaxed mb-8 min-h-[120px] flex items-center justify-center border border-slate-100 dark:border-slate-800">PESOS CERO CON 00 CENTAVOS</div>
-                <button onclick="mon_copy()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-5 rounded-2xl font-bold uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all">Copiar Texto Legal</button>
-            </div>
-        </section>
-
-        <!-- 6. CÓMPUTO DE PLAZOS -->
-        <section id="tab-plazos" class="tab-content max-w-2xl mx-auto">
-            <div class="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-2xl">
-                <h2 class="text-2xl font-bold text-center mb-8">📅 Cómputo de Plazos</h2>
-                <p class="text-slate-500 dark:text-slate-400 text-center mb-8 text-sm">Suma días hábiles excluyendo sábados, domingos y feriados judiciales.</p>
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Fecha de firma</label>
-                        <input type="date" id="pl-fecha-inicio" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Cantidad de días hábiles</label>
-                        <input type="number" id="pl-dias" min="0" step="1" value="0" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 outline-none focus:border-indigo-500 dark:focus:border-indigo-400 font-bold text-2xl text-center">
-                    </div>
-                    <button onclick="pl_calcular()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl font-bold transition-all shadow-md">Calcular plazo</button>
-                    <div id="pl-resultado" class="mt-8 p-6 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-200 dark:border-slate-700 text-center">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Fecha resultante</div>
-                        <div class="text-2xl md:text-3xl font-black text-indigo-600 dark:text-indigo-400 break-words" id="pl-fecha-resultado">—</div>
-                        <div class="text-xs text-slate-500 mt-3" id="pl-detalle"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. TURNO TARDE -->
-        <section id="tab-turno-tarde" class="tab-content max-w-6xl mx-auto space-y-6">
-            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-                <div id="tt-banner" class="tt-banner text-white p-6 flex flex-col md:flex-row justify-between items-center gap-4 rounded-none">
-                    <div>
-                        <h2 class="text-xs font-bold uppercase tracking-wider opacity-90">🎂 Próximo Cumpleaños</h2>
-                        <p id="tt-next-name" class="text-2xl font-bold mt-1">Cargando...</p>
-                    </div>
-                    <div id="tt-countdown" class="tt-countdown px-5 py-2 rounded-full text-sm font-bold backdrop-blur-sm">--</div>
-                </div>
-                <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- SUB-PESTAÑA 1: LIQUIDACIÓN DE HONORARIOS -->
+                    <div id="view-honorarios" class="p-6 md:p-10 space-y-8">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Seleccionar Mes</label>
-                            <select id="tt-sel-mes" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-medium"></select>
+                            <h2 class="text-2xl font-bold mb-1">Liquidación de Honorarios y Aportes</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm">Calcula el neto a cobrar, aportes de ley (10%) y tasa de justicia (8%).</p>
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Resaltar Usuario</label>
-                            <input type="text" id="tt-search" placeholder="Nombre del responsable..." class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-6 bg-indigo-50 dark:bg-indigo-900/10 rounded-3xl border border-indigo-100 dark:border-indigo-900/30">
+                                <label class="block text-[10px] font-bold text-indigo-500 uppercase mb-2 tracking-wider">Honorarios Regulados ($)</label>
+                                <input type="text" id="hon-regulados" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-indigo-900 dark:text-indigo-100 outline-none" placeholder="123.456,78">
+                            </div>
+                            <div class="p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-3xl border border-emerald-100 dark:border-emerald-900/30">
+                                <label class="block text-[10px] font-bold text-emerald-500 uppercase mb-2 tracking-wider">Embargo Disponible ($)</label>
+                                <input type="text" id="hon-embargo" oninput="hon_calc()" class="w-full bg-transparent text-3xl font-black text-emerald-900 dark:text-emerald-100 outline-none" placeholder="123.456,78">
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Card Principal: Importe Neto Final -->
+                            <div class="bg-slate-900 dark:bg-slate-800 p-6 md:p-8 rounded-3xl text-white shadow-xl relative overflow-hidden group">
+                                <div class="flex items-center justify-between gap-4 mb-2">
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Importe Neto Final a Cobrar</p>
+                                    <button onclick="hon_enviarAConversor()" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-lg font-bold transition flex items-center gap-1 shadow-sm">
+                                        <span>Convertir a letras</span>
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                    </button>
+                                </div>
+                                <div class="text-lg md:text-2xl font-black leading-relaxed text-indigo-200 mb-4" id="hon-cobrar-txt">Esperando datos...</div>
+                                <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-700/60">
+                                    <button onclick="hon_copiarDetalle('neto', 'completo')" class="px-3 py-1.5 bg-slate-800 dark:bg-slate-700 hover:bg-indigo-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                                        <span>📋</span> Copiar Todo (Letras + $)
+                                    </button>
+                                    <button onclick="hon_copiarDetalle('neto', 'letras')" class="px-3 py-1.5 bg-slate-800 dark:bg-slate-700 hover:bg-indigo-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                                        <span>🔤</span> Solo Letras
+                                    </button>
+                                    <button onclick="hon_copiarDetalle('neto', 'numero')" class="px-3 py-1.5 bg-slate-800 dark:bg-slate-700 hover:bg-indigo-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                                        <span>🔢</span> Solo Número
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Grid Aportes y Tasa de Justicia -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Aportes 10% -->
+                                <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-3">
+                                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Aportes Ley 10%</label>
+                                    <div class="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 leading-snug" id="hon-10-txt">-</div>
+                                    <div class="flex flex-wrap gap-2 pt-2">
+                                        <button onclick="hon_copiarDetalle('aporte10', 'completo')" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition" title="Copiar letras con ($)">📋 Todo</button>
+                                        <button onclick="hon_copiarDetalle('aporte10', 'letras')" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition" title="Copiar solo letras">🔤 Letras</button>
+                                        <button onclick="hon_copiarDetalle('aporte10', 'numero')" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition" title="Copiar solo número">🔢 Número</button>
+                                    </div>
+                                </div>
+
+                                <!-- Tasa de Justicia 8% -->
+                                <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-3">
+                                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Tasa de Justicia 8%</label>
+                                    <div class="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 leading-snug" id="hon-8-txt">-</div>
+                                    <div class="flex flex-wrap gap-2 pt-2">
+                                        <button onclick="hon_copiarDetalle('tasa8', 'completo')" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition" title="Copiar letras con ($)">📋 Todo</button>
+                                        <button onclick="hon_copiarDetalle('tasa8', 'letras')" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition" title="Copiar solo letras">🔤 Letras</button>
+                                        <button onclick="hon_copiarDetalle('tasa8', 'numero')" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition" title="Copiar solo número">🔢 Número</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex border-b border-slate-200 dark:border-slate-800">
-                    <button id="tt-tab-cal" class="tt-tab-btn flex-1 p-4 text-center font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 transition" onclick="tt_switchTab('calendario')">📅 Cronograma</button>
-                    <button id="tt-tab-cum" class="tt-tab-btn flex-1 p-4 text-center font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition" onclick="tt_switchTab('cumples')">🎈 Cumpleaños</button>
-                </div>
-                <div id="tt-view-calendario" class="p-4 md:p-6">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase">
-                                <tr><th class="p-4">Fecha</th><th class="p-4">Día</th><th class="p-4">Responsable 1</th><th class="p-4">Responsable 2</th><th class="p-4">Responsable 3</th><th class="p-4">Evento</th></tr>
-                            </thead>
-                            <tbody id="tt-tbody-cal" class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <tr><td colspan="6" class="p-8 text-center text-slate-400">Cargando turnos...</td></tr>
-                            </tbody>
-                        </table>
+
+                    <!-- SUB-PESTAÑA 2: CONVERSOR MONTO A LETRAS -->
+                    <div id="view-montos" class="p-6 md:p-10 space-y-8 hidden">
+                        <div class="text-center max-w-xl mx-auto">
+                            <h2 class="text-2xl font-bold mb-2">Conversor de Monto a Letras</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm">Transcribe cualquier importe a formato legal completo con separador de miles (.) y decimales (,).</p>
+                        </div>
+
+                        <div class="max-w-3xl mx-auto space-y-6">
+                            <!-- Input -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest text-center mb-2">Ingrese el monto en pesos ($)</label>
+                                <input type="text" id="mon-in" oninput="mon_main()" placeholder="100.200,52" class="w-full p-6 bg-slate-50 dark:bg-slate-800 rounded-3xl text-4xl sm:text-5xl font-black text-indigo-600 dark:text-indigo-400 text-center outline-none ring-4 ring-transparent focus:ring-indigo-500/20 transition shadow-inner">
+                            </div>
+
+                            <!-- Display Texto Legal Completo -->
+                            <div class="space-y-2">
+                                <div class="text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest ml-1">Resultado Formato Legal:</div>
+                                <div id="mon-out-completo" class="p-6 md:p-8 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border-2 border-indigo-200 dark:border-indigo-800/80 text-slate-900 dark:text-slate-100 font-extrabold text-base md:text-xl leading-relaxed text-center shadow-xs">
+                                    PESOS CERO CON 00 CENTAVOS ($0,00)
+                                </div>
+                            </div>
+
+                            <!-- Botones de Copiado con Distintos Formatos -->
+                            <div class="space-y-3 pt-2">
+                                <!-- Botón Principal: Formato Completo -->
+                                <button onclick="mon_copiarTipo('completo')" id="btn-cp-completo" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 px-6 rounded-2xl font-bold uppercase tracking-wider transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group">
+                                    <svg class="w-5 h-5 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                                    <span>Copiar Formato Legal Completo: Letras + ($000.000,00)</span>
+                                </button>
+
+                                <!-- Botones Secundarios: Solo Letras y Solo Número -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <button onclick="mon_copiarTipo('letras')" id="btn-cp-letras" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 py-3.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700">
+                                        <span>🔤</span>
+                                        <span>Copiar Solo Letras</span>
+                                    </button>
+                                    <button onclick="mon_copiarTipo('numero')" id="btn-cp-numero" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 py-3.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700">
+                                        <span>🔢</span>
+                                        <span>Copiar Solo Número ($000.000,00)</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="tt-view-cumples" class="p-6 hidden">
-                    <div id="tt-cumples-container"></div>
+            </section>
+
+            <!-- 4. MÓDULO UNIFICADO: TURNOS & TURNO TARDE -->
+            <section id="tab-turnos-tarde" class="tab-content max-w-6xl mx-auto space-y-6">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    
+                    <!-- Banner Próximo Cumpleaños Interno -->
+                    <div id="tt-banner" class="tt-banner text-white p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div>
+                            <h2 class="text-xs font-bold uppercase tracking-wider opacity-90">🎂 Próximo Cumpleaños</h2>
+                            <p id="tt-next-name" class="text-2xl font-bold mt-1">Cargando...</p>
+                        </div>
+                        <div id="tt-countdown" class="tt-countdown px-5 py-2 rounded-full text-sm font-bold backdrop-blur-sm">--</div>
+                    </div>
+
+                    <!-- Sub-Pestañas Unificadas -->
+                    <div class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800 flex flex-wrap sm:flex-nowrap gap-2 overflow-x-auto">
+                        <button id="tt-btn-cronograma" class="tt-subtab-btn flex-1 py-2.5 px-3 sm:px-4 rounded-xl text-center font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 bg-indigo-600 text-white shadow-md shadow-indigo-600/30" onclick="tt_switchSubTab('cronograma')">
+                            <span class="text-base">📅</span>
+                            <span>Cronograma General</span>
+                        </button>
+                        <button id="tt-btn-generador" class="tt-subtab-btn flex-1 py-2.5 px-3 sm:px-4 rounded-xl text-center font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-slate-700/80 shadow-xs" onclick="tt_switchSubTab('generador')">
+                            <span class="text-base">⚡</span>
+                            <span>Asignación / Generador</span>
+                        </button>
+                        <button id="tt-btn-cumples" class="tt-subtab-btn flex-1 py-2.5 px-3 sm:px-4 rounded-xl text-center font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-slate-700/80 shadow-xs" onclick="tt_switchSubTab('cumples')">
+                            <span class="text-base">🎈</span>
+                            <span>Cumpleaños</span>
+                        </button>
+                        <button id="tt-btn-config" class="tt-subtab-btn flex-1 py-2.5 px-3 sm:px-4 rounded-xl text-center font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-slate-700/80 shadow-xs" onclick="tt_switchSubTab('config')">
+                            <span class="text-base">⚙️</span>
+                            <span>Configuración & Nómina</span>
+                        </button>
+                    </div>
+
+                    <!-- SUB-VIEW 1: CRONOGRAMA GENERAL -->
+                    <div id="tt-view-cronograma" class="space-y-4">
+                        <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+                            <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+                                <div id="tt-sync-status" class="text-xs font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <span>Planilla Vinculada: <b>Google Sheets</b> (gid: 2020665422)</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <a href="https://docs.google.com/spreadsheets/d/1o4GF68NpedRTXByvEuR5JehBaoDG1s2vKyrvwAwcpv4/edit?gid=2020665422#gid=2020665422" target="_blank" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-white transition flex items-center gap-1.5 border border-slate-200 dark:border-slate-700" title="Abrir Google Sheet de Turnos">
+                                        <span>📂 Abrir Planilla</span>
+                                    </a>
+                                    <button onclick="tt_cargarTurnos(); tt_cargarCumples(); mostrarToastCopiado('🔄 Sincronizando con Google Sheets...');" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition flex items-center gap-1.5 shadow-sm active:scale-95" title="Recargar turnos en vivo">
+                                        <span>🔄 Actualizar</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-2">Seleccionar Mes</label>
+                                    <select id="tt-sel-mes" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-2">Resaltar Usuario</label>
+                                    <input type="text" id="tt-search" placeholder="Nombre del responsable..." class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 border border-slate-300 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 md:p-6 overflow-x-auto">
+                            <table class="w-full text-sm text-left border-collapse">
+                                <thead class="bg-[#481255] text-white text-xs font-bold uppercase tracking-wider shadow-sm select-none">
+                                    <tr>
+                                        <th class="py-3.5 px-4 font-bold rounded-tl-xl">Mes 📅</th>
+                                        <th class="py-3.5 px-4 font-bold">Fecha 📅</th>
+                                        <th class="py-3.5 px-4 font-bold">Dia</th>
+                                        <th class="py-3.5 px-4 font-bold">
+                                            <span class="inline-flex items-center gap-1.5">
+                                                <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                                Responsable 1
+                                            </span>
+                                        </th>
+                                        <th class="py-3.5 px-4 font-bold">
+                                            <span class="inline-flex items-center gap-1.5">
+                                                <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                                Responsable 2
+                                            </span>
+                                        </th>
+                                        <th class="py-3.5 px-4 font-bold">
+                                            <span class="inline-flex items-center gap-1.5">
+                                                <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                                Responsable 3
+                                            </span>
+                                        </th>
+                                        <th class="py-3.5 px-4 font-bold bg-[#883a66] text-white rounded-tr-xl">🎂 Cumpleaños</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tt-tbody-cal" class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-800 dark:text-slate-100 font-medium">
+                                    <tr><td colspan="7" class="p-8 text-center text-slate-400">Cargando turnos...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SUB-VIEW 2: ASIGNACIÓN / GENERADOR -->
+                    <div id="tt-view-generador" class="p-6 md:p-8 space-y-6 hidden">
+                        <div class="flex flex-wrap gap-3 justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">⚖️ Asignación de Responsables</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Generador rotativo automático para Turno Tarde</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://docs.google.com/spreadsheets/d/1o4GF68NpedRTXByvEuR5JehBaoDG1s2vKyrvwAwcpv4/edit" target="_blank" class="bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition">📂 Abrir Nómina</a>
+                                <button onclick="tur_actualizarDatos()" class="bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition">🔄 Actualizar</button>
+                                <button onclick="tur_cerrarAcceso()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition" title="Bloquear con contraseña">🔒 Bloquear</button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                            <div><label class="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-2">Mes</label><select id="tur-mes" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div>
+                            <div><label class="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-2">Año</label><select id="tur-anio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select></div>
+                            <div><label class="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-2">Inicia con</label><select id="tur-inicio" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 font-bold"></select></div>
+                            <div class="flex items-end"><button id="tur-btn-generar" onclick="tur_generarCronograma()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold transition text-xs shadow-md" disabled>⚡ Generar</button></div>
+                            <div class="flex items-end"><button onclick="tur_copiarFormatoExcel()" id="tur-btn-copiar" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition text-xs shadow-md" disabled>📋 Copiar</button></div>
+                        </div>
+
+                        <div id="tur-loading-status" class="text-sm text-amber-600 dark:text-amber-400 text-center font-semibold">⏳ Cargando datos unificados de personal y feriados...</div>
+
+                        <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                            <table class="w-full text-sm text-left"><thead class="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold uppercase tracking-wider"><tr><th class="p-4 w-20">Fecha</th><th class="p-4 w-20">Día</th><th class="p-4">Responsable 1</th><th class="p-4">Responsable 2</th></tr></thead><tbody id="tur-tabla-cuerpo" class="divide-y divide-slate-100 dark:divide-slate-800"><tr><td colspan="4" class="p-8 text-center text-slate-500 dark:text-slate-400">📋 Presione "Generar" para ver los turnos</td></tr></tbody></table>
+                        </div>
+
+                        <div id="tur-div-resumen" class="mt-6 hidden">
+                            <h4 class="text-md font-bold mb-3 text-slate-700 dark:text-slate-300">📊 Carga de Trabajo Mensual</h4>
+                            <div id="tur-contenedor-stats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                        </div>
+                    </div>
+
+                    <!-- SUB-VIEW 3: CUMPLEAÑOS -->
+                    <div id="tt-view-cumples" class="p-6 hidden">
+                        <div id="tt-cumples-container"></div>
+                    </div>
+
+                    <!-- SUB-VIEW 4: CONFIGURACIÓN & NÓMINA -->
+                    <div id="tt-view-config" class="p-6 md:p-8 space-y-6 hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Personal Activo</h3>
+                                <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold uppercase">
+                                            <tr><th class="p-3 text-left">Orden</th><th class="p-3 text-left">Nombre</th><th class="p-3 text-left">Día Fijo</th></tr>
+                                        </thead>
+                                        <tbody id="tur-lista-personal" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-4 text-slate-700 dark:text-slate-300">Feriados Detectados</h3>
+                                <div id="tur-lista-feriados" class="space-y-2 max-h-[350px] overflow-y-auto pr-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+            </section>
+        </main>
+
+        <!-- ==================== FOOTER SIEMPRE VISIBLE ABAJO (PRÓXIMO CUMPLEAÑOS) ==================== -->
+        <footer id="global-cumple-footer" class="flex-shrink-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-3 sm:px-6 py-2.5 z-40 shadow-xs transition-colors">
+            <div class="flex items-center justify-between gap-3 text-xs">
+                
+                <!-- Left: Birthday Info Pill -->
+                <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+                    <div class="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center text-sm flex-shrink-0">
+                        🎂
+                    </div>
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-rose-500 dark:text-rose-400 hidden sm:inline flex-shrink-0">Próximo Cumpleaños:</span>
+                        <span id="ftr-cumple-nombre" class="font-extrabold text-slate-800 dark:text-slate-100 text-xs sm:text-sm truncate cursor-pointer hover:text-rose-500 transition" onclick="switchMainTab('tab-turnos-tarde'); tt_switchSubTab('cumples')" title="Ver cumpleaños">Cargando próximo cumpleaños...</span>
+                        <span id="ftr-cumple-fecha" class="text-slate-500 dark:text-slate-400 font-mono text-[11px] font-semibold hidden xs:inline flex-shrink-0"></span>
+                    </div>
+                    <span id="ftr-cumple-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-500 text-white shadow-xs flex-shrink-0">--</span>
+                </div>
+
+                <!-- Right: Action to open Cumpleaños Tab + Version -->
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <button onclick="switchMainTab('tab-turnos-tarde'); tt_switchSubTab('cumples')" class="flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 transition">
+                        <span>Ver todos</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <span class="text-slate-300 dark:text-slate-700 hidden md:inline">|</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono hidden md:inline">Judicial Pro 2026</span>
+                </div>
+
             </div>
-        </section>
-    </main>
+        </footer>
+
+    </div>
 
     <script>
-        // ==================== MÓDULO TURNO TARDE ====================
+        // ==================== UTILIDADES MONETARIAS Y FORMATO ARGENTINO ====================
+        // Formato moneda argentina: ($000.000,00) con separador de miles '.' y decimal ','
+        function formatearMonedaAR(num) {
+            if (isNaN(num)) return "$0,00";
+            const negativo = num < 0;
+            const partes = Math.abs(num).toFixed(2).split('.');
+            const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            const decimal = partes[1];
+            return `${negativo ? '-$' : '$'}${entero},${decimal}`;
+        }
+
+        function mon_coreLe(n) {
+            if (n === 0) return 'CERO';
+            const u = ['', 'UN', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
+            const d = ['DIEZ', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA'];
+            const e = ['ONCE', 'DOCE', 'TRECE', 'CATORCE', 'QUINCE', 'DIECISÉIS', 'DIECISIETE', 'DIECIOCHO', 'DIECINUEVE'];
+            const c = ['', 'CIENTO', 'DOSCIENTOS', 'TRESCIENTOS', 'CUATROCIENTOS', 'QUINIENTOS', 'SEISCIENTOS', 'SETECIENTOS', 'OCHOCIENTOS', 'NOVECIENTOS'];
+            let o = '';
+            if (n >= 1e6) { 
+                o += (Math.floor(n / 1e6) === 1 ? 'UN MILLÓN ' : mon_coreLe(Math.floor(n / 1e6)) + ' MILLONES '); 
+                n %= 1e6; 
+            }
+            if (n >= 1000) { 
+                o += (Math.floor(n / 1000) === 1 ? 'MIL ' : mon_coreLe(Math.floor(n / 1000)) + ' MIL '); 
+                n %= 1000; 
+            }
+            if (n >= 100) { 
+                o += (n === 100 ? 'CIEN ' : c[Math.floor(n / 100)] + ' '); 
+                n %= 100; 
+            }
+            if (n >= 20) { 
+                o += d[Math.floor(n / 10) - 1]; 
+                if (n % 10 > 0) o += ' Y ' + u[n % 10]; 
+            } else if (n >= 11) {
+                o += e[n - 11]; 
+            } else if (n === 10) {
+                o += 'DIEZ'; 
+            } else if (n > 0) {
+                o += u[n];
+            }
+            return o.trim();
+        }
+
+        function mon_convertirMonto(num) {
+            const entero = Math.floor(Math.abs(num));
+            const centavos = Math.round((Math.abs(num) - entero) * 100);
+            const letras = `PESOS ${mon_coreLe(entero)} CON ${String(centavos).padStart(2, '0')} CENTAVOS`;
+            const numeroStr = formatearMonedaAR(num);
+            const completo = `${letras} (${numeroStr})`;
+            return { letras, numeroStr, completo, valor: num };
+        }
+
+        function mostrarToastCopiado(mensaje = 'Copiado al portapapeles') {
+            const toast = document.getElementById('toast-copiado');
+            const texto = document.getElementById('toast-copiado-texto');
+            if (!toast || !texto) return;
+            texto.innerText = mensaje;
+            toast.classList.remove('translate-y-12', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-12', 'opacity-0');
+            }, 2200);
+        }
+
+        // ==================== MÓDULO CONVERSOR MONTO A LETRAS ====================
+        let mon_currentData = mon_convertirMonto(0);
+
+        function mon_main() {
+            const inputVal = document.getElementById('mon-in').value;
+            const limpio = (inputVal || '0').toString().replace(/\./g, '').replace(',', '.');
+            const v = parseFloat(limpio) || 0;
+            mon_currentData = mon_convertirMonto(v);
+            const display = document.getElementById('mon-out-completo');
+            if (display) display.innerText = mon_currentData.completo;
+        }
+
+        function mon_copiarTipo(tipo) {
+            let texto = '';
+            let label = '';
+            if (tipo === 'completo') {
+                texto = mon_currentData.completo;
+                label = 'Formato completo copiado';
+            } else if (tipo === 'letras') {
+                texto = mon_currentData.letras;
+                label = 'Texto en letras copiado';
+            } else if (tipo === 'numero') {
+                texto = mon_currentData.numeroStr;
+                label = 'Número formateado copiado';
+            }
+            navigator.clipboard.writeText(texto).then(() => {
+                mostrarToastCopiado(label);
+            });
+        }
+
+        // ==================== MÓDULO LIQUIDACIÓN DE HONORARIOS ====================
+        let hon_currentResults = null;
+
+        function hon_calc() {
+            const parseArg = (str) => { 
+                let val = (str || '0').toString().replace(/\./g, '').replace(',', '.'); 
+                return parseFloat(val) || 0; 
+            };
+            const emb = parseArg(document.getElementById('hon-embargo').value);
+            const reg = parseArg(document.getElementById('hon-regulados').value);
+            const neto = emb < (reg * 1.1) ? emb / 1.1 : reg;
+            const aporte10 = neto * 0.1;
+            const tasa8 = neto * 0.08;
+
+            hon_currentResults = {
+                neto: mon_convertirMonto(neto),
+                aporte10: mon_convertirMonto(aporte10),
+                tasa8: mon_convertirMonto(tasa8),
+                netoVal: neto
+            };
+
+            const elCobrar = document.getElementById('hon-cobrar-txt');
+            const el10 = document.getElementById('hon-10-txt');
+            const el8 = document.getElementById('hon-8-txt');
+
+            if (elCobrar) elCobrar.innerText = hon_currentResults.neto.completo;
+            if (el10) el10.innerText = hon_currentResults.aporte10.completo;
+            if (el8) el8.innerText = hon_currentResults.tasa8.completo;
+        }
+
+        function hon_copiarDetalle(itemKey, formato) {
+            if (!hon_currentResults || !hon_currentResults[itemKey]) {
+                return alert("Primero ingrese los montos en Honorarios");
+            }
+            const data = hon_currentResults[itemKey];
+            let texto = data.completo;
+            if (formato === 'letras') texto = data.letras;
+            if (formato === 'numero') texto = data.numeroStr;
+
+            navigator.clipboard.writeText(texto).then(() => {
+                mostrarToastCopiado(`Copiado: ${texto}`);
+            });
+        }
+
+        function hon_enviarAConversor() {
+            if (!hon_currentResults) return alert("Primero calcule una liquidación");
+            const neto = hon_currentResults.netoVal;
+            const partes = neto.toFixed(2).split('.');
+            const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            const decimal = partes[1];
+            const valFormateado = `${entero},${decimal}`;
+            document.getElementById('mon-in').value = valFormateado;
+            mon_main();
+            hon_mon_switchSubTab('montos');
+        }
+
+        function hon_mon_switchSubTab(tab) {
+            const viewHon = document.getElementById('view-honorarios');
+            const viewMon = document.getElementById('view-montos');
+            const btnHon = document.getElementById('btn-subtab-hon');
+            const btnMon = document.getElementById('btn-subtab-mon');
+            
+            const activeClass = 'hon-mon-subtab-btn flex-1 py-3 px-4 rounded-xl text-center font-black text-sm sm:text-base transition-all flex items-center justify-center gap-2 bg-indigo-600 text-white shadow-md shadow-indigo-600/30';
+            const inactiveClass = 'hon-mon-subtab-btn flex-1 py-3 px-4 rounded-xl text-center font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-slate-700/80 shadow-xs';
+
+            if (tab === 'honorarios') {
+                viewHon.classList.remove('hidden');
+                viewMon.classList.add('hidden');
+                btnHon.className = activeClass;
+                btnMon.className = inactiveClass;
+            } else {
+                viewHon.classList.add('hidden');
+                viewMon.classList.remove('hidden');
+                btnMon.className = activeClass;
+                btnHon.className = inactiveClass;
+            }
+        }
+
+        // ==================== FUNCIONES CENTRALES DE FECHAS Y PLAZOS ====================
+        let globalFeriados = [];
+
+        function parsearFechaLocal(fechaStr) {
+            if (!fechaStr) return new Date();
+            const p = fechaStr.split(/[-/]/);
+            if (p.length === 3) {
+                if (p[0].length === 4) return new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]), 12, 0, 0);
+                return new Date(parseInt(p[2]), parseInt(p[1]) - 1, parseInt(p[0]), 12, 0, 0);
+            }
+            const d = new Date(fechaStr);
+            d.setHours(12, 0, 0, 0);
+            return d;
+        }
+
+        function esDiaHabil(f) {
+            const s = f.getDay();
+            if (s === 0 || s === 6) return false;
+            const fechaStr = `${f.getFullYear()}-${String(f.getMonth()+1).padStart(2,'0')}-${String(f.getDate()).padStart(2,'0')}`;
+            return !globalFeriados.includes(fechaStr);
+        }
+
+        function sumarDiasHabilesAux(fecha, dias) {
+            let res = new Date(fecha);
+            res.setHours(12, 0, 0, 0);
+            let agregados = 0;
+            while (agregados < dias) {
+                res.setDate(res.getDate() + 1);
+                if (esDiaHabil(res)) agregados++;
+            }
+            return res;
+        }
+
+        function calcularPlazoJudicial(fechaFirmaStr, diasPlazo = 5) {
+            if (!fechaFirmaStr) return null;
+            const fechaBase = parsearFechaLocal(fechaFirmaStr);
+            const fechaIntermedia = sumarDiasHabilesAux(fechaBase, 2);
+            const fechaFinal = sumarDiasHabilesAux(fechaIntermedia, diasPlazo);
+
+            let feriadosEnPeriodo = 0;
+            let cursor = new Date(fechaBase);
+            while (cursor <= fechaFinal) {
+                const s = cursor.getDay();
+                if (s !== 0 && s !== 6) {
+                    const iso = `${cursor.getFullYear()}-${String(cursor.getMonth()+1).padStart(2,'0')}-${String(cursor.getDate()).padStart(2,'0')}`;
+                    if (globalFeriados.includes(iso)) feriadosEnPeriodo++;
+                }
+                cursor.setDate(cursor.getDate() + 1);
+            }
+
+            return {
+                fechaBase,
+                fechaIntermedia,
+                fechaFinal,
+                feriadosEnPeriodo
+            };
+        }
+
+        // ==================== HEADER: CÓMPUTO DE PLAZOS CENTRAL ====================
+        const diasNombresLargos = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+        window._hdr_ultimoCalculo = null;
+
+        function hdr_calcularPlazo() {
+            const inputFirma = document.getElementById('hdr-fecha-firma');
+            const inputDias = document.getElementById('hdr-dias-plazo');
+            let fechaVal = inputFirma ? inputFirma.value : '';
+            let diasVal = inputDias ? parseInt(inputDias.value) : 5;
+            if (isNaN(diasVal) || diasVal < 0) diasVal = 5;
+
+            if (!fechaVal) {
+                const hoy = new Date();
+                fechaVal = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+                if (inputFirma) inputFirma.value = fechaVal;
+            }
+
+            const calc = calcularPlazoJudicial(fechaVal, diasVal);
+            if (!calc) return;
+            window._hdr_ultimoCalculo = calc;
+
+            const elFecha = document.getElementById('hdr-plazo-fecha');
+            const elDia = document.getElementById('hdr-plazo-dia');
+            const elBadge = document.getElementById('hdr-plazo-badge');
+            const btnVenc = document.getElementById('hdr-btn-vencimiento');
+
+            const diaSemana = diasNombresLargos[calc.fechaFinal.getDay()];
+            const diaNum = String(calc.fechaFinal.getDate()).padStart(2, '0');
+            const mesNum = String(calc.fechaFinal.getMonth() + 1).padStart(2, '0');
+            const anioNum = calc.fechaFinal.getFullYear();
+            const anioCorto = String(anioNum).slice(-2);
+
+            if (elFecha) elFecha.innerText = `${diaNum}/${mesNum}/${anioNum}`;
+            if (elDia) elDia.innerText = diaSemana;
+
+            const textoCopiar = `${diaNum}/${mesNum}/${anioCorto} - S/Excepciones`;
+            if (btnVenc) {
+                btnVenc.title = `Click para copiar: "${textoCopiar}"`;
+            }
+
+            if (elBadge) {
+                if (calc.feriadosEnPeriodo > 0) {
+                    elBadge.innerText = `+${calc.feriadosEnPeriodo} feriado${calc.feriadosEnPeriodo > 1 ? 's' : ''}`;
+                    elBadge.classList.remove('hidden');
+                } else {
+                    elBadge.classList.add('hidden');
+                }
+            }
+        }
+
+        function hdr_copiarVencimiento() {
+            if (!window._hdr_ultimoCalculo) return;
+            const f = window._hdr_ultimoCalculo.fechaFinal;
+            const d = String(f.getDate()).padStart(2, '0');
+            const m = String(f.getMonth() + 1).padStart(2, '0');
+            const y = String(f.getFullYear()).slice(-2);
+            const textoCopiar = `${d}/${m}/${y} - S/Excepciones`;
+
+            navigator.clipboard.writeText(textoCopiar).then(() => {
+                mostrarToastCopiado(`Copiado: ${textoCopiar}`);
+            });
+        }
+
+        function hdr_abrirCalendario(e) {
+            const input = document.getElementById('hdr-fecha-firma');
+            if (!input) return;
+            try {
+                if (typeof input.showPicker === 'function') {
+                    input.showPicker();
+                } else {
+                    input.focus();
+                }
+            } catch (err) {
+                input.focus();
+            }
+        }
+
+        function hdr_onFechaFirmaChange(val) {
+            hdr_calcularPlazo();
+        }
+
+        function hdr_onDiasPlazoChange(val) {
+            hdr_calcularPlazo();
+        }
+
+        function hdr_setHoy() {
+            const hoy = new Date();
+            const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+            const inputHdr = document.getElementById('hdr-fecha-firma');
+            if (inputHdr) inputHdr.value = hoyStr;
+            hdr_calcularPlazo();
+        }
+
+        // ==================== MÓDULO UNIFICADO TURNOS & TURNO TARDE ====================
         const TT_SHEET_ID = '1o4GF68NpedRTXByvEuR5JehBaoDG1s2vKyrvwAwcpv4';
+        const TT_TURNO_TARDE_GID = '2020665422';
+        const TUR_PASSWORD = '123654';
         let tt_turnosData = [];
         let tt_cumplesData = [];
+        let tur_rawPersonal = [], tur_feriados = [];
         const tt_mesesNombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const tur_nombresDias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
         const tt_now = new Date();
         const tt_todayStr = `${tt_now.getDate().toString().padStart(2,'0')}/${(tt_now.getMonth()+1).toString().padStart(2,'0')}/${tt_now.getFullYear()}`;
+        let datosCargados = { personal: false, feriados: false };
+        window._pendingSubTab = null;
 
         function tt_toProperCase(str) {
             if (!str) return "";
@@ -322,9 +1078,37 @@
             const m = s.match(/(\d{1,2})\/(\d{1,2})/);
             return m ? `${m[1].padStart(2,'0')}/${m[2].padStart(2,'0')}` : "";
         }
+        function tt_parseFechaCell(cell) {
+            if (!cell) return '';
+            if (cell.f) return String(cell.f).trim();
+            if (typeof cell.v === 'string') {
+                if (cell.v.startsWith('Date(')) {
+                    const m = cell.v.match(/\d+/g);
+                    if (m && m.length >= 3) {
+                        const y = m[0];
+                        const mes = (parseInt(m[1], 10) + 1).toString().padStart(2, '0');
+                        const dia = parseInt(m[2], 10).toString().padStart(2, '0');
+                        return `${dia}/${mes}/${y}`;
+                    }
+                }
+                return cell.v.trim();
+            }
+            return '';
+        }
+        function tt_esHoy(fechaStr) {
+            if (!fechaStr) return false;
+            const parts = fechaStr.split('/');
+            if (parts.length < 3) return false;
+            const d = parseInt(parts[0], 10);
+            const m = parseInt(parts[1], 10);
+            const y = parseInt(parts[2], 10);
+            const hoy = new Date();
+            return d === hoy.getDate() && m === (hoy.getMonth() + 1) && y === hoy.getFullYear();
+        }
+
         function tt_cargarTurnos() {
             const script = document.createElement('script');
-            script.src = `https://docs.google.com/spreadsheets/d/${TT_SHEET_ID}/gviz/tq?sheet=Turno%20Tarde&tqx=responseHandler:tt_callbackTurnos&cb=${Date.now()}`;
+            script.src = `https://docs.google.com/spreadsheets/d/${TT_SHEET_ID}/gviz/tq?gid=${TT_TURNO_TARDE_GID}&tqx=responseHandler:tt_callbackTurnos&cb=${Date.now()}`;
             document.body.appendChild(script);
         }
         function tt_cargarCumples() {
@@ -333,43 +1117,75 @@
             document.body.appendChild(script);
         }
         window.tt_callbackTurnos = (res) => {
-            tt_turnosData = res.table.rows.map(r => ({
-                mes: r.c[0]?.v || '',
-                fecha: r.c[1]?.f || r.c[1]?.v || '',
-                dia: r.c[2]?.v || '',
-                r1: r.c[3] ? tt_toProperCase(r.c[3].v) : '',
-                r2: r.c[4] ? tt_toProperCase(r.c[4].v) : '',
-                r3: r.c[5] ? tt_toProperCase(r.c[5].v) : '',
-                extra: r.c[6]?.v || ''
-            })).filter(r => r.mes && r.mes !== 'Mes');
-            tt_verificarCargaCompleta();
+            if (!res || !res.table || !res.table.rows) return;
+            tt_turnosData = res.table.rows.map(r => {
+                if (!r || !r.c) return null;
+                const mes = r.c[0]?.v ? String(r.c[0].v).trim() : '';
+                const fecha = tt_parseFechaCell(r.c[1]);
+                const dia = r.c[2]?.v ? String(r.c[2].v).trim() : '';
+                const r1 = r.c[3]?.v ? tt_toProperCase(String(r.c[3].v).trim()) : '';
+                const r2 = r.c[4]?.v ? tt_toProperCase(String(r.c[4].v).trim()) : '';
+                const r3 = r.c[5]?.v ? tt_toProperCase(String(r.c[5].v).trim()) : '';
+                const cumple = r.c[6]?.v ? tt_toProperCase(String(r.c[6].v).trim()) : '';
+                return { mes, fecha, dia, r1, r2, r3, cumple };
+            }).filter(r => r && r.mes && r.mes.toLowerCase() !== 'mes' && r.fecha);
+            
+            tt_inicializarSelectores();
+            tt_renderCalendario();
+
+            const statusEl = document.getElementById('tt-sync-status');
+            if (statusEl) {
+                statusEl.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span>Vinculado con Google Sheets: <b>${tt_turnosData.length} turnos sincronizados</b></span>`;
+            }
         };
         window.tt_callbackCumples = (res) => {
+            if (!res || !res.table || !res.table.rows) return;
             tt_cumplesData = res.table.rows.map(r => {
+                if (!r || !r.c) return null;
                 const fechaRaw = r.c[0]?.f || r.c[0]?.v || '';
-                const [d, m] = fechaRaw.split('/');
-                return { fecha: fechaRaw, dia: parseInt(d), mesNum: parseInt(m), nombre: r.c[1] ? tt_toProperCase(r.c[1].v) : '' };
-            }).filter(r => r.nombre && r.nombre !== 'Nombre');
-            tt_verificarCargaCompleta();
-        };
-        let tt_cargadoTurnos = false, tt_cargadoCumples = false;
-        function tt_verificarCargaCompleta() {
-            if (tt_turnosData.length) tt_cargadoTurnos = true;
-            if (tt_cumplesData.length) tt_cargadoCumples = true;
-            if (tt_cargadoTurnos && tt_cargadoCumples) {
-                tt_inicializarSelectores();
-                tt_calcularProximoCumple();
+                const [d, m] = String(fechaRaw).split('/');
+                return { fecha: fechaRaw, dia: parseInt(d, 10), mesNum: parseInt(m, 10), nombre: r.c[1]?.v ? tt_toProperCase(String(r.c[1].v).trim()) : '' };
+            }).filter(r => r && r.nombre && r.nombre.toLowerCase() !== 'nombre');
+            
+            tt_calcularProximoCumple();
+            tt_renderCumples();
+            if (tt_turnosData.length) {
                 tt_renderCalendario();
-                tt_renderCumples();
             }
+        };
+        function tt_verificarCargaCompleta() {
+            // Ya no bloquea la carga
         }
         function tt_inicializarSelectores() {
             const selMes = document.getElementById('tt-sel-mes');
-            const mesesUnicos = [...new Set(tt_turnosData.map(t => t.mes))].reverse();
+            if (!selMes) return;
+            const mesesUnicos = [];
+            tt_turnosData.forEach(t => {
+                const m = t.mes.toLowerCase();
+                if (!mesesUnicos.includes(m)) mesesUnicos.push(m);
+            });
+
             selMes.innerHTML = '';
-            mesesUnicos.forEach(m => { let opt = document.createElement('option'); opt.value = m; opt.textContent = m; selMes.appendChild(opt); });
-            selMes.addEventListener('change', () => tt_renderCalendario());
-            document.getElementById('tt-search').addEventListener('input', () => tt_renderCalendario());
+            
+            // Opción para ver todos los meses continuos como en la hoja de cálculo
+            const optTodos = document.createElement('option');
+            optTodos.value = 'todos';
+            optTodos.textContent = '📅 Todos los meses (Vista Completa)';
+            selMes.appendChild(optTodos);
+
+            mesesUnicos.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m.charAt(0).toUpperCase() + m.slice(1);
+                selMes.appendChild(opt);
+            });
+
+            selMes.value = 'todos';
+            selMes.onchange = () => tt_renderCalendario();
+            const searchInput = document.getElementById('tt-search');
+            if (searchInput) {
+                searchInput.oninput = () => tt_renderCalendario();
+            }
         }
         function tt_calcularProximoCumple() {
             const year = tt_now.getFullYear();
@@ -380,33 +1196,135 @@
                 if (bdate.toDateString() === tt_now.toDateString()) diff = 0;
                 return { ...c, diff };
             }).sort((a,b) => a.diff - b.diff);
+
             if (lista.length) {
                 const proximo = lista[0];
-                const nombres = lista.filter(item => item.diff === proximo.diff).map(n => n.nombre).join(' y ');
-                document.getElementById('tt-next-name').innerText = nombres;
-                document.getElementById('tt-countdown').innerHTML = proximo.diff === 0 ? "🎉 ¡ES HOY!" : `Faltan ${proximo.diff} días`;
+                const iguales = lista.filter(item => item.diff === proximo.diff);
+                const nombres = iguales.map(n => n.nombre).join(' y ');
+                const fechaTexto = proximo.fecha || `${String(proximo.dia).padStart(2,'0')}/${String(proximo.mesNum).padStart(2,'0')}`;
+                const diffTexto = proximo.diff === 0 ? "🎉 ¡ES HOY!" : `Faltan ${proximo.diff} días`;
+
+                const elTtNextName = document.getElementById('tt-next-name');
+                const elTtCountdown = document.getElementById('tt-countdown');
+                if (elTtNextName) elTtNextName.innerText = nombres;
+                if (elTtCountdown) elTtCountdown.innerHTML = diffTexto;
+
+                const elFtrNombre = document.getElementById('ftr-cumple-nombre');
+                const elFtrFecha = document.getElementById('ftr-cumple-fecha');
+                const elFtrBadge = document.getElementById('ftr-cumple-badge');
+                if (elFtrNombre) elFtrNombre.innerText = nombres;
+                if (elFtrFecha) elFtrFecha.innerText = `(${fechaTexto})`;
+                if (elFtrBadge) {
+                    if (proximo.diff === 0) {
+                        elFtrBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-black bg-rose-600 text-white animate-pulse shadow-sm';
+                        elFtrBadge.innerText = '🎉 ¡ES HOY!';
+                    } else if (proximo.diff === 1) {
+                        elFtrBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shadow-sm';
+                        elFtrBadge.innerText = '¡Mañana!';
+                    } else {
+                        elFtrBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-600 dark:bg-indigo-500 text-white shadow-sm';
+                        elFtrBadge.innerText = `Faltan ${proximo.diff} días`;
+                    }
+                }
             }
         }
         function tt_renderCalendario() {
-            const mesSeleccionado = document.getElementById('tt-sel-mes').value;
-            const query = document.getElementById('tt-search').value.toLowerCase();
+            const selMes = document.getElementById('tt-sel-mes');
+            const mesSeleccionado = (selMes && selMes.value) ? selMes.value.toLowerCase() : 'todos';
+            const query = (document.getElementById('tt-search')?.value || '').toLowerCase().trim();
             const tbody = document.getElementById('tt-tbody-cal');
             if (!tbody) return;
             tbody.innerHTML = '';
-            const filtrados = tt_turnosData.filter(t => t.mes === mesSeleccionado);
+
+            if (tt_turnosData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 font-medium animate-pulse">⏳ Cargando turnos desde Google Sheets...</td></tr>`;
+                return;
+            }
+
+            let filtrados = tt_turnosData;
+            if (mesSeleccionado !== 'todos') {
+                filtrados = filtrados.filter(t => t.mes.toLowerCase() === mesSeleccionado);
+            }
+
+            if (query) {
+                filtrados = filtrados.filter(r => 
+                    r.r1.toLowerCase().includes(query) ||
+                    r.r2.toLowerCase().includes(query) ||
+                    r.r3.toLowerCase().includes(query) ||
+                    r.cumple.toLowerCase().includes(query) ||
+                    r.dia.toLowerCase().includes(query) ||
+                    r.fecha.toLowerCase().includes(query)
+                );
+            }
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 font-medium">No se encontraron turnos con los filtros seleccionados.</td></tr>`;
+                return;
+            }
+
+            let todayRowEl = null;
+
             filtrados.forEach(r => {
                 const tr = document.createElement('tr');
-                tr.className = 'border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition';
+                tr.className = 'border-b border-slate-100 dark:border-slate-800/80 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors';
+                
+                const isToday = tt_esHoy(r.fecha);
+                if (isToday) {
+                    tr.classList.add('tt-today-row');
+                    todayRowEl = tr;
+                }
+
+                if (query && (r.r1.toLowerCase().includes(query) || r.r2.toLowerCase().includes(query) || r.r3.toLowerCase().includes(query))) {
+                    tr.classList.add('tt-highlight-row');
+                }
+
+                // Chequeo de cumpleaños: desde la fila o desde cumplesData
                 const dm = tt_toDDMM(r.fecha);
-                const cumpleañeros = tt_cumplesData.filter(c => tt_toDDMM(c.fecha) === dm);
-                const isToday = (r.fecha === tt_todayStr);
-                if (isToday) tr.classList.add('tt-today-row');
-                if (query && (r.r1.toLowerCase().includes(query) || r.r2.toLowerCase().includes(query) || r.r3.toLowerCase().includes(query))) tr.classList.add('tt-highlight-row');
-                if (cumpleañeros.length) tr.classList.add('tt-bday-row');
-                let eventoHtml = cumpleañeros.length ? `<span class="tt-badge-cake">🎂 Cumple ${cumpleañeros.map(c=>c.nombre).join(' y ')}</span>` : (r.extra || "");
-                tr.innerHTML = `<td class="p-4 font-mono text-sm">${r.fecha}${isToday ? '<span class="tt-today-badge">HOY</span>' : ''}</td><td class="p-4">${r.dia}</td><td class="p-4">${r.r1}</td><td class="p-4">${r.r2}</td><td class="p-4">${r.r3}</td><td class="p-4">${eventoHtml}</td>`;
+                const cumpleDeLaFecha = tt_cumplesData.filter(c => tt_toDDMM(c.fecha) === dm).map(c => c.nombre);
+                let cumpleTexto = r.cumple;
+                if (!cumpleTexto && cumpleDeLaFecha.length) {
+                    cumpleTexto = cumpleDeLaFecha.join(' y ');
+                }
+
+                // Render de Responsable 1, 2, 3 con cápsulas estilo Google Sheet
+                const r1Html = r.r1 ? `<span class="tt-pill">${r.r1}</span>` : `<span class="tt-pill-empty"></span>`;
+                const r2Html = r.r2 ? `<span class="tt-pill">${r.r2}</span>` : `<span class="tt-pill-empty"></span>`;
+                const r3Html = r.r3 ? `<span class="tt-pill">${r.r3}</span>` : `<span class="tt-pill-empty"></span>`;
+
+                // Render de Cumpleaños con cápsula ciruela/magenta (#883a66)
+                const cumpleHtml = cumpleTexto 
+                    ? `<span class="tt-cumple-pill">🎂 ${cumpleTexto}</span>` 
+                    : ``;
+
+                // Mes en cursiva
+                const mesItalic = `<span class="italic text-slate-600 dark:text-slate-300 font-medium">${r.mes}</span>`;
+
+                // Fecha con insignia HOY si es hoy
+                const fechaHtml = `<span class="font-mono text-xs sm:text-sm font-semibold">${r.fecha}</span>${isToday ? '<span class="tt-today-badge">HOY</span>' : ''}`;
+
+                // Día con primera letra mayúscula
+                const diaCapitalizado = r.dia ? (r.dia.charAt(0).toUpperCase() + r.dia.slice(1)) : '';
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4">${mesItalic}</td>
+                    <td class="py-3 px-4 whitespace-nowrap">${fechaHtml}</td>
+                    <td class="py-3 px-4 whitespace-nowrap font-medium">${diaCapitalizado}</td>
+                    <td class="py-3 px-4 whitespace-nowrap text-center">${r1Html}</td>
+                    <td class="py-3 px-4 whitespace-nowrap text-center">${r2Html}</td>
+                    <td class="py-3 px-4 whitespace-nowrap text-center">${r3Html}</td>
+                    <td class="py-3 px-4 whitespace-nowrap">${cumpleHtml}</td>
+                `;
+
                 tbody.appendChild(tr);
             });
+
+            // Auto-scroll suave a la fila de HOY
+            if (todayRowEl && !window._scrolledToToday) {
+                setTimeout(() => {
+                    todayRowEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    window._scrolledToToday = true;
+                }, 300);
+            }
         }
         function tt_renderCumples() {
             const container = document.getElementById('tt-cumples-container');
@@ -430,26 +1348,191 @@
                 section.appendChild(grid); container.appendChild(section);
             }
         }
-        function tt_switchTab(view) {
-            const calView = document.getElementById('tt-view-calendario'), cumView = document.getElementById('tt-view-cumples');
-            const tabCal = document.getElementById('tt-tab-cal'), tabCum = document.getElementById('tt-tab-cum');
-            if (view === 'calendario') {
-                calView.classList.remove('hidden'); cumView.classList.add('hidden');
-                tabCal.classList.add('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
-                tabCum.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
-                tt_renderCalendario();
-            } else {
-                calView.classList.add('hidden'); cumView.classList.remove('hidden');
-                tabCum.classList.add('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
-                tabCal.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
-                tt_renderCumples();
+
+        function tt_switchSubTab(tab) {
+            const tabs = ['cronograma', 'generador', 'cumples', 'config'];
+            
+            // Verificación de clave si accede a generador
+            if (tab === 'generador' && !localStorage.getItem('tur_access_granted')) {
+                document.getElementById('tur-password-modal').classList.remove('hidden');
+                document.getElementById('tur-password-input').focus();
+                window._pendingSubTab = 'generador';
+                return;
             }
+
+            const activeClass = 'tt-subtab-btn flex-1 py-2.5 px-3 sm:px-4 rounded-xl text-center font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 bg-indigo-600 text-white shadow-md shadow-indigo-600/30';
+            const inactiveClass = 'tt-subtab-btn flex-1 py-2.5 px-3 sm:px-4 rounded-xl text-center font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-slate-700/80 shadow-xs';
+
+            tabs.forEach(t => {
+                const view = document.getElementById(`tt-view-${t}`);
+                const btn = document.getElementById(`tt-btn-${t}`);
+                if (view) {
+                    if (t === tab) view.classList.remove('hidden');
+                    else view.classList.add('hidden');
+                }
+                if (btn) {
+                    btn.className = (t === tab) ? activeClass : inactiveClass;
+                }
+            });
+
+            if (tab === 'cronograma') tt_renderCalendario();
+            if (tab === 'cumples') tt_renderCumples();
         }
 
-        // ---------- VARIABLES GLOBALES ----------
-        let car_data = [];
-        let globalFeriados = [];
-        
+        // ==================== GENERADOR DE TURNOS (LÓGICA ROTATIVA) ====================
+        function tur_verificarContrasena() {
+            if (document.getElementById('tur-password-input').value === TUR_PASSWORD) {
+                localStorage.setItem('tur_access_granted', 'true');
+                document.getElementById('tur-password-modal').classList.add('hidden');
+                document.getElementById('tur-error-msg').classList.add('hidden');
+                document.getElementById('tur-password-input').value = '';
+                if (window._pendingSubTab) {
+                    tt_switchSubTab(window._pendingSubTab);
+                    window._pendingSubTab = null;
+                }
+            } else {
+                document.getElementById('tur-error-msg').textContent = '❌ Contraseña incorrecta';
+                document.getElementById('tur-error-msg').classList.remove('hidden');
+            }
+        }
+        function tur_cerrarAcceso() { 
+            localStorage.removeItem('tur_access_granted'); 
+            tt_switchSubTab('cronograma');
+            mostrarToastCopiado('🔒 Sesión bloqueada');
+        }
+
+        function tur_actualizarDatos() {
+            datosCargados = { personal: false, feriados: false };
+            const btnGen = document.getElementById('tur-btn-generar');
+            const status = document.getElementById('tur-loading-status');
+            if (btnGen) btnGen.disabled = true;
+            if (status) status.classList.remove('hidden');
+            tur_fetchSheet('nomina', 'tur_resPersonal');
+            tur_fetchSheet('feriados', 'tur_resFeriados');
+            tt_cargarTurnos();
+            tt_cargarCumples();
+        }
+        function tur_fetchSheet(sheet, cb) {
+            const script = document.createElement('script');
+            script.src = `https://docs.google.com/spreadsheets/d/${TT_SHEET_ID}/gviz/tq?sheet=${sheet}&tqx=responseHandler:${cb}&cb=${Date.now()}`;
+            document.body.appendChild(script);
+        }
+
+        window.tur_resPersonal = function(data) {
+            tur_rawPersonal = data.table.rows.map(r => {
+                if (!r.c || r.c.length < 7) return null;
+                return {
+                    orden: r.c[2] ? r.c[2].v : 0,
+                    nombre: r.c[3] ? r.c[3].v : '',
+                    fijo: r.c[4] ? parseInt(r.c[4].v) : null,
+                    restringidos: r.c[5] ? String(r.c[5].v).split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n)) : [],
+                    activo: r.c[6] ? r.c[6].v.toString().toLowerCase().trim() : 'no'
+                };
+            }).filter(p => p !== null && p.activo === 'si').sort((a,b) => a.orden - b.orden);
+
+            if (tur_rawPersonal.length > 0) {
+                const elInicio = document.getElementById('tur-inicio');
+                if (elInicio) elInicio.innerHTML = tur_rawPersonal.map(p => `<option value="${p.orden}">${p.nombre}</option>`).join('');
+                const elLista = document.getElementById('tur-lista-personal');
+                if (elLista) elLista.innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-3">${p.orden}</td><td class="p-3 font-bold">${p.nombre}</td><td class="p-3">${p.fijo ? tur_nombresDias[p.fijo] : '-'}</td></tr>`).join('');
+                datosCargados.personal = true;
+                verificarHabilitarGenerar();
+            }
+        };
+
+        window.tur_resFeriados = function(data) {
+            tur_feriados = data.table.rows.map(r => {
+                if (!r.c || !r.c[0]) return null;
+                let cell = r.c[0];
+                let v = cell.v;
+                let f = cell.f;
+
+                if (typeof v === 'string' && v.includes('Date')) {
+                    const p = v.match(/\d+/g);
+                    return p ? `${p[0]}-${String(parseInt(p[1])+1).padStart(2,'0')}-${p[2].padStart(2,'0')}` : null;
+                }
+                
+                let fechaTexto = f || (typeof v === 'string' ? v : '');
+                if (fechaTexto.includes('/')) {
+                    let partes = fechaTexto.split('/');
+                    if (partes.length === 3) {
+                        let d = partes[0].padStart(2, '0');
+                        let m = partes[1].padStart(2, '0');
+                        let y = partes[2].length === 2 ? '20' + partes[2] : partes[2];
+                        return `${y}-${m}-${d}`;
+                    }
+                }
+
+                if (typeof v === 'number') {
+                    let d = new Date(Math.round((v - 25569) * 864e5));
+                    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                }
+                return null;
+            }).filter(f => f !== null && f !== "");
+
+            globalFeriados = [...tur_feriados];
+            
+            const elFeriados = document.getElementById('tur-lista-feriados');
+            if (elFeriados) {
+                elFeriados.innerHTML = tur_feriados.length > 0 
+                    ? tur_feriados.map(f => `<div class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg text-xs font-semibold flex items-center gap-2"><span>📌</span><span>${f}</span></div>`).join('')
+                    : '<div class="p-2 text-slate-400 text-sm">No se detectaron feriados.</div>';
+            }
+            
+            datosCargados.feriados = true;
+            verificarHabilitarGenerar();
+
+            hdr_calcularPlazo();
+        };
+
+        function verificarHabilitarGenerar() { 
+            if (datosCargados.personal && datosCargados.feriados) { 
+                const btnGen = document.getElementById('tur-btn-generar');
+                const status = document.getElementById('tur-loading-status');
+                if (btnGen) btnGen.disabled = false; 
+                if (status) status.classList.add('hidden'); 
+            } 
+        }
+
+        function tur_generarCronograma() {
+            const mes = parseInt(document.getElementById('tur-mes').value), anio = parseInt(document.getElementById('tur-anio').value), startId = parseInt(document.getElementById('tur-inicio').value);
+            const diasMes = new Date(anio, mes, 0).getDate();
+            let fila = [...tur_rawPersonal]; while (fila[0].orden != startId) fila.push(fila.shift());
+            const tbody = document.getElementById('tur-tabla-cuerpo'); tbody.innerHTML = "";
+            for (let d = 1; d <= diasMes; d++) {
+                const fecha = new Date(anio, mes - 1, d), diaSem = fecha.getDay(), iso = `${anio}-${String(mes).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                if (diaSem === 0 || diaSem === 6 || tur_feriados.includes(iso)) continue;
+                let asignadosHoy = [];
+                fila.filter(p => p.fijo === diaSem).forEach(p => { if (asignadosHoy.length < 2) asignadosHoy.push(p); });
+                for (let i = 0; i < fila.length && asignadosHoy.length < 2; i++) {
+                    if (!asignadosHoy.includes(fila[i]) && !fila[i].restringidos.includes(diaSem)) asignadosHoy.push(fila[i]);
+                }
+                asignadosHoy.forEach(p => { let idx = fila.indexOf(p); if (idx > -1) { fila.splice(idx, 1); fila.push(p); } });
+                const tr = document.createElement('tr'); tr.className = 'border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40';
+                tr.innerHTML = `<td class="p-4 font-bold">${String(d).padStart(2,'0')}/${String(mes).padStart(2,'0')}</td><td class="p-4">${tur_nombresDias[diaSem]}</td><td class="p-4">${tur_renderSelect(asignadosHoy[0]?.nombre)}</td><td class="p-4">${tur_renderSelect(asignadosHoy[1]?.nombre)}</td>`;
+                tbody.appendChild(tr);
+            }
+            document.getElementById('tur-btn-copiar').disabled = false; tur_calcStats();
+        }
+        function tur_renderSelect(nom) { return `<select class="w-full p-2 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm" data-original="${nom}" onchange="tur_marcarCambio(this)">${tur_rawPersonal.map(p => `<option value="${p.nombre}" ${p.nombre===nom?'selected':''}>${p.nombre}</option>`).join('')}</select>`; }
+        function tur_marcarCambio(el) { el.style.color = el.value !== el.getAttribute('data-original') ? '#dc2626' : ''; tur_calcStats(); }
+        function tur_calcStats() {
+            const counts = {}; tur_rawPersonal.forEach(p => counts[p.nombre] = 0);
+            document.querySelectorAll('#tur-tabla-cuerpo select').forEach(s => { if(s.value) counts[s.value]++; });
+            document.getElementById('tur-div-resumen').classList.remove('hidden');
+            document.getElementById('tur-contenedor-stats').innerHTML = Object.entries(counts).sort((a,b) => b[1] - a[1]).map(([nom, cant]) => `<div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700"><div class="text-[10px] font-bold text-slate-400 uppercase mb-1">Empleado</div><div class="text-base font-bold text-slate-900 dark:text-slate-100 mb-2">${nom}</div><div class="inline-block bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-bold">${cant} días</div></div>`).join('');
+        }
+        function tur_copiarFormatoExcel() {
+            let txt = `FECHA\tDIA\tRESPONSABLE 1\tRESPONSABLE 2\n`;
+            document.querySelectorAll('#tur-tabla-cuerpo tr').forEach(tr => { const s = tr.querySelectorAll('select'); txt += `${tr.cells[0].innerText}\t${tr.cells[1].innerText}\t${s[0].value}\t${s[1].value}\n`; });
+            navigator.clipboard.writeText(txt.trim()).then(() => { 
+                const b = document.getElementById('tur-btn-copiar'); 
+                b.innerText = "✅ ¡Copiado!"; 
+                mostrarToastCopiado("Cronograma copiado para Excel");
+                setTimeout(() => b.innerText = "📋 Copiar", 2000); 
+            });
+        }
+
         // ---------- SIDEBAR & DARK MODE ----------
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -470,6 +1553,7 @@
         }
 
         // ---------- GESTIÓN CARÁTULAS ----------
+        let car_data = [];
         function car_cargar(e) {
             const r = new FileReader();
             r.onload = (ev) => {
@@ -525,7 +1609,12 @@
             if (a.includes("TRIBUNAL DE CUENTAS")) return "TRIB CUENTAS";
             return "VARIOS";
         }
-        function car_cpy(t, rid) { navigator.clipboard.writeText(t.toUpperCase()); document.querySelectorAll('tr').forEach(r=>r.classList.remove('row-copied')); document.getElementById(rid).classList.add('row-copied'); }
+        function car_cpy(t, rid) { 
+            navigator.clipboard.writeText(t.toUpperCase()); 
+            document.querySelectorAll('tr').forEach(r=>r.classList.remove('row-copied')); 
+            document.getElementById(rid)?.classList.add('row-copied'); 
+            mostrarToastCopiado(`Copiado: ${t.toUpperCase()}`);
+        }
         function car_exportar() { 
             const fTra = document.getElementById('car-f-tra').value.toUpperCase(), fRes = document.getElementById('car-f-res').value;
             const filtered = car_data.filter(i => (!fRes || i.res === fRes) && (i.tra.toString().toUpperCase().includes(fTra)));
@@ -534,6 +1623,79 @@
         }
 
         // ---------- PROTOCOLOS ----------
+        const PRO_SHEET_ID = '1Drfj3oF119iTAs2KqIRsWbknIMP56ABDmIuy75Z5TS4';
+        const PRO_SHEET_GID = '1179070570';
+
+        function pro_cargarDatosSheet() {
+            const inputInicio = document.getElementById('pro-inicio');
+            const displayFecha = document.getElementById('pro-fecha-registro');
+            const badgeStatus = document.getElementById('pro-sheet-status');
+            if (badgeStatus) {
+                badgeStatus.innerHTML = '<span class="inline-flex items-center gap-1 text-amber-500 font-semibold text-[11px] animate-pulse">⏳ Obteniendo datos de Google Sheets (I1 y J1)...</span>';
+            }
+
+            const cbName = 'pro_callbackSheet_' + Date.now();
+            window[cbName] = function(res) {
+                try {
+                    if (res && res.table && res.table.rows && res.table.rows.length > 0) {
+                        const row0 = res.table.rows[0];
+                        
+                        // 1. Número Inicial (Celda I1 -> Índice 8)
+                        const cellI1 = row0.c && row0.c[8];
+                        const valI1 = cellI1 ? (cellI1.v !== undefined && cellI1.v !== null ? cellI1.v : cellI1.f) : null;
+                        const num = parseInt(valI1, 10);
+                        if (!isNaN(num) && inputInicio) {
+                            inputInicio.value = num;
+                        }
+
+                        // 2. Última Fecha de Registro (Celda J1 -> Índice 9)
+                        const cellJ1 = row0.c && row0.c[9];
+                        let fechaStr = '--/--/----';
+                        if (cellJ1) {
+                            if (cellJ1.f) {
+                                fechaStr = cellJ1.f;
+                            } else if (typeof cellJ1.v === 'string' && cellJ1.v.startsWith('Date(')) {
+                                const parts = cellJ1.v.match(/\d+/g);
+                                if (parts && parts.length >= 3) {
+                                    const y = parts[0], m = String(parseInt(parts[1]) + 1).padStart(2, '0'), d = String(parts[2]).padStart(2, '0');
+                                    fechaStr = `${d}/${m}/${y}`;
+                                }
+                            } else if (cellJ1.v) {
+                                fechaStr = String(cellJ1.v);
+                            }
+                        }
+                        if (displayFecha) {
+                            displayFecha.textContent = fechaStr;
+                        }
+
+                        if (badgeStatus) {
+                            badgeStatus.innerHTML = `<span class="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">✓ Sincronizado con Google Sheets • N° Inicial: <b>${num || '--'}</b> (I1) | Última fecha: <b>${fechaStr}</b> (J1)</span>`;
+                        }
+                        delete window[cbName];
+                        return;
+                    }
+                    if (badgeStatus) {
+                        badgeStatus.innerHTML = '<span class="text-rose-500 text-[11px] font-semibold">⚠️ No se encontraron las celdas I1 / J1</span>';
+                    }
+                } catch (e) {
+                    console.error("Error al procesar celdas I1/J1:", e);
+                    if (badgeStatus) badgeStatus.innerHTML = '<span class="text-rose-500 text-[11px] font-semibold">⚠️ Error al leer datos de la planilla</span>';
+                } finally {
+                    delete window[cbName];
+                }
+            };
+
+            const script = document.createElement('script');
+            script.src = `https://docs.google.com/spreadsheets/d/${PRO_SHEET_ID}/gviz/tq?gid=${PRO_SHEET_GID}&tqx=responseHandler:${cbName}&cb=${Date.now()}`;
+            script.onerror = () => {
+                if (badgeStatus) badgeStatus.innerHTML = '<span class="text-rose-500 text-[11px] font-semibold">⚠️ Error de conexión con Google Sheets</span>';
+                delete window[cbName];
+            };
+            document.body.appendChild(script);
+        }
+
+        const pro_cargarNumeroInicial = pro_cargarDatosSheet;
+
         async function pro_procesar() {
             const sId = parseInt(document.getElementById('pro-inicio').value) || 1, files = document.getElementById('pro-files').files;
             if(!files.length) return alert("Cargue archivos");
@@ -556,236 +1718,64 @@
             dataArr = dataArr.filter(x => x.dt && !isNaN(x.dt)).sort((a, b) => a.dt - b.dt);
             if (!dataArr.length) return document.getElementById('pro-status').innerText = "❌ No hay registros.";
             let txt = dataArr.map((it, ix) => `${it.exp}\t${String(it.dt.getDate()).padStart(2,'0')}/${String(it.dt.getMonth()+1).padStart(2,'0')}/${it.dt.getFullYear()}\t${sId+ix}\t${it.juz}`).join('\n');
-            navigator.clipboard.writeText(txt).then(() => document.getElementById('pro-status').innerText = `✅ ${dataArr.length} COPIADOS`);
+            navigator.clipboard.writeText(txt).then(() => {
+                document.getElementById('pro-status').innerText = `✅ ${dataArr.length} COPIADOS`;
+                mostrarToastCopiado(`${dataArr.length} registros copiados`);
+            });
         }
 
-        // ---------- HONORARIOS ----------
-        function hon_calc() {
-            const parseArg = (str) => { let val = (str || '0').toString().replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; };
-            const emb = parseArg(document.getElementById('hon-embargo').value), reg = parseArg(document.getElementById('hon-regulados').value);
-            const neto = emb < (reg*1.1) ? emb/1.1 : reg;
-            const format = (v) => `PESOS: ${mon_coreLe(Math.floor(v))} CON ${Math.round((v-Math.floor(v))*100).toString().padStart(2,'0')} CENTAVOS ($${new Intl.NumberFormat('es-AR').format(v.toFixed(2))})`;
-            document.getElementById('hon-cobrar-txt').innerText = format(neto);
-            document.getElementById('hon-10-txt').innerText = format(neto*0.1);
-            document.getElementById('hon-8-txt').innerText =  format(neto*0.08);
-        }
-
-        // ---------- MONTO A LETRAS ----------
-        function mon_coreLe(n) {
-            if(n===0) return 'CERO';
-            const u=['','UN','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'], d=['DIEZ','VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'], e=['ONCE','DOCE','TRECE','CATORCE','QUINCE','DIECISÉIS','DIECISIETE','DIECIOCHO','DIECINUEVE'], c=['','CIENTO','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
-            let o='';
-            if(n>=1e6){ o+=(Math.floor(n/1e6)===1?'UN MILLÓN ':mon_coreLe(Math.floor(n/1e6))+' MILLONES '); n%=1e6; }
-            if(n>=1000){ o+=(Math.floor(n/1000)===1?'MIL ':mon_coreLe(Math.floor(n/1000))+' MIL '); n%=1000; }
-            if(n>=100){ o+=(n===100?'CIEN ':c[Math.floor(n/100)]+' '); n%=100; }
-            if(n>=20){ o+=d[Math.floor(n/10)-1]; if(n%10>0)o+=' Y '+u[n%10]; } 
-            else if(n>=11) o+=e[n-11]; else if(n===10) o+='DIEZ'; else if(n>0) o+=u[n];
-            return o.trim();
-        }
-        function mon_main() { let v = parseFloat(document.getElementById('mon-in').value.replace(/\./g, '').replace(',', '.')) || 0; document.getElementById('mon-out').innerText = `PESOS ${mon_coreLe(Math.floor(v))} CON ${Math.round((v-Math.floor(v))*100).toString().padStart(2,'0')} CENTAVOS`; }
-        function mon_copyRaw(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); }
-        function mon_copy() { navigator.clipboard.writeText(document.getElementById('mon-out').innerText); }
-
-        // ---------- TABS & PASSWORD ----------
+        // ---------- TABS PRINCIPALES ----------
         function switchMainTab(id) {
             const section = document.getElementById(id);
-            if (section?.getAttribute('data-requires-password') === 'true' && !localStorage.getItem('tur_access_granted')) {
-                document.getElementById('tur-password-modal').classList.remove('hidden');
-                document.getElementById('tur-password-input').focus(); return;
-            }
-            document.querySelectorAll('.tab-content, .nav-link').forEach(t=>t.classList.remove('active'));
+            if (!section) return;
+            document.querySelectorAll('.tab-content, .nav-link').forEach(t => t.classList.remove('active'));
             section.classList.add('active');
             document.querySelector(`button[onclick*="${id}"]`)?.classList.add('active');
-        }
-
-        // ==================== MÓDULO TURNOS JUZGADO (UNIFICADO) ====================
-        const TUR_SHEET_ID = '1o4GF68NpedRTXByvEuR5JehBaoDG1s2vKyrvwAwcpv4';
-        const TUR_PASSWORD = '123654';
-        let tur_rawPersonal = [], tur_feriados = [];
-        const tur_nombresDias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-        let datosCargados = { personal: false, feriados: false };
-
-        function tur_verificarContrasena() {
-            if (document.getElementById('tur-password-input').value === TUR_PASSWORD) {
-                localStorage.setItem('tur_access_granted', 'true');
-                document.getElementById('tur-password-modal').classList.add('hidden');
-                switchMainTab('tab-turnos-juz');
-            } else {
-                document.getElementById('tur-error-msg').textContent = '❌ Contraseña incorrecta';
-                document.getElementById('tur-error-msg').classList.remove('hidden');
-            }
-        }
-        function tur_cerrarAcceso() { localStorage.removeItem('tur_access_granted'); }
-
-        function tur_actualizarDatos() {
-            datosCargados = { personal: false, feriados: false };
-            document.getElementById('tur-btn-generar').disabled = true;
-            document.getElementById('tur-loading-status').classList.remove('hidden');
-            tur_fetchSheet('nomina', 'tur_resPersonal');
-            tur_fetchSheet('feriados', 'tur_resFeriados');
-        }
-        function tur_fetchSheet(sheet, cb) {
-            const script = document.createElement('script');
-            script.src = `https://docs.google.com/spreadsheets/d/${TUR_SHEET_ID}/gviz/tq?sheet=${sheet}&tqx=responseHandler:${cb}&cb=${Date.now()}`;
-            document.body.appendChild(script);
-        }
-
-       window.tur_resPersonal = function(data) {
-    // Ajuste de índices: r.c[2] es la columna 3 (C), r.c[3] es la columna 4 (D), etc.
-    tur_rawPersonal = data.table.rows.map(r => {
-        // Verificamos que la fila tenga datos básicos antes de mapear
-        if (!r.c || r.c.length < 7) return null;
-        return {
-            orden: r.c[2] ? r.c[2].v : 0,           // Columna C (Orden)
-            nombre: r.c[3] ? r.c[3].v : '',         // Columna D (Nombre)
-            fijo: r.c[4] ? parseInt(r.c[4].v) : null, // Columna E (Día Fijo)
-            restringidos: r.c[5] ? String(r.c[5].v).split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n)) : [], // Columna F
-            activo: r.c[6] ? r.c[6].v.toString().toLowerCase().trim() : 'no' // Columna G
-        };
-    }).filter(p => p !== null && p.activo === 'si').sort((a,b) => a.orden - b.orden);
-
-    if (tur_rawPersonal.length > 0) {
-        document.getElementById('tur-inicio').innerHTML = tur_rawPersonal.map(p => `<option value="${p.orden}">${p.nombre}</option>`).join('');
-        document.getElementById('tur-lista-personal').innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-2">${p.orden}</td><td class="p-2 font-bold">${p.nombre}</td><td class="p-2">${p.fijo ? tur_nombresDias[p.fijo] : '-'}</td></tr>`).join('');
-        datosCargados.personal = true;
-        verificarHabilitarGenerar();
-    }
-};
-
-window.tur_resFeriados = function(data) {
-    tur_feriados = data.table.rows.map(r => {
-        if (!r.c || !r.c[0]) return null;
-        let cell = r.c[0];
-        let v = cell.v; // Valor crudo
-        let f = cell.f; // Valor formateado (ej: "25/05/2024")
-
-        // 1. Si es formato Date de Google "Date(2024,4,25)"
-        if (typeof v === 'string' && v.includes('Date')) {
-            const p = v.match(/\d+/g);
-            return p ? `${p[0]}-${String(parseInt(p[1])+1).padStart(2,'0')}-${p[2].padStart(2,'0')}` : null;
-        }
-        
-        // 2. Si es un texto tipo "DD/MM/YYYY" (usamos el valor formateado 'f')
-        let fechaTexto = f || (typeof v === 'string' ? v : '');
-        if (fechaTexto.includes('/')) {
-            let partes = fechaTexto.split('/');
-            if (partes.length === 3) {
-                let d = partes[0].padStart(2, '0');
-                let m = partes[1].padStart(2, '0');
-                let y = partes[2].length === 2 ? '20' + partes[2] : partes[2];
-                return `${y}-${m}-${d}`;
-            }
-        }
-
-        // 3. Si es un número de serie de Excel
-        if (typeof v === 'number') {
-            let d = new Date(Math.round((v - 25569) * 864e5));
-            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-        }
-        
-        return null;
-    }).filter(f => f !== null && f !== "");
-
-    // Sincronizamos con la variable global para el Cómputo de Plazos
-    globalFeriados = [...tur_feriados];
-    
-    document.getElementById('tur-lista-feriados').innerHTML = tur_feriados.length > 0 
-        ? tur_feriados.map(f => `<div class="p-2 bg-slate-50 dark:bg-slate-800 rounded text-sm">📌 ${f}</div>`).join('')
-        : '<div class="p-2 text-slate-400 text-sm">No se detectaron feriados.</div>';
-    
-    datosCargados.feriados = true;
-    verificarHabilitarGenerar();
-};
-
-        function verificarHabilitarGenerar() { if (datosCargados.personal && datosCargados.feriados) { document.getElementById('tur-btn-generar').disabled = false; document.getElementById('tur-loading-status').classList.add('hidden'); } }
-
-        function tur_switchTab(event, tabId) {
-            event.preventDefault();
-            document.getElementById('tur-cronograma').style.display = 'none'; document.getElementById('tur-datos').style.display = 'none';
-            document.getElementById(tabId).style.display = 'block';
-            document.querySelectorAll('#tab-turnos-juz .flex.border-b button').forEach(b => b.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400'));
-            event.target.classList.add('border-indigo-600', 'text-indigo-600', 'dark:border-indigo-400', 'dark:text-indigo-400');
-        }
-
-        function tur_generarCronograma() {
-            const mes = parseInt(document.getElementById('tur-mes').value), anio = parseInt(document.getElementById('tur-anio').value), startId = parseInt(document.getElementById('tur-inicio').value);
-            const diasMes = new Date(anio, mes, 0).getDate();
-            let fila = [...tur_rawPersonal]; while (fila[0].orden != startId) fila.push(fila.shift());
-            const tbody = document.getElementById('tur-tabla-cuerpo'); tbody.innerHTML = "";
-            for (let d = 1; d <= diasMes; d++) {
-                const fecha = new Date(anio, mes - 1, d), diaSem = fecha.getDay(), iso = `${anio}-${String(mes).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                if (diaSem === 0 || diaSem === 6 || tur_feriados.includes(iso)) continue;
-                let asignadosHoy = [];
-                fila.filter(p => p.fijo === diaSem).forEach(p => { if (asignadosHoy.length < 2) asignadosHoy.push(p); });
-                for (let i = 0; i < fila.length && asignadosHoy.length < 2; i++) {
-                    if (!asignadosHoy.includes(fila[i]) && !fila[i].restringidos.includes(diaSem)) asignadosHoy.push(fila[i]);
+            
+            // Si ingresa a Protocolos, asegurar carga de número de celda I1
+            if (id === 'tab-protocolos') {
+                const curVal = document.getElementById('pro-inicio')?.value;
+                if (!curVal || curVal === '1') {
+                    pro_cargarNumeroInicial();
                 }
-                asignadosHoy.forEach(p => { let idx = fila.indexOf(p); if (idx > -1) { fila.splice(idx, 1); fila.push(p); } });
-                const tr = document.createElement('tr'); tr.className = 'border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40';
-                tr.innerHTML = `<td class="p-4 font-bold">${String(d).padStart(2,'0')}/${String(mes).padStart(2,'0')}</td><td class="p-4">${tur_nombresDias[diaSem]}</td><td class="p-4">${tur_renderSelect(asignadosHoy[0]?.nombre)}</td><td class="p-4">${tur_renderSelect(asignadosHoy[1]?.nombre)}</td>`;
-                tbody.appendChild(tr);
             }
-            document.getElementById('tur-btn-copiar').disabled = false; tur_calcStats();
-        }
-        function tur_renderSelect(nom) { return `<select class="w-full p-2 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm" data-original="${nom}" onchange="tur_marcarCambio(this)">${tur_rawPersonal.map(p => `<option value="${p.nombre}" ${p.nombre===nom?'selected':''}>${p.nombre}</option>`).join('')}</select>`; }
-        function tur_marcarCambio(el) { el.style.color = el.value !== el.getAttribute('data-original') ? '#dc2626' : ''; tur_calcStats(); }
-        function tur_calcStats() {
-            const counts = {}; tur_rawPersonal.forEach(p => counts[p.nombre] = 0);
-            document.querySelectorAll('#tur-tabla-cuerpo select').forEach(s => { if(s.value) counts[s.value]++; });
-            document.getElementById('tur-div-resumen').classList.remove('hidden');
-            document.getElementById('tur-contenedor-stats').innerHTML = Object.entries(counts).sort((a,b) => b[1] - a[1]).map(([nom, cant]) => `<div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700"><div class="text-xs font-bold text-slate-400 uppercase mb-1">Empleado</div><div class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">${nom}</div><div class="inline-block bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-bold">${cant} días</div></div>`).join('');
-        }
-        function tur_copiarFormatoExcel() {
-            let txt = `FECHA\tDIA\tRESPONSABLE 1\tRESPONSABLE 2\n`;
-            document.querySelectorAll('#tur-tabla-cuerpo tr').forEach(tr => { const s = tr.querySelectorAll('select'); txt += `${tr.cells[0].innerText}\t${tr.cells[1].innerText}\t${s[0].value}\t${s[1].value}\n`; });
-            navigator.clipboard.writeText(txt.trim()).then(() => { const b = document.getElementById('tur-btn-copiar'); b.innerText = "✅ ¡Copiado!"; setTimeout(() => b.innerText = "📋 Copiar", 2000); });
-        }
 
-        // ---------- CÓMPUTO DE PLAZOS ----------
-        function pl_calcular() {
-            const fechaFirma = document.getElementById('pl-fecha-inicio').value;
-            const diasPlazo = parseInt(document.getElementById('pl-dias').value);
-            if (!fechaFirma || isNaN(diasPlazo)) return alert("Datos inválidos");
-
-    // Función para determinar si una fecha es hábil
-            const esHabil = (f) => {
-            const s = f.getDay();
-            if (s === 0 || s === 6) return false; // sábado o domingo
-            const fechaStr = `${f.getFullYear()}-${String(f.getMonth()+1).padStart(2,'0')}-${String(f.getDate()).padStart(2,'0')}`;
-            return !globalFeriados.includes(fechaStr);
-        };
-
-    // Suma N días hábiles a una fecha (sin modificar la fecha original)
-        function sumarDiasHabiles(fecha, dias) {
-            let result = new Date(fecha);
-            result.setHours(12, 0, 0, 0);
-            let agregados = 0;
-            while (agregados < dias) {
-                result.setDate(result.getDate() + 1);
-                if (esHabil(result)) agregados++;
+            // Si ingresa a Turnos & Turno Tarde, renderizar calendario actualizado
+            if (id === 'tab-turnos-tarde') {
+                tt_renderCalendario();
             }
-            return result;
-    }
 
-    // Paso 1: desde la fecha de firma, avanzar 2 días hábiles
-    let fechaIntermedia = sumarDiasHabiles(new Date(fechaFirma), 3);
-    // Paso 2: desde esa fecha, contar los días de plazo (también hábiles)
-    let fechaFinal = sumarDiasHabiles(fechaIntermedia, diasPlazo);
+            // En móviles, colapsar sidebar al cambiar de pestaña
+            if (window.innerWidth < 768 && !document.getElementById('sidebar').classList.contains('sidebar-collapsed')) {
+                toggleSidebar();
+            }
+        }
 
-    document.getElementById('pl-fecha-resultado').innerText = fechaFinal.toLocaleDateString('es-AR', {
-        year: 'numeric', month: 'long', day: 'numeric'
-    });
-    document.getElementById('pl-detalle').innerHTML = `<span class="text-[10px]">(Se suman 2 días hábiles a la firma, luego ${diasPlazo} días hábiles de plazo. Excluye fines de semana y ${globalFeriados.length} feriados)</span>`;
-}
-
-        // ---------- INICIALIZACIÓN ----------
+        // ---------- INICIALIZACIÓN GENERAL ----------
         window.addEventListener('DOMContentLoaded', () => {
-            const anio = new Date().getFullYear();
-            for(let i=anio-1; i<=anio+1; i++) document.getElementById('tur-anio').add(new Option(i, i, i===anio, i===anio));
-            document.getElementById('tur-mes').value = new Date().getMonth()+1;
+            const hoy = new Date();
+            const anio = hoy.getFullYear();
+            const hoyIso = `${anio}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+
+            // Selectores de Turnos
+            const selAnio = document.getElementById('tur-anio');
+            if (selAnio) {
+                for(let i = anio - 1; i <= anio + 1; i++) selAnio.add(new Option(i, i, i === anio, i === anio));
+            }
+            const selMes = document.getElementById('tur-mes');
+            if (selMes) selMes.value = hoy.getMonth() + 1;
+
+            // Fecha inicial de firma
+            const hdrFirma = document.getElementById('hdr-fecha-firma');
+            if (hdrFirma) hdrFirma.value = hoyIso;
+
+            // Inicializar cálculos centrales
+            hdr_calcularPlazo();
+            mon_main();
+
+            // Cargar datos de Google Sheets
             tur_actualizarDatos();
-            tt_cargarTurnos(); tt_cargarCumples(); 
-            document.getElementById('pl-fecha-inicio').value = new Date().toISOString().split('T')[0];
+            pro_cargarNumeroInicial();
         });
     </script>
 </body>

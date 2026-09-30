@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#3730a3" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="40%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="silverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base with border -->
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="url(#bgGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="3" />
+
+  <!-- Scales of Justice Symbol with Shadow -->
+  <g filter="url(#glow)">
+    <!-- Base Pedestal -->
+    <path d="M42 104 h44 c0 -4 -8 -8 -22 -8 s-22 4 -22 8 z" fill="url(#silverGrad)" />
+    <rect x="52" y="92" width="24" height="5" rx="2" fill="url(#goldGrad)" />
+    
+    <!-- Central Pillar -->
+    <path d="M62 34 h4 v58 h-4 z" fill="url(#silverGrad)" />
+    <!-- Pillar capital/finial -->
+    <circle cx="64" cy="30" r="6" fill="url(#goldGrad)" />
+    <circle cx="64" cy="30" r="2.5" fill="#ffffff" />
+
+    <!-- Balance Crossbeam (Balanza) -->
+    <path d="M26 38 Q64 33 102 38" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round" fill="none" />
+    <circle cx="26" cy="38" r="3.5" fill="url(#goldGrad)" />
+    <circle cx="102" cy="38" r="3.5" fill="url(#goldGrad)" />
+
+    <!-- Left Pan (Plato Izquierdo) -->
+    <line x1="26" y1="38" x2="16" y2="66" stroke="#e2e8f0" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="26" y1="38" x2="36" y2="66" stroke="#e2e8f0" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M14 66 Q26 76 38 66 Z" fill="url(#goldGrad)" stroke="#b45309" stroke-width="1" />
+
+    <!-- Right Pan (Plato Derecho) -->
+    <line x1="102" y1="38" x2="92" y2="66" stroke="#e2e8f0" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="102" y1="38" x2="112" y2="66" stroke="#e2e8f0" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M90 66 Q102 76 114 66 Z" fill="url(#goldGrad)" stroke="#b45309" stroke-width="1" />
+  </g>
+</svg>
