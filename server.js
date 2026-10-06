@@ -64,14 +64,26 @@ const server = http.createServer((req, res) => {
     // GET Configuración Aranceles
     if (req.method === 'GET' && req.url === '/api/config-aranceles') {
         const configPath = path.join(__dirname, 'config_aranceles.json');
+        const tokenPath = path.join(__dirname, 'token_github.local');
         fs.readFile(configPath, 'utf8', (err, data) => {
             if (err) {
                 res.writeHead(500, corsHeaders);
                 res.end(JSON.stringify({ success: false, error: err.message }));
                 return;
             }
-            res.writeHead(200, corsHeaders);
-            res.end(data);
+            try {
+                const parsed = JSON.parse(data);
+                if (fs.existsSync(tokenPath)) {
+                    const savedToken = fs.readFileSync(tokenPath, 'utf8').trim();
+                    if (!parsed.github) parsed.github = {};
+                    parsed.github.token = savedToken;
+                }
+                res.writeHead(200, corsHeaders);
+                res.end(JSON.stringify(parsed, null, 2));
+            } catch(e) {
+                res.writeHead(200, corsHeaders);
+                res.end(data);
+            }
         });
         return;
     }
@@ -85,7 +97,24 @@ const server = http.createServer((req, res) => {
                 const newConfig = JSON.parse(body);
                 newConfig.ultimaActualizacion = new Date().toISOString();
                 const configPath = path.join(__dirname, 'config_aranceles.json');
-                const configStr = JSON.stringify(newConfig, null, 2);
+                const tokenPath = path.join(__dirname, 'token_github.local');
+
+                // Si viene token, guardarlo localmente en archivo ignorado por git
+                let activeToken = '';
+                if (newConfig.github && newConfig.github.token && newConfig.github.token.trim()) {
+                    activeToken = newConfig.github.token.trim();
+                    fs.writeFileSync(tokenPath, activeToken, 'utf8');
+                } else if (fs.existsSync(tokenPath)) {
+                    activeToken = fs.readFileSync(tokenPath, 'utf8').trim();
+                }
+
+                // Sanitizar token para no exponerlo en el repositorio público
+                const configToSave = JSON.parse(JSON.stringify(newConfig));
+                if (configToSave.github) {
+                    configToSave.github.token = '';
+                }
+
+                const configStr = JSON.stringify(configToSave, null, 2);
                 fs.writeFile(configPath, configStr, 'utf8', (writeErr) => {
                     if (writeErr) {
                         res.writeHead(500, corsHeaders);
@@ -102,16 +131,17 @@ const server = http.createServer((req, res) => {
 
                     // 2. Sincronización GitHub REST API si hay token y repo configurado
                     let githubSync = false;
-                    if (newConfig.github && newConfig.github.token && newConfig.github.repo) {
+                    const repoTarget = (newConfig.github && newConfig.github.repo) ? newConfig.github.repo : '';
+                    if (activeToken && repoTarget) {
                         try {
-                            const [owner, repo] = newConfig.github.repo.split('/');
-                            const filePath = newConfig.github.path || 'config_aranceles.json';
-                            const branch = newConfig.github.branch || 'main';
+                            const [owner, repo] = repoTarget.split('/');
+                            const filePath = (newConfig.github && newConfig.github.path) ? newConfig.github.path : 'config_aranceles.json';
+                            const branch = (newConfig.github && newConfig.github.branch) ? newConfig.github.branch : 'main';
                             
                             const https = require('https');
                             const ghHeaders = {
                                 'User-Agent': 'JudicialPro-ConfigSync',
-                                'Authorization': `token ${newConfig.github.token}`,
+                                'Authorization': `token ${activeToken}`,
                                 'Accept': 'application/vnd.github.v3+json'
                             };
 
@@ -151,7 +181,7 @@ const server = http.createServer((req, res) => {
                                     putReq.end();
                                 });
                             });
-                            getReq.on('error', () => {});
+                            getReq.on('error', (e) => console.warn('GitHub get file err:', e.message));
                             getReq.end();
                             githubSync = true;
                         } catch (ghErr) {
