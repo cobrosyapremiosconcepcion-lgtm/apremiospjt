@@ -122,16 +122,12 @@ const server = http.createServer((req, res) => {
                         return;
                     }
 
-                    // 1. Commit y push en Git local si está configurado
-                    execFile('git', ['add', 'config_aranceles.json'], () => {
-                        execFile('git', ['commit', '-m', `Actualizar aranceles de planilla fiscal [${new Date().toLocaleDateString()}]`], () => {
-                            execFile('git', ['push', 'origin', 'main'], () => {});
-                        });
-                    });
-
-                    // 2. Sincronización GitHub REST API si hay token y repo configurado
+                    // Sincronización inteligente:
+                    // Si hay token activo, usamos la API REST de GitHub (crea el commit en GitHub) y luego sincronizamos localmente con git pull --rebase.
+                    // Si NO hay token, usamos Git CLI local (git commit + push origin main).
                     let githubSync = false;
                     const repoTarget = (newConfig.github && newConfig.github.repo) ? newConfig.github.repo : '';
+
                     if (activeToken && repoTarget) {
                         try {
                             const [owner, repo] = repoTarget.split('/');
@@ -176,7 +172,10 @@ const server = http.createServer((req, res) => {
                                             'Content-Type': 'application/json',
                                             'Content-Length': Buffer.byteLength(putPayload)
                                         }
-                                    }, () => {});
+                                    }, () => {
+                                        // Luego del commit en GitHub, sincronizar el repositorio local
+                                        execFile('git', ['pull', '--rebase', 'origin', branch], () => {});
+                                    });
                                     putReq.write(putPayload);
                                     putReq.end();
                                 });
@@ -187,6 +186,13 @@ const server = http.createServer((req, res) => {
                         } catch (ghErr) {
                             console.warn('GitHub direct sync warning:', ghErr.message);
                         }
+                    } else {
+                        // Modo Git CLI local (sin token)
+                        execFile('git', ['add', 'config_aranceles.json'], () => {
+                            execFile('git', ['commit', '-m', `Actualizar aranceles de planilla fiscal [${new Date().toLocaleDateString()}]`], () => {
+                                execFile('git', ['push', 'origin', 'main'], () => {});
+                            });
+                        });
                     }
 
                     res.writeHead(200, corsHeaders);
