@@ -762,17 +762,17 @@
                         <div class="md:col-span-1 space-y-1">
                             <label class="block text-xs font-black uppercase text-indigo-700 dark:text-indigo-300 tracking-wider">Monto Reclamado / Capital ($)</label>
                             <p class="text-[11px] text-slate-500 dark:text-slate-400">Alícuota 1% s/ Art. 44 C.T.P. (Mínimo legal: <span id="pf-lbl-tasa-minimo-top" class="font-bold text-indigo-600 dark:text-indigo-400">$4.200</span>)</p>
-                            <input type="text" id="pf-monto-reclamado" oninput="pf_onMontoReclamadoInput(this.value)" placeholder="0,00" class="w-full p-3 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono text-xl font-black border border-indigo-200 dark:border-indigo-800 outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" id="pf-monto-reclamado" oninput="pf_onMontoReclamadoInput(this.value)" placeholder="0" class="w-full p-3 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono text-xl font-black border border-indigo-200 dark:border-indigo-800 outline-none focus:ring-2 focus:ring-indigo-500">
                         </div>
                         <div class="md:col-span-2 bg-white dark:bg-slate-800/80 p-4 rounded-xl border border-indigo-100 dark:border-indigo-900/40 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
                             <div>
                                 <span class="text-[10px] font-extrabold uppercase text-indigo-500 dark:text-indigo-400 tracking-wider block">Tasa Prop. de Justicia Resultante</span>
-                                <span id="pf-tasa-calculada-label" class="text-2xl font-black font-mono text-indigo-900 dark:text-indigo-100">$ 4.200,00</span>
-                                <span id="pf-tasa-detalle-label" class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold block mt-0.5">⚖️ Mínimo legal aplicado: $4.200,00</span>
+                                <span id="pf-tasa-calculada-label" class="text-2xl font-black font-mono text-indigo-900 dark:text-indigo-100">$4.200</span>
+                                <span id="pf-tasa-detalle-label" class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold block mt-0.5">⚖️ Mínimo legal aplicado: $4.200</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <label for="pf-tasa-prop-ajuste" class="text-[10px] font-bold text-slate-500 uppercase">Ajuste manual ($):</label>
-                                <input type="number" step="0.01" min="0" id="pf-tasa-prop-ajuste" oninput="pf_calcular()" class="w-28 p-2 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono text-xs font-bold border border-slate-300 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="0.00">
+                                <input type="number" step="1" min="0" id="pf-tasa-prop-ajuste" oninput="pf_calcular()" class="w-28 p-2 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono text-xs font-bold border border-slate-300 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="0">
                             </div>
                         </div>
                     </div>
@@ -843,7 +843,7 @@
                                         <input type="number" id="pf-act-escritos" min="0" value="0" oninput="pf_calcular()" class="w-12 text-center bg-transparent text-xs font-mono font-bold outline-none text-slate-900 dark:text-slate-100">
                                         <button type="button" onclick="pf_modificarCantidad('pf-act-escritos', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">+</button>
                                     </div>
-                                    <span id="pf-act-escritos-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0,00</span>
+                                    <span id="pf-act-escritos-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0</span>
                                 </div>
                             </div>
 
@@ -859,7 +859,7 @@
                                         <input type="number" id="pf-act-hojas" min="0" value="0" oninput="pf_calcular()" class="w-12 text-center bg-transparent text-xs font-mono font-bold outline-none text-slate-900 dark:text-slate-100">
                                         <button type="button" onclick="pf_modificarCantidad('pf-act-hojas', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">+</button>
                                     </div>
-                                    <span id="pf-act-hojas-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0,00</span>
+                                    <span id="pf-act-hojas-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0</span>
                                 </div>
                             </div>
 
@@ -883,7 +883,7 @@
                                             <input type="number" id="pf-act-intimacion-cant" min="0" value="0" oninput="pf_calcular()" class="w-12 text-center bg-transparent text-xs font-mono font-bold outline-none text-slate-900 dark:text-slate-100">
                                             <button type="button" onclick="pf_modificarCantidad('pf-act-intimacion-cant', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">+</button>
                                         </div>
-                                        <span id="pf-act-intimacion-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0,00</span>
+                                        <span id="pf-act-intimacion-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0</span>
                                     </div>
                                 </div>
                             </div>
@@ -894,14 +894,14 @@
                                     <div class="font-bold text-xs text-indigo-900 dark:text-indigo-200">TASA PROP. DE JUSTICIA S/ ART. 44 C.T.P ( 1%)</div>
                                     <div class="text-[10px] text-indigo-600 dark:text-indigo-400">Alícuota porcentual de ley</div>
                                 </div>
-                                <span id="pf-act-tasa-subtot" class="font-mono font-bold text-xs text-indigo-900 dark:text-indigo-100">$0,00</span>
+                                <span id="pf-act-tasa-subtot" class="font-mono font-bold text-xs text-indigo-900 dark:text-indigo-100">$0</span>
                             </div>
                         </div>
 
                         <!-- Subtotal Bloque 1 -->
                         <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                             <span class="text-xs font-black uppercase text-slate-600 dark:text-slate-400">Total Sección:</span>
-                            <span id="pf-sec1-total" class="font-mono font-black text-xl text-indigo-600 dark:text-indigo-400">$0,00</span>
+                            <span id="pf-sec1-total" class="font-mono font-black text-xl text-indigo-600 dark:text-indigo-400">$0</span>
                         </div>
                     </div>
 
@@ -928,7 +928,7 @@
                                         <input type="number" id="pf-dem-escritos" min="0" value="0" oninput="pf_calcular()" class="w-12 text-center bg-transparent text-xs font-mono font-bold outline-none text-slate-900 dark:text-slate-100">
                                         <button type="button" onclick="pf_modificarCantidad('pf-dem-escritos', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">+</button>
                                     </div>
-                                    <span id="pf-dem-escritos-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0,00</span>
+                                    <span id="pf-dem-escritos-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0</span>
                                 </div>
                             </div>
 
@@ -944,7 +944,7 @@
                                         <input type="number" id="pf-dem-hojas" min="0" value="0" oninput="pf_calcular()" class="w-12 text-center bg-transparent text-xs font-mono font-bold outline-none text-slate-900 dark:text-slate-100">
                                         <button type="button" onclick="pf_modificarCantidad('pf-dem-hojas', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">+</button>
                                     </div>
-                                    <span id="pf-dem-hojas-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0,00</span>
+                                    <span id="pf-dem-hojas-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0</span>
                                 </div>
                             </div>
 
@@ -960,7 +960,7 @@
                                         <input type="number" id="pf-dem-apper" min="0" value="0" oninput="pf_calcular()" class="w-12 text-center bg-transparent text-xs font-mono font-bold outline-none text-slate-900 dark:text-slate-100">
                                         <button type="button" onclick="pf_modificarCantidad('pf-dem-apper', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">+</button>
                                     </div>
-                                    <span id="pf-dem-apper-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0,00</span>
+                                    <span id="pf-dem-apper-subtot" class="font-mono font-bold text-xs w-20 text-right text-slate-900 dark:text-slate-100">$0</span>
                                 </div>
                             </div>
 
@@ -972,7 +972,7 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="font-mono font-bold text-xs text-rose-600">- $</span>
-                                    <input type="number" step="0.01" min="0" id="pf-dem-repuesta" oninput="pf_calcular()" value="0" class="w-24 p-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono text-xs font-bold border border-rose-300 dark:border-rose-700 outline-none text-right">
+                                    <input type="number" step="1" min="0" id="pf-dem-repuesta" oninput="pf_calcular()" value="0" class="w-24 p-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono text-xs font-bold border border-rose-300 dark:border-rose-700 outline-none text-right">
                                 </div>
                             </div>
                         </div>
@@ -980,7 +980,7 @@
                         <!-- Subtotal Bloque 2 -->
                         <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                             <span class="text-xs font-black uppercase text-slate-600 dark:text-slate-400">Total Demandada:</span>
-                            <span id="pf-sec2-total" class="font-mono font-black text-xl text-rose-600 dark:text-rose-400">$0,00</span>
+                            <span id="pf-sec2-total" class="font-mono font-black text-xl text-rose-600 dark:text-rose-400">$0</span>
                         </div>
                     </div>
 
@@ -1003,7 +1003,7 @@
                     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pb-5 border-b border-slate-800 dark:border-slate-700">
                         <div>
                             <span class="text-[10px] font-black uppercase tracking-widest text-emerald-400">Monto Total de Planilla Fiscal</span>
-                            <div id="pf-total-monto-num" class="text-3xl md:text-4xl font-black font-mono tracking-tight text-white mt-0.5">$0,00</div>
+                            <div id="pf-total-monto-num" class="text-3xl md:text-4xl font-black font-mono tracking-tight text-white mt-0.5">$0</div>
                         </div>
                         <div class="flex flex-wrap items-center gap-2.5">
                             <button type="button" onclick="pf_copiarTablaHtml()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/40 active:scale-95 border border-emerald-400/30" title="Copia la tabla con celdas y bordes para pegar directamente en un proveído abierto en SAE">
@@ -2251,9 +2251,14 @@
         let pf_valorIntimacion = 1200;
         let pf_ultimosDatos = null;
 
-        function pf_formatearNumeroSinDec(n) {
-            return '$' + Math.round(n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        function pf_formatearMoneda(num) {
+            if (num === null || num === undefined || isNaN(num)) return "$0";
+            const redondeado = Math.round(Number(num));
+            const negativo = redondeado < 0;
+            const entero = Math.abs(redondeado).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return `${negativo ? '-$' : '$'}${entero}`;
         }
+        const pf_formatearNumeroSinDec = pf_formatearMoneda;
 
         function pf_aplicarConfiguracionUI() {
             if (!pf_config || !pf_config.aranceles) return;
@@ -2557,7 +2562,7 @@
             const a = (pf_config && pf_config.aranceles) ? pf_config.aranceles : PF_CONFIG_DEFAULT.aranceles;
             const inputAjuste = document.getElementById('pf-tasa-prop-ajuste');
             if (inputAjuste && inputAjuste.value !== '' && !isNaN(parseFloat(inputAjuste.value))) {
-                return Math.max(0, parseFloat(inputAjuste.value));
+                return Math.max(0, Math.round(parseFloat(inputAjuste.value)));
             }
             const inputMonto = document.getElementById('pf-monto-reclamado');
             let num = 0;
@@ -2567,29 +2572,29 @@
                 if (isNaN(num)) num = 0;
             }
             const alicuota = a.tasaAlicuota || 0.01;
-            const tasaMinimo = a.tasaMinimo || 4200;
-            const tasaCalculada = num * alicuota;
+            const tasaMinimo = Math.round(a.tasaMinimo || 4200);
+            const tasaCalculada = Math.round(num * alicuota);
             return Math.max(tasaMinimo, tasaCalculada);
         }
 
         function pf_onMontoReclamadoInput(val) {
             const a = (pf_config && pf_config.aranceles) ? pf_config.aranceles : PF_CONFIG_DEFAULT.aranceles;
             const alicuota = a.tasaAlicuota || 0.01;
-            const tasaMinimo = a.tasaMinimo || 4200;
+            const tasaMinimo = Math.round(a.tasaMinimo || 4200);
 
             const tasa = pf_obtenerTasaCalculada();
             const label = document.getElementById('pf-tasa-calculada-label');
-            if (label) label.textContent = formatearMonedaAR(tasa);
+            if (label) label.textContent = pf_formatearMoneda(tasa);
 
             const detalle = document.getElementById('pf-tasa-detalle-label');
             if (detalle) {
                 let clean = String(val || '').replace(/[^0-9.,]/g, '').replace(/\./g, '').replace(',', '.');
-                let num = parseFloat(clean) || 0;
-                if (num * alicuota < tasaMinimo) {
-                    detalle.innerHTML = `⚖️ Mínimo legal aplicado: <b>${formatearMonedaAR(tasaMinimo)}</b> (Art. 44 C.T.P.)`;
+                let num = Math.round(parseFloat(clean) || 0);
+                if (Math.round(num * alicuota) < tasaMinimo) {
+                    detalle.innerHTML = `⚖️ Mínimo legal aplicado: <b>${pf_formatearMoneda(tasaMinimo)}</b> (Art. 44 C.T.P.)`;
                     detalle.className = 'text-[10px] text-amber-600 dark:text-amber-400 font-semibold block mt-0.5';
                 } else {
-                    detalle.innerHTML = `✓ ${(alicuota * 100).toFixed(0)}% calculado s/ capital (${formatearMonedaAR(num)})`;
+                    detalle.innerHTML = `✓ ${(alicuota * 100).toFixed(0)}% calculado s/ capital (${pf_formatearMoneda(num)})`;
                     detalle.className = 'text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-0.5';
                 }
             }
@@ -2602,22 +2607,22 @@
             // 1. Tasa proporcional de justicia (con mínimo legal configurable)
             const tasaProp = pf_obtenerTasaCalculada();
             const elActTasaSubtot = document.getElementById('pf-act-tasa-subtot');
-            if (elActTasaSubtot) elActTasaSubtot.textContent = formatearMonedaAR(tasaProp);
+            if (elActTasaSubtot) elActTasaSubtot.textContent = pf_formatearMoneda(tasaProp);
 
             // 2. Bloque 1 (Actora / Condenado genérico)
             const cantActEscritos = Math.max(0, parseInt(document.getElementById('pf-act-escritos')?.value, 10) || 0);
             const cantActHojas = Math.max(0, parseInt(document.getElementById('pf-act-hojas')?.value, 10) || 0);
             const cantActIntimacion = Math.max(0, parseInt(document.getElementById('pf-act-intimacion-cant')?.value, 10) || 0);
 
-            const subtotActEscritos = cantActEscritos * (a.valorEscrito || 1000);
-            const subtotActHojas = cantActHojas * (a.valorHoja || 700);
-            const subtotActIntimacion = cantActIntimacion * (pf_valorIntimacion || a.valorIntimacion || 1200);
-            const totalSec1 = subtotActEscritos + subtotActHojas + subtotActIntimacion + tasaProp;
+            const subtotActEscritos = Math.round(cantActEscritos * (a.valorEscrito || 1000));
+            const subtotActHojas = Math.round(cantActHojas * (a.valorHoja || 700));
+            const subtotActIntimacion = Math.round(cantActIntimacion * (pf_valorIntimacion || a.valorIntimacion || 1200));
+            const totalSec1 = Math.round(subtotActEscritos + subtotActHojas + subtotActIntimacion + tasaProp);
 
-            if (document.getElementById('pf-act-escritos-subtot')) document.getElementById('pf-act-escritos-subtot').textContent = formatearMonedaAR(subtotActEscritos);
-            if (document.getElementById('pf-act-hojas-subtot')) document.getElementById('pf-act-hojas-subtot').textContent = formatearMonedaAR(subtotActHojas);
-            if (document.getElementById('pf-act-intimacion-subtot')) document.getElementById('pf-act-intimacion-subtot').textContent = formatearMonedaAR(subtotActIntimacion);
-            if (document.getElementById('pf-sec1-total')) document.getElementById('pf-sec1-total').textContent = formatearMonedaAR(totalSec1);
+            if (document.getElementById('pf-act-escritos-subtot')) document.getElementById('pf-act-escritos-subtot').textContent = pf_formatearMoneda(subtotActEscritos);
+            if (document.getElementById('pf-act-hojas-subtot')) document.getElementById('pf-act-hojas-subtot').textContent = pf_formatearMoneda(subtotActHojas);
+            if (document.getElementById('pf-act-intimacion-subtot')) document.getElementById('pf-act-intimacion-subtot').textContent = pf_formatearMoneda(subtotActIntimacion);
+            if (document.getElementById('pf-sec1-total')) document.getElementById('pf-sec1-total').textContent = pf_formatearMoneda(totalSec1);
 
             // 3. Bloque 2 (Parte Demandada)
             let totalSec2 = 0;
@@ -2630,35 +2635,29 @@
                 cantDemApper = Math.max(0, parseInt(document.getElementById('pf-dem-apper')?.value, 10) || 0);
                 
                 const repuestaInput = document.getElementById('pf-dem-repuesta')?.value || '0';
-                deduccionRepuesta = Math.max(0, parseFloat(String(repuestaInput).replace(/[^0-9.,]/g, '').replace(',', '.')) || 0);
+                deduccionRepuesta = Math.max(0, Math.round(parseFloat(String(repuestaInput).replace(/[^0-9.,]/g, '').replace(',', '.')) || 0));
 
-                subtotDemEscritos = cantDemEscritos * (a.valorEscrito || 1000);
-                subtotDemHojas = cantDemHojas * (a.valorHoja || 700);
-                subtotDemApper = cantDemApper * (a.valorApper || 1000);
-                totalSec2 = Math.max(0, subtotDemEscritos + subtotDemHojas + subtotDemApper - deduccionRepuesta);
+                subtotDemEscritos = Math.round(cantDemEscritos * (a.valorEscrito || 1000));
+                subtotDemHojas = Math.round(cantDemHojas * (a.valorHoja || 700));
+                subtotDemApper = Math.round(cantDemApper * (a.valorApper || 1000));
+                totalSec2 = Math.max(0, Math.round(subtotDemEscritos + subtotDemHojas + subtotDemApper - deduccionRepuesta));
 
-                if (document.getElementById('pf-dem-escritos-subtot')) document.getElementById('pf-dem-escritos-subtot').textContent = formatearMonedaAR(subtotDemEscritos);
-                if (document.getElementById('pf-dem-hojas-subtot')) document.getElementById('pf-dem-hojas-subtot').textContent = formatearMonedaAR(subtotDemHojas);
-                if (document.getElementById('pf-dem-apper-subtot')) document.getElementById('pf-dem-apper-subtot').textContent = formatearMonedaAR(subtotDemApper);
-                if (document.getElementById('pf-dem-repuesta-subtot')) document.getElementById('pf-dem-repuesta-subtot').textContent = `-${formatearMonedaAR(deduccionRepuesta)}`;
-                if (document.getElementById('pf-sec2-total')) document.getElementById('pf-sec2-total').textContent = formatearMonedaAR(totalSec2);
+                if (document.getElementById('pf-dem-escritos-subtot')) document.getElementById('pf-dem-escritos-subtot').textContent = pf_formatearMoneda(subtotDemEscritos);
+                if (document.getElementById('pf-dem-hojas-subtot')) document.getElementById('pf-dem-hojas-subtot').textContent = pf_formatearMoneda(subtotDemHojas);
+                if (document.getElementById('pf-dem-apper-subtot')) document.getElementById('pf-dem-apper-subtot').textContent = pf_formatearMoneda(subtotDemApper);
+                if (document.getElementById('pf-dem-repuesta-subtot')) document.getElementById('pf-dem-repuesta-subtot').textContent = `-${pf_formatearMoneda(deduccionRepuesta)}`;
+                if (document.getElementById('pf-sec2-total')) document.getElementById('pf-sec2-total').textContent = pf_formatearMoneda(totalSec2);
             }
 
             // 4. Total General
-            const totalGeneral = pf_partePresentada ? (totalSec1 + totalSec2) : totalSec1;
+            const totalGeneral = Math.round(pf_partePresentada ? (totalSec1 + totalSec2) : totalSec1);
             const elTotalNum = document.getElementById('pf-total-monto-num');
             const elTotalLetras = document.getElementById('pf-total-monto-letras');
 
-            if (elTotalNum) elTotalNum.textContent = formatearMonedaAR(totalGeneral);
+            if (elTotalNum) elTotalNum.textContent = pf_formatearMoneda(totalGeneral);
             
-            const centavos = Math.round((Math.abs(totalGeneral) - Math.floor(Math.abs(totalGeneral))) * 100);
-            const letrasEntero = mon_coreLe(Math.floor(Math.abs(totalGeneral)));
-            let textoLetras = `PESOS ${letrasEntero}`;
-            if (centavos > 0) {
-                textoLetras += ` CON ${mon_coreLe(centavos)} CENTAVOS`;
-            } else {
-                textoLetras += ` CON CERO CENTAVOS`;
-            }
+            const letrasEntero = mon_coreLe(Math.abs(totalGeneral));
+            const textoLetras = `PESOS ${letrasEntero}`;
             if (elTotalLetras) elTotalLetras.textContent = textoLetras;
 
             // 5. Guardar datos actuales y actualizar vistas
@@ -2699,10 +2698,10 @@
             const a = (pf_config && pf_config.aranceles) ? pf_config.aranceles : PF_CONFIG_DEFAULT.aranceles;
             const d = (pf_config && pf_config.descripciones) ? pf_config.descripciones : PF_CONFIG_DEFAULT.descripciones;
 
-            const strEscrito = `$ ${(a.valorEscrito || 1000).toLocaleString('es-AR')}`;
-            const strHoja = `$ ${(a.valorHoja || 700).toLocaleString('es-AR')}`;
-            const strIntimacion = `$ ${(pf_valorIntimacion || a.valorIntimacion || 1200).toLocaleString('es-AR')}`;
-            const strApper = `$ ${(a.valorApper || 1000).toLocaleString('es-AR')}`;
+            const strEscrito = pf_formatearMoneda(a.valorEscrito || 1000);
+            const strHoja = pf_formatearMoneda(a.valorHoja || 700);
+            const strIntimacion = pf_formatearMoneda(pf_valorIntimacion || a.valorIntimacion || 1200);
+            const strApper = pf_formatearMoneda(a.valorApper || 1000);
 
             const descEscrito = d.escrito || "ART. 41 INC. 1: ESCRITO DE ABOGADOS";
             const descHoja = d.hoja || "ART. 42 INC. 2: HOJAS DE ACTUACIONES 1° INST.";
@@ -2731,33 +2730,33 @@
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descEscrito}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strEscrito}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantActEscritos}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotActEscritos)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotActEscritos)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descHoja}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strHoja}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantActHojas}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotActHojas)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotActHojas)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descIntimacion}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strIntimacion}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantActIntimacion}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotActIntimacion)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotActIntimacion)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descTasa}</td>`;
                 html += '<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">&nbsp;</td>';
                 html += '<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">&nbsp;</td>';
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.tasaProp)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.tasaProp)}</td>`;
                 html += '</tr>';
 
                 html += '<tr bgcolor="#EDEDED" style="background-color: #ededed; font-weight: bold;">';
                 html += '<td colspan="3" align="left" style="border: 1px solid #000000; padding: 6px 8px; text-align: left; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; background-color: #ededed; color: #000000;"><b>TOTAL</b></td>';
-                html += `<td align="right" style="border: 1px solid #000000; padding: 6px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; background-color: #ededed; color: #000000;"><b>${formatearMonedaAR(datos.totalSec1)}</b></td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 6px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; background-color: #ededed; color: #000000;"><b>${pf_formatearMoneda(datos.totalSec1)}</b></td>`;
                 html += '</tr>';
             } else {
                 // Modo Desglose en 2 Partes
@@ -2770,33 +2769,33 @@
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descEscrito}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strEscrito}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantActEscritos}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotActEscritos)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotActEscritos)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descHoja}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strHoja}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantActHojas}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotActHojas)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotActHojas)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descIntimacion}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strIntimacion}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantActIntimacion}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotActIntimacion)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotActIntimacion)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descTasa}</td>`;
                 html += '<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">&nbsp;</td>';
                 html += '<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">&nbsp;</td>';
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.tasaProp)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.tasaProp)}</td>`;
                 html += '</tr>';
 
                 html += '<tr bgcolor="#FAFAFA" style="background-color: #fafafa; font-weight: bold;">';
                 html += '<td colspan="3" align="left" style="border: 1px solid #000000; padding: 5px 8px; text-align: left; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; color: #000000;"><b>Total PARTE ACTORA</b></td>';
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; color: #000000;"><b>${formatearMonedaAR(datos.totalSec1)}</b></td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; color: #000000;"><b>${pf_formatearMoneda(datos.totalSec1)}</b></td>`;
                 html += '</tr>';
 
                 // PARTE DEMANDADA
@@ -2808,39 +2807,39 @@
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descEscrito}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strEscrito}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantDemEscritos}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotDemEscritos)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotDemEscritos)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descHoja}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strHoja}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantDemHojas}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotDemHojas)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotDemHojas)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descApper}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${strApper}</td>`;
                 html += `<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${datos.cantDemApper}</td>`;
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${formatearMonedaAR(datos.subtotDemApper)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${pf_formatearMoneda(datos.subtotDemApper)}</td>`;
                 html += '</tr>';
 
                 html += '<tr>';
                 html += `<td align="left" style="border: 1px solid #000000; padding: 5px 8px; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">${descRepuesta}</td>`;
                 html += '<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">&nbsp;</td>';
                 html += '<td align="center" style="border: 1px solid #000000; padding: 5px 8px; text-align: center; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">&nbsp;</td>';
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">- ${formatearMonedaAR(datos.deduccionRepuesta)}</td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; color: #000000;">- ${pf_formatearMoneda(datos.deduccionRepuesta)}</td>`;
                 html += '</tr>';
 
                 html += '<tr bgcolor="#FAFAFA" style="background-color: #fafafa; font-weight: bold;">';
                 html += '<td colspan="3" align="left" style="border: 1px solid #000000; padding: 5px 8px; text-align: left; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; color: #000000;"><b>Total PARTE DEMANDADA</b></td>';
-                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; color: #000000;"><b>${formatearMonedaAR(datos.totalSec2)}</b></td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 5px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; color: #000000;"><b>${pf_formatearMoneda(datos.totalSec2)}</b></td>`;
                 html += '</tr>';
 
                 // TOTAL GENERAL
                 html += '<tr bgcolor="#EDEDED" style="background-color: #ededed; font-weight: bold;">';
                 html += '<td colspan="3" align="left" style="border: 1px solid #000000; padding: 6px 8px; text-align: left; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; background-color: #ededed; color: #000000;"><b>TOTAL GENERAL</b></td>';
-                html += `<td align="right" style="border: 1px solid #000000; padding: 6px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; background-color: #ededed; color: #000000;"><b>${formatearMonedaAR(datos.totalGeneral)}</b></td>`;
+                html += `<td align="right" style="border: 1px solid #000000; padding: 6px 8px; text-align: right; font-family: Arial, sans-serif; font-size: 11pt; font-weight: bold; background-color: #ededed; color: #000000;"><b>${pf_formatearMoneda(datos.totalGeneral)}</b></td>`;
                 html += '</tr>';
             }
 
@@ -2854,10 +2853,10 @@
             const a = (pf_config && pf_config.aranceles) ? pf_config.aranceles : PF_CONFIG_DEFAULT.aranceles;
             const d = (pf_config && pf_config.descripciones) ? pf_config.descripciones : PF_CONFIG_DEFAULT.descripciones;
 
-            const strEscrito = `$ ${(a.valorEscrito || 1000).toLocaleString('es-AR')}`;
-            const strHoja = `$ ${(a.valorHoja || 700).toLocaleString('es-AR')}`;
-            const strIntimacion = `$ ${(pf_valorIntimacion || a.valorIntimacion || 1200).toLocaleString('es-AR')}`;
-            const strApper = `$ ${(a.valorApper || 1000).toLocaleString('es-AR')}`;
+            const strEscrito = pf_formatearMoneda(a.valorEscrito || 1000);
+            const strHoja = pf_formatearMoneda(a.valorHoja || 700);
+            const strIntimacion = pf_formatearMoneda(pf_valorIntimacion || a.valorIntimacion || 1200);
+            const strApper = pf_formatearMoneda(a.valorApper || 1000);
 
             const descEscrito = d.escrito || "ART. 41 INC. 1: ESCRITO DE ABOGADOS";
             const descHoja = d.hoja || "ART. 42 INC. 2: HOJAS DE ACTUACIONES 1° INST.";
@@ -2871,27 +2870,27 @@
             let lines = ["DESCRIPCION\tVALOR UNITARIO\tCANTIDAD\tIMPORTE"];
 
             if (!pf_partePresentada) {
-                lines.push(`${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${formatearMonedaAR(datos.subtotActEscritos)}`);
-                lines.push(`${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${formatearMonedaAR(datos.subtotActHojas)}`);
-                lines.push(`${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${formatearMonedaAR(datos.subtotActIntimacion)}`);
-                lines.push(`${descTasa}\t\t\t${formatearMonedaAR(datos.tasaProp)}`);
-                lines.push(`TOTAL\t\t\t${formatearMonedaAR(datos.totalSec1)}`);
+                lines.push(`${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${pf_formatearMoneda(datos.subtotActEscritos)}`);
+                lines.push(`${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${pf_formatearMoneda(datos.subtotActHojas)}`);
+                lines.push(`${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${pf_formatearMoneda(datos.subtotActIntimacion)}`);
+                lines.push(`${descTasa}\t\t\t${pf_formatearMoneda(datos.tasaProp)}`);
+                lines.push(`TOTAL\t\t\t${pf_formatearMoneda(datos.totalSec1)}`);
             } else {
                 lines.push(`${actora}`);
-                lines.push(`${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${formatearMonedaAR(datos.subtotActEscritos)}`);
-                lines.push(`${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${formatearMonedaAR(datos.subtotActHojas)}`);
-                lines.push(`${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${formatearMonedaAR(datos.subtotActIntimacion)}`);
-                lines.push(`${descTasa}\t\t\t${formatearMonedaAR(datos.tasaProp)}`);
-                lines.push(`Total PARTE ACTORA\t\t\t${formatearMonedaAR(datos.totalSec1)}`);
+                lines.push(`${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${pf_formatearMoneda(datos.subtotActEscritos)}`);
+                lines.push(`${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${pf_formatearMoneda(datos.subtotActHojas)}`);
+                lines.push(`${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${pf_formatearMoneda(datos.subtotActIntimacion)}`);
+                lines.push(`${descTasa}\t\t\t${pf_formatearMoneda(datos.tasaProp)}`);
+                lines.push(`Total PARTE ACTORA\t\t\t${pf_formatearMoneda(datos.totalSec1)}`);
                 lines.push("");
                 lines.push(`${demandada}`);
-                lines.push(`${descEscrito}\t${strEscrito}\t${datos.cantDemEscritos}\t${formatearMonedaAR(datos.subtotDemEscritos)}`);
-                lines.push(`${descHoja}\t${strHoja}\t${datos.cantDemHojas}\t${formatearMonedaAR(datos.subtotDemHojas)}`);
-                lines.push(`${descApper}\t${strApper}\t${datos.cantDemApper}\t${formatearMonedaAR(datos.subtotDemApper)}`);
-                lines.push(`${descRepuesta}\t\t\t- ${formatearMonedaAR(datos.deduccionRepuesta)}`);
-                lines.push(`TOTAL PARTE DEMANDADA\t\t\t${formatearMonedaAR(datos.totalSec2)}`);
+                lines.push(`${descEscrito}\t${strEscrito}\t${datos.cantDemEscritos}\t${pf_formatearMoneda(datos.subtotDemEscritos)}`);
+                lines.push(`${descHoja}\t${strHoja}\t${datos.cantDemHojas}\t${pf_formatearMoneda(datos.subtotDemHojas)}`);
+                lines.push(`${descApper}\t${strApper}\t${datos.cantDemApper}\t${pf_formatearMoneda(datos.subtotDemApper)}`);
+                lines.push(`${descRepuesta}\t\t\t- ${pf_formatearMoneda(datos.deduccionRepuesta)}`);
+                lines.push(`TOTAL PARTE DEMANDADA\t\t\t${pf_formatearMoneda(datos.totalSec2)}`);
                 lines.push("");
-                lines.push(`TOTAL GENERAL\t\t\t${formatearMonedaAR(datos.totalGeneral)}`);
+                lines.push(`TOTAL GENERAL\t\t\t${pf_formatearMoneda(datos.totalGeneral)}`);
             }
             return lines.join('\n');
         }
@@ -2904,10 +2903,10 @@
             const a = (pf_config && pf_config.aranceles) ? pf_config.aranceles : PF_CONFIG_DEFAULT.aranceles;
             const d = (pf_config && pf_config.descripciones) ? pf_config.descripciones : PF_CONFIG_DEFAULT.descripciones;
 
-            const strEscrito = `$ ${(a.valorEscrito || 1000).toLocaleString('es-AR')}`;
-            const strHoja = `$ ${(a.valorHoja || 700).toLocaleString('es-AR')}`;
-            const strIntimacion = `$ ${(pf_valorIntimacion || a.valorIntimacion || 1200).toLocaleString('es-AR')}`;
-            const strApper = `$ ${(a.valorApper || 1000).toLocaleString('es-AR')}`;
+            const strEscrito = pf_formatearMoneda(a.valorEscrito || 1000);
+            const strHoja = pf_formatearMoneda(a.valorHoja || 700);
+            const strIntimacion = pf_formatearMoneda(pf_valorIntimacion || a.valorIntimacion || 1200);
+            const strApper = pf_formatearMoneda(a.valorApper || 1000);
 
             const descEscrito = d.escrito || "ART. 41 INC. 1: ESCRITO DE ABOGADOS";
             const descHoja = d.hoja || "ART. 42 INC. 2: HOJAS DE ACTUACIONES 1° INST.";
@@ -2927,32 +2926,32 @@
             texto += `DESCRIPCION\tVALOR UNITARIO\tCANTIDAD\tIMPORTE\n`;
 
             if (!pf_partePresentada) {
-                texto += `${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${formatearMonedaAR(datos.subtotActEscritos)}\n`;
-                texto += `${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${formatearMonedaAR(datos.subtotActHojas)}\n`;
-                texto += `${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${formatearMonedaAR(datos.subtotActIntimacion)}\n`;
-                texto += `${descTasa}\t\t\t${formatearMonedaAR(datos.tasaProp)}\n`;
-                texto += `TOTAL\t\t\t${formatearMonedaAR(datos.totalSec1)}\n\n`;
-                texto += `Se informa que la presente planilla fiscal arroja un monto total de ${formatearMonedaAR(datos.totalGeneral)}.\n\n`;
+                texto += `${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${pf_formatearMoneda(datos.subtotActEscritos)}\n`;
+                texto += `${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${pf_formatearMoneda(datos.subtotActHojas)}\n`;
+                texto += `${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${pf_formatearMoneda(datos.subtotActIntimacion)}\n`;
+                texto += `${descTasa}\t\t\t${pf_formatearMoneda(datos.tasaProp)}\n`;
+                texto += `TOTAL\t\t\t${pf_formatearMoneda(datos.totalSec1)}\n\n`;
+                texto += `Se informa que la presente planilla fiscal arroja un monto total de ${pf_formatearMoneda(datos.totalGeneral)}.\n\n`;
                 texto += `Se hace constar que la parte demandada no realizó presentaciones en este proceso.\n\n`;
             } else {
                 const actora = document.getElementById('pf-actora')?.value || 'PARTE ACTORA';
                 const demandada = document.getElementById('pf-demandada')?.value || 'PARTE DEMANDADA';
                 texto += `${actora}\n`;
-                texto += `${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${formatearMonedaAR(datos.subtotActEscritos)}\n`;
-                texto += `${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${formatearMonedaAR(datos.subtotActHojas)}\n`;
-                texto += `${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${formatearMonedaAR(datos.subtotActIntimacion)}\n`;
-                texto += `${descTasa}\t\t\t${formatearMonedaAR(datos.tasaProp)}\n`;
-                texto += `Total PARTE ACTORA\t\t\t${formatearMonedaAR(datos.totalSec1)}\n\n`;
+                texto += `${descEscrito}\t${strEscrito}\t${datos.cantActEscritos}\t${pf_formatearMoneda(datos.subtotActEscritos)}\n`;
+                texto += `${descHoja}\t${strHoja}\t${datos.cantActHojas}\t${pf_formatearMoneda(datos.subtotActHojas)}\n`;
+                texto += `${descIntimacion}\t${strIntimacion}\t${datos.cantActIntimacion}\t${pf_formatearMoneda(datos.subtotActIntimacion)}\n`;
+                texto += `${descTasa}\t\t\t${pf_formatearMoneda(datos.tasaProp)}\n`;
+                texto += `Total PARTE ACTORA\t\t\t${pf_formatearMoneda(datos.totalSec1)}\n\n`;
 
                 texto += `${demandada}\n`;
-                texto += `${descEscrito}\t${strEscrito}\t${datos.cantDemEscritos}\t${formatearMonedaAR(datos.subtotDemEscritos)}\n`;
-                texto += `${descHoja}\t${strHoja}\t${datos.cantDemHojas}\t${formatearMonedaAR(datos.subtotDemHojas)}\n`;
-                texto += `${descApper}\t${strApper}\t${datos.cantDemApper}\t${formatearMonedaAR(datos.subtotDemApper)}\n`;
-                texto += `${descRepuesta}\t\t\t- ${formatearMonedaAR(datos.deduccionRepuesta)}\n`;
-                texto += `TOTAL PARTE DEMANDADA\t\t\t${formatearMonedaAR(datos.totalSec2)}\n\n`;
+                texto += `${descEscrito}\t${strEscrito}\t${datos.cantDemEscritos}\t${pf_formatearMoneda(datos.subtotDemEscritos)}\n`;
+                texto += `${descHoja}\t${strHoja}\t${datos.cantDemHojas}\t${pf_formatearMoneda(datos.subtotDemHojas)}\n`;
+                texto += `${descApper}\t${strApper}\t${datos.cantDemApper}\t${pf_formatearMoneda(datos.subtotDemApper)}\n`;
+                texto += `${descRepuesta}\t\t\t- ${pf_formatearMoneda(datos.deduccionRepuesta)}\n`;
+                texto += `TOTAL PARTE DEMANDADA\t\t\t${pf_formatearMoneda(datos.totalSec2)}\n\n`;
 
-                texto += `TOTAL GENERAL\t\t\t${formatearMonedaAR(datos.totalGeneral)}\n\n`;
-                texto += `Se informa que la presente planilla fiscal arroja un monto total de ${formatearMonedaAR(datos.totalGeneral)}.\n\n`;
+                texto += `TOTAL GENERAL\t\t\t${pf_formatearMoneda(datos.totalGeneral)}\n\n`;
+                texto += `Se informa que la presente planilla fiscal arroja un monto total de ${pf_formatearMoneda(datos.totalGeneral)}.\n\n`;
             }
 
             texto += `${fecha}\n`;
@@ -2975,7 +2974,7 @@
             html += `<p style="margin: 0 0 10px 0; font-weight: bold;">JUICIO: ${juicio} EXPTE ${expte}</p>`;
             html += '<p style="margin: 0 0 12px 0;">Según lo ordenado, procédase a confeccionar planilla fiscal:</p>';
             html += pf_generarTablaHTML(datos);
-            html += `<p style="margin: 12px 0 6px 0;">Se informa que la presente planilla fiscal arroja un monto total de <b>${formatearMonedaAR(datos.totalGeneral)}</b>.</p>`;
+            html += `<p style="margin: 12px 0 6px 0;">Se informa que la presente planilla fiscal arroja un monto total de <b>${pf_formatearMoneda(datos.totalGeneral)}</b>.</p>`;
             if (!pf_partePresentada) {
                 html += '<p style="margin: 0 0 12px 0;">Se hace constar que la parte demandada no realizó presentaciones en este proceso.</p>';
             }
@@ -3018,10 +3017,10 @@
             const a = (pf_config && pf_config.aranceles) ? pf_config.aranceles : PF_CONFIG_DEFAULT.aranceles;
             const d = (pf_config && pf_config.descripciones) ? pf_config.descripciones : PF_CONFIG_DEFAULT.descripciones;
 
-            const strEscrito = `$ ${(a.valorEscrito || 1000).toLocaleString('es-AR')}`;
-            const strHoja = `$ ${(a.valorHoja || 700).toLocaleString('es-AR')}`;
-            const strIntimacion = `$ ${(pf_valorIntimacion || a.valorIntimacion || 1200).toLocaleString('es-AR')}`;
-            const strApper = `$ ${(a.valorApper || 1000).toLocaleString('es-AR')}`;
+            const strEscrito = pf_formatearMoneda(a.valorEscrito || 1000);
+            const strHoja = pf_formatearMoneda(a.valorHoja || 700);
+            const strIntimacion = pf_formatearMoneda(pf_valorIntimacion || a.valorIntimacion || 1200);
+            const strApper = pf_formatearMoneda(a.valorApper || 1000);
 
             const descEscrito = d.escrito || "ART. 41 INC. 1: ESCRITO DE ABOGADOS";
             const descHoja = d.hoja || "ART. 42 INC. 2: HOJAS DE ACTUACIONES 1° INST.";
@@ -3062,16 +3061,16 @@
 
             if (!pf_partePresentada) {
                 // Modo Unificado
-                agregarFila4(descEscrito, strEscrito, datos.cantActEscritos, formatearMonedaAR(datos.subtotActEscritos));
-                agregarFila4(descHoja, strHoja, datos.cantActHojas, formatearMonedaAR(datos.subtotActHojas));
-                agregarFila4(descIntimacion, strIntimacion, datos.cantActIntimacion, formatearMonedaAR(datos.subtotActIntimacion));
-                agregarFila4(descTasa, '', '', formatearMonedaAR(datos.tasaProp));
+                agregarFila4(descEscrito, strEscrito, datos.cantActEscritos, pf_formatearMoneda(datos.subtotActEscritos));
+                agregarFila4(descHoja, strHoja, datos.cantActHojas, pf_formatearMoneda(datos.subtotActHojas));
+                agregarFila4(descIntimacion, strIntimacion, datos.cantActIntimacion, pf_formatearMoneda(datos.subtotActIntimacion));
+                agregarFila4(descTasa, '', '', pf_formatearMoneda(datos.tasaProp));
 
                 // Fila Total
                 rtf.push('\\trowd\\trgaph108\\trleft-108');
                 rtf.push(`${borders(2)}\\cellx7600${borders(2)}\\cellx9500`);
                 rtf.push(`\\intbl\\ql\\b ${pf_escaparRTF('TOTAL')}\\b0\\cell`);
-                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(formatearMonedaAR(datos.totalSec1))}\\b0\\cell\\row`);
+                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(pf_formatearMoneda(datos.totalSec1))}\\b0\\cell\\row`);
             } else {
                 // Modo Desglose 2 Partes
                 // Encabezado Parte Actora (span columnas 1-4)
@@ -3079,38 +3078,38 @@
                 rtf.push(`${borders(3)}\\cellx9500`);
                 rtf.push(`\\intbl\\ql\\b\\ul ${pf_escaparRTF(actora)}\\ulnone\\b0\\cell\\row`);
 
-                agregarFila4(descEscrito, strEscrito, datos.cantActEscritos, formatearMonedaAR(datos.subtotActEscritos));
-                agregarFila4(descHoja, strHoja, datos.cantActHojas, formatearMonedaAR(datos.subtotActHojas));
-                agregarFila4(descIntimacion, strIntimacion, datos.cantActIntimacion, formatearMonedaAR(datos.subtotActIntimacion));
-                agregarFila4(descTasa, '', '', formatearMonedaAR(datos.tasaProp));
+                agregarFila4(descEscrito, strEscrito, datos.cantActEscritos, pf_formatearMoneda(datos.subtotActEscritos));
+                agregarFila4(descHoja, strHoja, datos.cantActHojas, pf_formatearMoneda(datos.subtotActHojas));
+                agregarFila4(descIntimacion, strIntimacion, datos.cantActIntimacion, pf_formatearMoneda(datos.subtotActIntimacion));
+                agregarFila4(descTasa, '', '', pf_formatearMoneda(datos.tasaProp));
 
                 // Subtotal Actora
                 rtf.push('\\trowd\\trgaph108\\trleft-108');
                 rtf.push(`${borders(0)}\\cellx7600${borders(0)}\\cellx9500`);
                 rtf.push(`\\intbl\\ql\\b ${pf_escaparRTF('Total PARTE ACTORA')}\\b0\\cell`);
-                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(formatearMonedaAR(datos.totalSec1))}\\b0\\cell\\row`);
+                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(pf_formatearMoneda(datos.totalSec1))}\\b0\\cell\\row`);
 
                 // Encabezado Parte Demandada (span columnas 1-4)
                 rtf.push('\\trowd\\trgaph108\\trleft-108');
                 rtf.push(`${borders(3)}\\cellx9500`);
                 rtf.push(`\\intbl\\ql\\b\\ul ${pf_escaparRTF(demandada)}\\ulnone\\b0\\cell\\row`);
 
-                agregarFila4(descEscrito, strEscrito, datos.cantDemEscritos, formatearMonedaAR(datos.subtotDemEscritos));
-                agregarFila4(descHoja, strHoja, datos.cantDemHojas, formatearMonedaAR(datos.subtotDemHojas));
-                agregarFila4(descApper, strApper, datos.cantDemApper, formatearMonedaAR(datos.subtotDemApper));
-                agregarFila4(descRepuesta, '', '', `- ${formatearMonedaAR(datos.deduccionRepuesta)}`);
+                agregarFila4(descEscrito, strEscrito, datos.cantDemEscritos, pf_formatearMoneda(datos.subtotDemEscritos));
+                agregarFila4(descHoja, strHoja, datos.cantDemHojas, pf_formatearMoneda(datos.subtotDemHojas));
+                agregarFila4(descApper, strApper, datos.cantDemApper, pf_formatearMoneda(datos.subtotDemApper));
+                agregarFila4(descRepuesta, '', '', `- ${pf_formatearMoneda(datos.deduccionRepuesta)}`);
 
                 // Subtotal Demandada
                 rtf.push('\\trowd\\trgaph108\\trleft-108');
                 rtf.push(`${borders(0)}\\cellx7600${borders(0)}\\cellx9500`);
                 rtf.push(`\\intbl\\ql\\b ${pf_escaparRTF('TOTAL PARTE DEMANDADA')}\\b0\\cell`);
-                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(formatearMonedaAR(datos.totalSec2))}\\b0\\cell\\row`);
+                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(pf_formatearMoneda(datos.totalSec2))}\\b0\\cell\\row`);
 
                 // Total General
                 rtf.push('\\trowd\\trgaph108\\trleft-108');
                 rtf.push(`${borders(2)}\\cellx7600${borders(2)}\\cellx9500`);
                 rtf.push(`\\intbl\\ql\\b ${pf_escaparRTF('TOTAL GENERAL')}\\b0\\cell`);
-                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(formatearMonedaAR(datos.totalGeneral))}\\b0\\cell\\row`);
+                rtf.push(`\\intbl\\qr\\b ${pf_escaparRTF(pf_formatearMoneda(datos.totalGeneral))}\\b0\\cell\\row`);
             }
 
             rtf.push('\\pard\\par}');
@@ -3139,7 +3138,7 @@
             rtf.push(`${pf_escaparRTF('Según lo ordenado, procédase a confeccionar planilla fiscal:')}\\par\\par`);
             rtf.push(cuerpoTabla);
             rtf.push('\\pard\\f0\\fs22\\par');
-            rtf.push(`${pf_escaparRTF('Se informa que la presente planilla fiscal arroja un monto total de ')}\\b ${pf_escaparRTF(formatearMonedaAR(datos.totalGeneral))}\\b0.\\par\\par`);
+            rtf.push(`${pf_escaparRTF('Se informa que la presente planilla fiscal arroja un monto total de ')}\\b ${pf_escaparRTF(pf_formatearMoneda(datos.totalGeneral))}\\b0.\\par\\par`);
             if (!pf_partePresentada) {
                 rtf.push(`${pf_escaparRTF('Se hace constar que la parte demandada no realizó presentaciones en este proceso.')}\\par\\par`);
             }
@@ -3274,7 +3273,7 @@
         }
 
         function pf_copiarResumen() {
-            const totalNum = document.getElementById('pf-total-monto-num')?.textContent || '$0,00';
+            const totalNum = document.getElementById('pf-total-monto-num')?.textContent || '$0';
             const totalLetras = document.getElementById('pf-total-monto-letras')?.textContent || '';
             const txt = `Se informa que la presente planilla fiscal arroja un monto total de ${totalNum} (${totalLetras}).`;
             navigator.clipboard.writeText(txt).then(() => {
