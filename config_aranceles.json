@@ -1,0 +1,25 @@
+{
+  "aranceles": {
+    "valorEscrito": 1000,
+    "valorHoja": 700,
+    "valorIntimacion": 15000,
+    "valorApper": 1000,
+    "tasaAlicuota": 0.01,
+    "tasaMinimo": 4200
+  },
+  "descripciones": {
+    "escrito": "ART. 41 INC. 1: ESCRITO DE ABOGADOS",
+    "hoja": "ART. 42 INC. 2: HOJAS DE ACTUACIONES 1° INST.",
+    "intimacion": "ART. 43 INC. 1: INTIMACION DE PAGO",
+    "apper": "ART. 43 INC. 3: AP. DE PER.",
+    "tasaJusticia": "TASA PROP. DE JUSTICIA S/ ART. 44 C.T.P ( 1%)",
+    "tasaRepuesta": "ART. 44 INC. 15: Tasa repuesta en autos"
+  },
+  "github": {
+    "repo": "",
+    "branch": "main",
+    "path": "config_aranceles.json",
+    "token": ""
+  },
+  "ultimaActualizacion": "2026-10-06T19:39:14.675Z"
+}
