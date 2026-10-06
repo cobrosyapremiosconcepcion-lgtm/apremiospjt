@@ -93,9 +93,11 @@ const server = http.createServer((req, res) => {
                         return;
                     }
 
-                    // 1. Commit en Git local
+                    // 1. Commit y push en Git local si está configurado
                     execFile('git', ['add', 'config_aranceles.json'], () => {
-                        execFile('git', ['commit', '-m', `Actualizar aranceles de planilla fiscal [${new Date().toLocaleDateString()}]`], () => {});
+                        execFile('git', ['commit', '-m', `Actualizar aranceles de planilla fiscal [${new Date().toLocaleDateString()}]`], () => {
+                            execFile('git', ['push', 'origin', 'main'], () => {});
+                        });
                     });
 
                     // 2. Sincronización GitHub REST API si hay token y repo configurado
