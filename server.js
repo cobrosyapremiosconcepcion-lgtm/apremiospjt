@@ -20,6 +20,23 @@ const MIME_TYPES = {
 };
 
 const { execFile } = require('child_process');
+
+function getPythonPath() {
+    if (process.platform === 'win32') {
+        const candidates = [
+            'C:\\Python314\\python.exe',
+            'C:\\Python313\\python.exe',
+            'C:\\Python312\\python.exe',
+            'C:\\Python311\\python.exe'
+        ];
+        for (const c of candidates) {
+            if (fs.existsSync(c)) return c;
+        }
+    }
+    return 'python';
+}
+const PYTHON_EXE = getPythonPath();
+
 const server = http.createServer((req, res) => {
     // CORS headers para permitir llamadas desde localhost o file://
     const corsHeaders = {
@@ -42,7 +59,7 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const pyScript = path.join(__dirname, 'set_clipboard.py');
-                const child = execFile('python', [pyScript], (err, stdout, stderr) => {
+                const child = execFile(PYTHON_EXE, [pyScript], (err, stdout, stderr) => {
                     if (err) {
                         res.writeHead(500, corsHeaders);
                         res.end(JSON.stringify({ success: false, error: err.message, stderr }));

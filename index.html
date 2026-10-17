@@ -161,6 +161,55 @@
         .dark ::-webkit-scrollbar-thumb { background: #334155; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Drag and Drop Zone Styling */
+        .drag-zone-active {
+            border-color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.08) !important;
+            transform: scale(1.01);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Print Optimization */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            #sidebar, #global-plazos-header, #toast-copiado, .toggle-btn-hidden,
+            button, .no-print, nav, #pf-modal-config, #tur-password-modal {
+                display: none !important;
+            }
+            main {
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: visible !important;
+            }
+            .tab-content {
+                display: none !important;
+            }
+            .tab-content.active {
+                display: block !important;
+                max-width: 100% !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            #pf-tabla-preview-visual {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+            #pf-tabla-preview-visual table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+            #pf-tabla-preview-visual th, #pf-tabla-preview-visual td {
+                border: 1px solid #333 !important;
+                color: #000 !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 h-screen overflow-hidden flex flex-col md:flex-row">
@@ -190,33 +239,48 @@
         
         <nav class="flex-grow p-4 space-y-1.5 text-sm font-medium">
             <!-- 1. Gestión Cuentas -->
-            <button onclick="switchMainTab('tab-caratulas')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 active group">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                Gestión Cuentas
+            <button onclick="switchMainTab('tab-caratulas')" class="nav-link w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 active group">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    <span>Gestión Cuentas</span>
+                </div>
+                <kbd class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">Alt+1</kbd>
             </button>
 
             <!-- 2. Protocolos -->
-            <button onclick="switchMainTab('tab-protocolos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
-                Protocolos
+            <button onclick="switchMainTab('tab-protocolos')" class="nav-link w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-slate-400 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                    <span>Protocolos</span>
+                </div>
+                <kbd class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">Alt+2</kbd>
             </button>
 
             <!-- 3. MÓDULO UNIFICADO: Honorarios & Montos a Letras -->
-            <button onclick="switchMainTab('tab-honorarios-montos')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                <svg class="w-5 h-5 text-amber-500 group-hover:text-amber-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Honorarios & Montos
+            <button onclick="switchMainTab('tab-honorarios-montos')" class="nav-link w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-amber-500 group-hover:text-amber-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Honorarios & Montos</span>
+                </div>
+                <kbd class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">Alt+3</kbd>
             </button>
 
             <!-- 4. MÓDULO UNIFICADO: Turnos & Turno Tarde -->
-            <button onclick="switchMainTab('tab-turnos-tarde')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                 <svg class="w-5 h-5 text-rose-500 group-hover:text-rose-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Turnos & Turno Tarde
+            <button onclick="switchMainTab('tab-turnos-tarde')" class="nav-link w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-rose-500 group-hover:text-rose-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Turnos & Turno Tarde</span>
+                </div>
+                <kbd class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition">Alt+4</kbd>
             </button>
 
             <!-- 5. PLANILLA FISCAL JUDICIAL -->
-            <button onclick="switchMainTab('tab-planilla-fiscal')" class="nav-link w-full flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
-                <svg class="w-5 h-5 text-emerald-500 group-hover:text-emerald-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                Planilla Fiscal
+            <button onclick="switchMainTab('tab-planilla-fiscal')" class="nav-link w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 group">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-emerald-500 group-hover:text-emerald-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Planilla Fiscal</span>
+                </div>
+                <kbd class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">Alt+5</kbd>
             </button>
         </nav>
         <div class="p-6 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
@@ -256,11 +320,18 @@
                         <button type="button" onclick="event.stopPropagation(); hdr_setHoy()" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-600 transition" title="Volver a la fecha de hoy">Hoy</button>
                     </div>
 
-                    <!-- Días a contar (Default: 5) -->
+                    <!-- Días a contar con Presets Rápidos -->
                     <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs">
                         <label for="hdr-dias-plazo" class="text-[10px] font-bold uppercase text-slate-700 dark:text-slate-200 tracking-wider">Plazo:</label>
-                        <input type="number" id="hdr-dias-plazo" min="0" step="1" value="5" oninput="hdr_onDiasPlazoChange(this.value)" class="w-12 bg-transparent font-mono font-bold text-indigo-600 dark:text-indigo-400 outline-none text-xs text-center border-b border-indigo-400/40 focus:border-indigo-600">
-                        <span class="text-[10px] text-slate-700 dark:text-slate-200 font-bold uppercase">días</span>
+                        <input type="number" id="hdr-dias-plazo" min="0" step="1" value="5" oninput="hdr_onDiasPlazoChange(this.value)" class="w-10 bg-transparent font-mono font-bold text-indigo-600 dark:text-indigo-400 outline-none text-xs text-center border-b border-indigo-400/40 focus:border-indigo-600">
+                        <span class="text-[10px] text-slate-700 dark:text-slate-200 font-bold uppercase">d</span>
+                        <div class="flex items-center gap-1 border-l border-slate-300 dark:border-slate-700 pl-1.5" id="hdr-preset-container">
+                            <button type="button" onclick="hdr_setDiasPreset(3)" id="hdr-pre-3" class="hdr-preset-btn text-[10px] font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-300 border border-slate-200 dark:border-slate-600 transition" title="Plazo 3 días (Reposición / Revocatoria)">3d</button>
+                            <button type="button" onclick="hdr_setDiasPreset(5)" id="hdr-pre-5" class="hdr-preset-btn text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-600 text-white border border-indigo-600 transition" title="Plazo 5 días (General / Excepciones)">5d</button>
+                            <button type="button" onclick="hdr_setDiasPreset(9)" id="hdr-pre-9" class="hdr-preset-btn text-[10px] font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-300 border border-slate-200 dark:border-slate-600 transition" title="Plazo 9 días (Traslado amplio)">9d</button>
+                            <button type="button" onclick="hdr_setDiasPreset(10)" id="hdr-pre-10" class="hdr-preset-btn text-[10px] font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-300 border border-slate-200 dark:border-slate-600 transition" title="Plazo 10 días (Contestación demanda)">10d</button>
+                            <button type="button" onclick="hdr_setDiasPreset(15)" id="hdr-pre-15" class="hdr-preset-btn text-[10px] font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-300 border border-slate-200 dark:border-slate-600 transition" title="Plazo 15 días (Ordinario)">15d</button>
+                        </div>
                     </div>
 
                     <!-- Arrow Separator -->
@@ -321,35 +392,101 @@
 
             <!-- 1. GESTIÓN CARÁTULAS -->
             <section id="tab-caratulas" class="tab-content active max-w-6xl mx-auto space-y-6">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                         <h2 class="text-3xl font-bold tracking-tight">Cuentas Judiciales</h2>
-                        <p class="text-slate-500 dark:text-slate-400">Procesamiento masivo de expedientes y carátulas.</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm">Procesamiento masivo de expedientes, mapeo de actores y gestión de cuentas judiciales.</p>
                     </div>
-                    <button onclick="document.getElementById('car-file').click()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-indigo-200 dark:shadow-none">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        Cargar Planilla Excel
-                        <input type="file" id="car-file" accept=".xlsx, .xls" class="hidden" onchange="car_cargar(event)">
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button id="car-btn-limpiar" onclick="car_limpiar()" class="hidden px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                            <span>🧹</span> Nueva Planilla
+                        </button>
+                        <button onclick="document.getElementById('car-file').click()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-lg shadow-indigo-200 dark:shadow-none">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Cargar Planilla Excel
+                            <input type="file" id="car-file" accept=".xlsx, .xls" class="hidden" onchange="car_cargar(event)">
+                        </button>
+                    </div>
                 </div>
-                <div id="car-main" class="hidden space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
-                        <div class="space-y-1"><label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase ml-1">Filtrar Trámite</label><input type="text" id="car-f-tra" oninput="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Ejecución..."></div>
-                        <div class="space-y-1"><label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase ml-1">Responsable</label><select id="car-f-res" onchange="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"></select></div>
-                        <div class="flex items-end"><button onclick="car_exportar()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>Exportar Resultado</button></div>
+
+                <!-- Dropzone de bienvenida cuando no hay archivo cargado -->
+                <div id="car-dropzone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-12 text-center hover:border-indigo-500 dark:hover:border-indigo-400 transition-all cursor-pointer bg-white/50 dark:bg-slate-900/50 backdrop-blur-xs group" onclick="document.getElementById('car-file').click()">
+                    <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition shadow-sm">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                     </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-1">Arrastra tu planilla Excel aquí</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-4">Soporta archivos .xlsx y .xls con columnas de expediente, carátula, actor y responsable.</p>
+                    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition">
+                        <span>📂</span> Seleccionar Archivo Excel
+                    </span>
+                </div>
+
+                <!-- Panel principal tras cargar archivo -->
+                <div id="car-main" class="hidden space-y-4">
+                    <!-- Métricas y Pestañas de Estado -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div onclick="car_setEstadoFiltro('todos')" id="car-pill-todos" class="car-pill-filtro cursor-pointer p-3.5 bg-white dark:bg-slate-900 rounded-xl border-2 border-indigo-500 shadow-sm flex items-center justify-between transition">
+                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Total Expedientes</span>
+                            <span id="car-stat-total" class="font-mono font-black text-lg text-indigo-600 dark:text-indigo-400">0</span>
+                        </div>
+                        <div onclick="car_setEstadoFiltro('pendientes')" id="car-pill-pendientes" class="car-pill-filtro cursor-pointer p-3.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition hover:border-amber-400">
+                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Pendientes de Cuenta</span>
+                            <span id="car-stat-pendientes" class="font-mono font-black text-lg text-amber-500">0</span>
+                        </div>
+                        <div onclick="car_setEstadoFiltro('completados')" id="car-pill-completados" class="car-pill-filtro cursor-pointer p-3.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition hover:border-emerald-400">
+                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Completados</span>
+                            <span id="car-stat-completados" class="font-mono font-black text-lg text-emerald-500">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Filtros de búsqueda -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase ml-1">Filtrar Trámite / Carátula</label>
+                            <div class="relative">
+                                <input type="text" id="car-f-tra" oninput="car_render()" class="w-full p-2.5 pr-8 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 text-xs" placeholder="Ej: Ejecución...">
+                                <button type="button" onclick="document.getElementById('car-f-tra').value=''; car_render();" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold">✕</button>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase ml-1">Responsable</label>
+                            <select id="car-f-res" onchange="car_render()" class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 text-xs"></select>
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="car_exportar()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2 text-xs shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                Exportar Resultado (.xlsx)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Resultados -->
                     <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                        <table class="w-full text-sm text-left"><thead class="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[11px] font-bold uppercase tracking-wider"><tr><th class="p-4 w-12 text-center">OK</th><th class="p-4 w-32">Expediente</th><th class="p-4">Trámite / Carátula</th><th class="p-4 w-48">N° Cuenta</th></tr></thead><tbody id="car-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody></table>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[11px] font-bold uppercase tracking-wider">
+                                    <tr>
+                                        <th class="p-3 w-12 text-center">OK</th>
+                                        <th class="p-3 w-32">Expediente</th>
+                                        <th class="p-3">Trámite / Carátula</th>
+                                        <th class="p-3 w-48">N° Cuenta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="car-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- 2. PROTOCOLOS -->
             <section id="tab-protocolos" class="tab-content max-w-4xl mx-auto space-y-6">
-                <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 text-center shadow-xl">
-                    <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div>
-                    <h2 class="text-2xl font-bold mb-2">Procesador de Protocolos</h2>
-                    <p class="text-slate-500 dark:text-slate-400 mb-8">Organiza y numera automáticamente tus archivos Excel de SAE.</p>
+                <div class="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 text-center shadow-xl">
+                    <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-1">Procesador de Protocolos</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mb-6">Organiza, numera correlativamente y clasifica por juzgado tus resoluciones judiciales.</p>
                     
                     <!-- 3 Cards: Número Inicial (I1), Última Fecha Registro (J1), Distribución Lógica -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 text-left font-medium">
@@ -407,9 +544,55 @@
                         Obteniendo celdas I1 y J1 de Google Sheets...
                     </div>
 
-                    <label class="block cursor-pointer border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors mb-6 group"><input type="file" id="pro-files" accept=".xls, .xlsx" multiple class="hidden"><div class="text-slate-400 group-hover:text-indigo-500 transition-colors font-medium">Click para seleccionar archivos XLSX</div></label>
-                    <button onclick="pro_procesar()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-4 rounded-2xl font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-lg">Generar y Copiar Datos</button>
-                    <div id="pro-status" class="mt-4 text-xs font-bold text-slate-400 animate-pulse uppercase tracking-widest">Esperando carga...</div>
+                    <!-- Dropzone interactiva con soporte para arrastrar múltiples archivos -->
+                    <div id="pro-dropzone" class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-8 hover:border-indigo-500 dark:hover:border-indigo-400 transition-all mb-6 group cursor-pointer bg-slate-50/50 dark:bg-slate-800/20" onclick="document.getElementById('pro-files').click()">
+                        <input type="file" id="pro-files" accept=".xls, .xlsx" multiple class="hidden" onchange="pro_onFilesChange(this.files)">
+                        <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        </div>
+                        <div id="pro-drop-text" class="text-slate-600 dark:text-slate-300 group-hover:text-indigo-600 font-bold text-sm">Arrastra tus archivos XLSX aquí o haz click para explorar</div>
+                        <div class="text-[11px] text-slate-400 mt-1">Soporta procesar múltiples planillas a la vez</div>
+                        <div id="pro-files-badge" class="hidden mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-bold"></div>
+                    </div>
+
+                    <button onclick="pro_procesar()" class="w-full bg-slate-900 dark:bg-indigo-600 text-white py-4 rounded-2xl font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
+                        <span>⚡</span>
+                        <span>Generar y Copiar Datos</span>
+                    </button>
+                    <div id="pro-status" class="mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Esperando carga de archivos...</div>
+
+                    <!-- Panel de Resultados de Protocolos (oculto hasta procesar) -->
+                    <div id="pro-results-panel" class="hidden mt-6 text-left space-y-4 pt-6 border-t border-slate-200 dark:border-slate-800">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <div class="space-y-0.5">
+                                <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Resumen del Procesamiento</h3>
+                                <div id="pro-summary-pills" class="flex flex-wrap gap-2 text-[11px] font-bold"></div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="pro_exportarExcel()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center gap-1 shadow-sm">
+                                    <span>📥</span> Descargar Excel
+                                </button>
+                                <button onclick="pro_copiarNuevamente()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition flex items-center gap-1 shadow-sm">
+                                    <span>📋</span> Copiar TSV
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Preview Table de Protocolos Generados -->
+                        <div class="max-h-64 overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-850">
+                            <table class="w-full text-xs text-left">
+                                <thead class="bg-slate-200/80 dark:bg-slate-800 sticky top-0 text-[10px] font-bold uppercase text-slate-700 dark:text-slate-300">
+                                    <tr>
+                                        <th class="p-2.5">Expte</th>
+                                        <th class="p-2.5">Fecha</th>
+                                        <th class="p-2.5">N° Asignado</th>
+                                        <th class="p-2.5">Juzgado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pro-preview-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-mono"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -458,6 +641,9 @@
                                 </div>
                                 <div class="text-lg md:text-2xl font-black leading-relaxed text-indigo-200 mb-4" id="hon-cobrar-txt">Esperando datos...</div>
                                 <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-700/60">
+                                    <button onclick="hon_copiarProveido()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-sm border border-indigo-400/30" title="Copia el texto legal completo para insertar en el proveído judicial">
+                                        <span>📜</span> Copiar Proveído Completo
+                                    </button>
                                     <button onclick="hon_copiarDetalle('neto', 'completo')" class="px-3 py-1.5 bg-slate-800 dark:bg-slate-700 hover:bg-indigo-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5">
                                         <span>📋</span> Copiar Todo (Letras + $)
                                     </button>
@@ -706,13 +892,20 @@
             <!-- 5. PLANILLA FISCAL JUDICIAL -->
             <section id="tab-planilla-fiscal" class="tab-content max-w-6xl mx-auto space-y-6">
                 <!-- Header Card del Módulo -->
-                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
-                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm space-y-4">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-4 border-b border-slate-200 dark:border-slate-800">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2.5">
                                 <span class="p-2.5 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-xl text-xl">🏛️</span>
                                 <div>
-                                    <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Planilla Fiscal Judicial</h2>
+                                    <div class="flex items-center gap-2">
+                                        <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Planilla Fiscal Judicial</h2>
+                                        <!-- Badge de Estado del Servidor Local (Portapapeles Nativo Windows) -->
+                                        <div id="pf-backend-badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700" title="Verificando conexión con el servidor nativo de portapapeles...">
+                                            <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
+                                            <span>Conectando...</span>
+                                        </div>
+                                    </div>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Determinación impositiva conforme al C.T.T. Ley 5121 (Concepción - Tucumán) para SAE</p>
                                 </div>
                             </div>
@@ -746,8 +939,32 @@
                         </div>
                     </div>
 
+                    <!-- Fila de Plantillas Rápidas (Carga en 1 click para trámites frecuentes) -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-indigo-500 dark:text-indigo-400 flex items-center gap-1">
+                                <span>⚡</span> Carga Rápida:
+                            </span>
+                            <button type="button" onclick="pf_aplicarPlantilla('apremio_estandar')" class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/50 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold border border-indigo-200 dark:border-indigo-800 transition" title="1 escrito, 2 fojas, 1 intimación">
+                                Apremio Estándar (1 Esc, 2 Fojas, 1 Int.)
+                            </button>
+                            <button type="button" onclick="pf_aplicarPlantilla('sentencia_remate')" class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/50 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold border border-indigo-200 dark:border-indigo-800 transition" title="1 escrito, 4 fojas, 1 intimación">
+                                Sentencia Remate (1 Esc, 4 Fojas, 1 Int.)
+                            </button>
+                            <button type="button" onclick="pf_aplicarPlantilla('medida_cautelar')" class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/50 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold border border-indigo-200 dark:border-indigo-800 transition" title="1 escrito, 3 fojas, 1 intimación">
+                                Medida Cautelar (1 Esc, 3 Fojas, 1 Int.)
+                            </button>
+                            <button type="button" onclick="pf_aplicarPlantilla('dos_partes_estandar')" class="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/50 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-bold border border-purple-200 dark:border-purple-800 transition" title="Activa desglose de 2 partes">
+                                Desglose 2 Partes (Actora y Demandada)
+                            </button>
+                        </div>
+                        <div class="text-[10px] text-slate-400 font-semibold hidden md:block">
+                            💡 Atajo: <kbd class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono">Ctrl+Shift+C</kbd> copia la tabla para SAE
+                        </div>
+                    </div>
+
                     <!-- Indicador contextual del modo activo -->
-                    <div id="pf-modo-banner" class="mt-4 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200">
+                    <div id="pf-modo-banner" class="mt-2 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200">
                         <span class="text-base flex-shrink-0">💡</span>
                         <div class="leading-relaxed">
                             <span class="font-bold">Modo Condenado en Costas (Sin Demandada Presentada):</span>
@@ -759,10 +976,22 @@
                 <!-- Card de Cómputo de Tasa Proporcional de Justicia (1% - Mínimo Legal $4.200) -->
                 <div class="bg-gradient-to-br from-indigo-50/70 to-slate-50 dark:from-indigo-950/20 dark:to-slate-900 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 p-6 shadow-sm">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                        <div class="md:col-span-1 space-y-1">
-                            <label class="block text-xs font-black uppercase text-indigo-700 dark:text-indigo-300 tracking-wider">Monto Reclamado / Capital ($)</label>
+                        <div class="md:col-span-1 space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <label class="block text-xs font-black uppercase text-indigo-700 dark:text-indigo-300 tracking-wider">Monto Reclamado / Capital ($)</label>
+                                <button type="button" onclick="document.getElementById('pf-monto-reclamado').value=''; pf_onMontoReclamadoInput('');" class="text-[10px] font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Limpiar monto">Limpiar</button>
+                            </div>
                             <p class="text-[11px] text-slate-500 dark:text-slate-400">Alícuota 1% s/ Art. 44 C.T.P. (Mínimo legal: <span id="pf-lbl-tasa-minimo-top" class="font-bold text-indigo-600 dark:text-indigo-400">$4.200</span>)</p>
-                            <input type="text" id="pf-monto-reclamado" oninput="pf_onMontoReclamadoInput(this.value)" placeholder="0" class="w-full p-3 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono text-xl font-black border border-indigo-200 dark:border-indigo-800 outline-none focus:ring-2 focus:ring-indigo-500">
+                            <div class="relative">
+                                <input type="text" id="pf-monto-reclamado" oninput="pf_onMontoReclamadoInput(this.value)" placeholder="0" class="w-full p-3 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono text-xl font-black border border-indigo-200 dark:border-indigo-800 outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <!-- Chips de montos rápidos comunes -->
+                            <div class="flex items-center gap-1.5 pt-1 flex-wrap">
+                                <span class="text-[9px] font-bold uppercase text-slate-400">Ejemplos:</span>
+                                <button type="button" onclick="pf_setMontoPreset(500000)" class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-slate-700 transition">$500.000</button>
+                                <button type="button" onclick="pf_setMontoPreset(1000000)" class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-slate-700 transition">$1.000.000</button>
+                                <button type="button" onclick="pf_setMontoPreset(2500000)" class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-slate-700 transition">$2.500.000</button>
+                            </div>
                         </div>
                         <div class="md:col-span-2 bg-white dark:bg-slate-800/80 p-4 rounded-xl border border-indigo-100 dark:border-indigo-900/40 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
                             <div>
@@ -1399,8 +1628,29 @@
             }
         }
 
+        function hon_copiarProveido() {
+            if (!hon_currentResults) return alert("Primero calcule una liquidación de honorarios");
+            const neto = hon_currentResults.neto;
+            const a10 = hon_currentResults.aporte10;
+            const t8 = hon_currentResults.tasa8;
+            const txt = `Atento a lo solicitado y constancias de autos, regúlanse los honorarios profesionales por la labor desarrollada en autos en la suma de ${neto.numeroStr} (${neto.letras}). Asimismo, hágase saber a las partes los aportes de ley del 10% por la suma de ${a10.numeroStr} (${a10.letras}) y la tasa de justicia del 8% por la suma de ${t8.numeroStr} (${t8.letras}).-`;
+            navigator.clipboard.writeText(txt).then(() => {
+                mostrarToastCopiado('📜 Proveído de honorarios copiado al portapapeles');
+            });
+        }
+
         // ==================== FUNCIONES CENTRALES DE FECHAS Y PLAZOS ====================
-        let globalFeriados = [];
+        // Feriados oficiales precargados (Nacionales y Tucumán 2025-2026) para funcionamiento offline inmediato
+        let globalFeriados = [
+            // 2025
+            '2025-01-01', '2025-03-03', '2025-03-04', '2025-03-24', '2025-04-02', '2025-04-17', '2025-04-18',
+            '2025-05-01', '2025-05-02', '2025-05-25', '2025-06-16', '2025-06-20', '2025-07-09', '2025-08-15',
+            '2025-08-17', '2025-09-24', '2025-10-12', '2025-11-20', '2025-11-21', '2025-12-08', '2025-12-25',
+            // 2026
+            '2026-01-01', '2026-02-16', '2026-02-17', '2026-03-24', '2026-04-02', '2026-04-03', '2026-05-01',
+            '2026-05-25', '2026-06-15', '2026-06-20', '2026-07-09', '2026-08-17', '2026-09-24', '2026-10-12',
+            '2026-11-20', '2026-11-23', '2026-12-08', '2026-12-25'
+        ];
 
         function parsearFechaLocal(fechaStr) {
             if (!fechaStr) return new Date();
@@ -1439,12 +1689,19 @@
             const fechaFinal = sumarDiasHabilesAux(fechaIntermedia, diasPlazo);
 
             let feriadosEnPeriodo = 0;
+            let diasInhabilesTotal = 0;
             let cursor = new Date(fechaBase);
+            cursor.setDate(cursor.getDate() + 1); // Contar a partir del día siguiente a la firma
             while (cursor <= fechaFinal) {
                 const s = cursor.getDay();
-                if (s !== 0 && s !== 6) {
+                if (s === 0 || s === 6) {
+                    diasInhabilesTotal++;
+                } else {
                     const iso = `${cursor.getFullYear()}-${String(cursor.getMonth()+1).padStart(2,'0')}-${String(cursor.getDate()).padStart(2,'0')}`;
-                    if (globalFeriados.includes(iso)) feriadosEnPeriodo++;
+                    if (globalFeriados.includes(iso)) {
+                        feriadosEnPeriodo++;
+                        diasInhabilesTotal++;
+                    }
                 }
                 cursor.setDate(cursor.getDate() + 1);
             }
@@ -1453,7 +1710,8 @@
                 fechaBase,
                 fechaIntermedia,
                 fechaFinal,
-                feriadosEnPeriodo
+                feriadosEnPeriodo,
+                diasInhabilesTotal
             };
         }
 
@@ -1461,12 +1719,35 @@
         const diasNombresLargos = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
         window._hdr_ultimoCalculo = null;
 
+        function hdr_setDiasPreset(dias) {
+            const inputDias = document.getElementById('hdr-dias-plazo');
+            if (inputDias) {
+                inputDias.value = dias;
+                hdr_calcularPlazo();
+            }
+        }
+
+        function hdr_actualizarBotonesPreset(diasVal) {
+            const presets = [3, 5, 9, 10, 15];
+            presets.forEach(p => {
+                const btn = document.getElementById(`hdr-pre-${p}`);
+                if (!btn) return;
+                if (p === diasVal) {
+                    btn.className = 'hdr-preset-btn text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-600 text-white border border-indigo-600 transition shadow-xs';
+                } else {
+                    btn.className = 'hdr-preset-btn text-[10px] font-bold px-1.5 py-0.5 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-300 border border-slate-200 dark:border-slate-600 transition';
+                }
+            });
+        }
+
         function hdr_calcularPlazo() {
             const inputFirma = document.getElementById('hdr-fecha-firma');
             const inputDias = document.getElementById('hdr-dias-plazo');
             let fechaVal = inputFirma ? inputFirma.value : '';
             let diasVal = inputDias ? parseInt(inputDias.value) : 5;
             if (isNaN(diasVal) || diasVal < 0) diasVal = 5;
+
+            hdr_actualizarBotonesPreset(diasVal);
 
             if (!fechaVal) {
                 const hoy = new Date();
@@ -1494,7 +1775,8 @@
 
             const textoCopiar = `${diaNum}/${mesNum}/${anioCorto} - S/Excepciones`;
             if (btnVenc) {
-                btnVenc.title = `Click para copiar: "${textoCopiar}"`;
+                const infoFeriado = calc.feriadosEnPeriodo > 0 ? ` (+${calc.feriadosEnPeriodo} feriado/s omitido/s)` : '';
+                btnVenc.title = `Click para copiar: "${textoCopiar}"${infoFeriado}`;
             }
 
             if (elBadge) {
@@ -1601,7 +1883,31 @@
             return d === hoy.getDate() && m === (hoy.getMonth() + 1) && y === hoy.getFullYear();
         }
 
+        function tt_cargarDesdeCache() {
+            try {
+                const cTurnos = localStorage.getItem('jp_cache_turnos');
+                const cCumples = localStorage.getItem('jp_cache_cumples');
+                if (cTurnos) {
+                    const parsed = JSON.parse(cTurnos);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        tt_turnosData = parsed;
+                        tt_inicializarSelectores();
+                        tt_renderCalendario();
+                    }
+                }
+                if (cCumples) {
+                    const parsed = JSON.parse(cCumples);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        tt_cumplesData = parsed;
+                        tt_calcularProximoCumple();
+                        tt_renderCumples();
+                    }
+                }
+            } catch(e) {}
+        }
+
         function tt_cargarTurnos() {
+            tt_cargarDesdeCache();
             const script = document.createElement('script');
             script.src = `https://docs.google.com/spreadsheets/d/${TT_SHEET_ID}/gviz/tq?gid=${TT_TURNO_TARDE_GID}&tqx=responseHandler:tt_callbackTurnos&cb=${Date.now()}`;
             document.body.appendChild(script);
@@ -1625,6 +1931,10 @@
                 return { mes, fecha, dia, r1, r2, r3, cumple };
             }).filter(r => r && r.mes && r.mes.toLowerCase() !== 'mes' && r.fecha);
             
+            try {
+                localStorage.setItem('jp_cache_turnos', JSON.stringify(tt_turnosData));
+            } catch(e) {}
+
             tt_inicializarSelectores();
             tt_renderCalendario();
 
@@ -1642,6 +1952,10 @@
                 return { fecha: fechaRaw, dia: parseInt(d, 10), mesNum: parseInt(m, 10), nombre: r.c[1]?.v ? tt_toProperCase(String(r.c[1].v).trim()) : '' };
             }).filter(r => r && r.nombre && r.nombre.toLowerCase() !== 'nombre');
             
+            try {
+                localStorage.setItem('jp_cache_cumples', JSON.stringify(tt_cumplesData));
+            } catch(e) {}
+
             tt_calcularProximoCumple();
             tt_renderCumples();
             if (tt_turnosData.length) {
@@ -2048,36 +2362,135 @@
         }
 
         // ---------- GESTIÓN CARÁTULAS ----------
+        // ---------- GESTIÓN CARÁTULAS ----------
         let car_data = [];
+        let car_estadoFiltro = 'todos'; // 'todos' | 'pendientes' | 'completados'
+
         function car_cargar(e) {
+            const files = e.target.files || (e.dataTransfer && e.dataTransfer.files);
+            if (!files || !files.length) return;
+            const file = files[0];
+
             const r = new FileReader();
             r.onload = (ev) => {
-                const b = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
-                const json = XLSX.utils.sheet_to_json(b.Sheets[b.SheetNames[0]], { defval: "" });
-                car_data = json.map((r, i) => {
-                    const keys = Object.keys(r);
-                    const find = (keywords) => {
-                        const colName = keys.find(k => keywords.some(key => k.toLowerCase().trim().includes(key)));
-                        return colName ? r[colName] : "";
-                    };
-                    return { id: i, exp: find(["expte", "nro", "expediente", "causa"]) || "S/D", act: find(["actor", "demandante", "solicitante"]) || "", dem: find(["demandado", "titular", "cuil"]) || "SIN DEMANDADO", res: find(["responsable", "abogado", "oficial"]) || "S/D", tra: r[keys[3]] || "S/D", com: false, cue: "" };
-                });
-                const res = [...new Set(car_data.map(i => i.res))].filter(Boolean).sort();
-                document.getElementById('car-f-res').innerHTML = '<option value="">Todos los Responsables</option>' + res.map(r => `<option value="${r}">${r}</option>`).join('');
-                document.getElementById('car-main').classList.remove('hidden');
-                car_render();
+                try {
+                    const b = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
+                    const json = XLSX.utils.sheet_to_json(b.Sheets[b.SheetNames[0]], { defval: "" });
+                    car_data = json.map((r, i) => {
+                        const keys = Object.keys(r);
+                        const find = (keywords) => {
+                            const colName = keys.find(k => keywords.some(key => k.toLowerCase().trim().includes(key)));
+                            return colName ? r[colName] : "";
+                        };
+                        return { id: i, exp: find(["expte", "nro", "expediente", "causa"]) || "S/D", act: find(["actor", "demandante", "solicitante"]) || "", dem: find(["demandado", "titular", "cuil"]) || "SIN DEMANDADO", res: find(["responsable", "abogado", "oficial"]) || "S/D", tra: r[keys[3]] || "S/D", com: false, cue: "" };
+                    });
+
+                    const res = [...new Set(car_data.map(i => i.res))].filter(Boolean).sort();
+                    const elRes = document.getElementById('car-f-res');
+                    if (elRes) {
+                        elRes.innerHTML = '<option value="">Todos los Responsables</option>' + res.map(r => `<option value="${r}">${r}</option>`).join('');
+                    }
+
+                    // Actualizar visibilidad de paneles
+                    const elDrop = document.getElementById('car-dropzone');
+                    const elMain = document.getElementById('car-main');
+                    const elBtnLimpiar = document.getElementById('car-btn-limpiar');
+                    if (elDrop) elDrop.classList.add('hidden');
+                    if (elMain) elMain.classList.remove('hidden');
+                    if (elBtnLimpiar) elBtnLimpiar.classList.remove('hidden');
+
+                    car_render();
+                    mostrarToastCopiado(`Se cargaron ${car_data.length} expedientes`);
+                } catch(err) {
+                    alert("Error al leer el archivo Excel: " + err.message);
+                }
             };
-            r.readAsArrayBuffer(e.target.files[0]);
+            r.readAsArrayBuffer(file);
         }
+
+        function car_limpiar() {
+            car_data = [];
+            car_estadoFiltro = 'todos';
+            const elFile = document.getElementById('car-file');
+            if (elFile) elFile.value = '';
+            const elDrop = document.getElementById('car-dropzone');
+            const elMain = document.getElementById('car-main');
+            const elBtnLimpiar = document.getElementById('car-btn-limpiar');
+            if (elDrop) elDrop.classList.remove('hidden');
+            if (elMain) elMain.classList.add('hidden');
+            if (elBtnLimpiar) elBtnLimpiar.classList.add('hidden');
+        }
+
+        function car_setEstadoFiltro(estado) {
+            car_estadoFiltro = estado;
+            // Estilos de pills
+            const pills = ['todos', 'pendientes', 'completados'];
+            pills.forEach(p => {
+                const el = document.getElementById(`car-pill-${p}`);
+                if (!el) return;
+                if (p === estado) {
+                    el.className = 'car-pill-filtro cursor-pointer p-3.5 bg-white dark:bg-slate-900 rounded-xl border-2 border-indigo-500 shadow-sm flex items-center justify-between transition';
+                } else {
+                    el.className = 'car-pill-filtro cursor-pointer p-3.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between transition hover:border-slate-400';
+                }
+            });
+            car_render();
+        }
+
         function car_render() {
-            const fTra = document.getElementById('car-f-tra').value.toUpperCase();
-            const fRes = document.getElementById('car-f-res').value;
-            const filtered = car_data.filter(i => (!fRes || i.res === fRes) && (i.tra.toString().toUpperCase().includes(fTra)));
-            document.getElementById('car-body').innerHTML = filtered.map(i => {
+            const fTra = (document.getElementById('car-f-tra')?.value || '').toUpperCase();
+            const fRes = document.getElementById('car-f-res')?.value || '';
+
+            // Estadísticas generales
+            const total = car_data.length;
+            const completados = car_data.filter(i => i.com || (i.cue && i.cue.trim().length > 3)).length;
+            const pendientes = total - completados;
+
+            const elStatTotal = document.getElementById('car-stat-total');
+            const elStatPend = document.getElementById('car-stat-pendientes');
+            const elStatComp = document.getElementById('car-stat-completados');
+            if (elStatTotal) elStatTotal.textContent = total;
+            if (elStatPend) elStatPend.textContent = pendientes;
+            if (elStatComp) elStatComp.textContent = completados;
+
+            // Filtrado
+            const filtered = car_data.filter(i => {
+                if (fRes && i.res !== fRes) return false;
+                if (fTra && !i.tra.toString().toUpperCase().includes(fTra) && !i.exp.toString().toUpperCase().includes(fTra)) return false;
+                if (car_estadoFiltro === 'pendientes') return !i.com && (!i.cue || i.cue.trim().length <= 3);
+                if (car_estadoFiltro === 'completados') return i.com || (i.cue && i.cue.trim().length > 3);
+                return true;
+            });
+
+            const tbody = document.getElementById('car-body');
+            if (!tbody) return;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 text-xs font-semibold">No se encontraron expedientes con los filtros aplicados.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(i => {
+                const isCom = i.com || (i.cue && i.cue.trim().length > 3);
                 const caption = `${car_mapActor(i.act)} C ${car_clean(i.dem)}`;
-                return `<tr id="cr-${i.id}" class="${i.com ? 'row-completed' : ''} transition hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="p-4 text-center"><input type="checkbox" ${i.com ? 'checked' : ''} onchange="car_data[${i.id}].com = !car_data[${i.id}].com; car_render()" class="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-indigo-600"></td><td class="p-4"><button onclick="car_cpy('${i.exp}','cr-${i.id}')" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 hover:underline">${i.exp}</button></td><td class="p-4"><div class="text-[9px] text-slate-400 font-bold uppercase mb-0.5">${i.tra}</div><button onclick="car_cpy('${caption}','cr-${i.id}')" class="text-left hover:text-indigo-600 dark:hover:text-indigo-400 font-bold uppercase transition text-xs">${caption}</button></td><td class="p-4"><input type="text" value="${i.cue}" placeholder="Cargar N°..." oninput="car_data[${i.id}].cue=this.value; if(this.value.length>3) car_data[${i.id}].com=true;" class="w-full p-2 bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 rounded-lg text-xs font-mono"></td></tr>`;
+                return `<tr id="cr-${i.id}" class="${isCom ? 'row-completed' : ''} transition hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                    <td class="p-3 text-center">
+                        <input type="checkbox" ${isCom ? 'checked' : ''} onchange="car_data[${i.id}].com = this.checked; car_render()" class="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-indigo-600 cursor-pointer">
+                    </td>
+                    <td class="p-3">
+                        <button onclick="car_cpy('${i.exp}','cr-${i.id}')" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 hover:underline" title="Copiar expediente">${i.exp}</button>
+                    </td>
+                    <td class="p-3">
+                        <div class="text-[9px] text-slate-400 font-bold uppercase mb-0.5">${i.tra}</div>
+                        <button onclick="car_cpy('${caption}','cr-${i.id}')" class="text-left hover:text-indigo-600 dark:hover:text-indigo-400 font-bold uppercase transition text-xs" title="Copiar carátula">${caption}</button>
+                    </td>
+                    <td class="p-3">
+                        <input type="text" value="${i.cue}" placeholder="Cargar N°..." oninput="car_data[${i.id}].cue=this.value; if(this.value.length>3) car_data[${i.id}].com=true;" onblur="car_render()" class="w-full p-2 bg-slate-50 dark:bg-slate-800 border-none ring-1 ring-slate-200 dark:ring-slate-700 rounded-lg text-xs font-mono font-bold focus:ring-2 focus:ring-indigo-500">
+                    </td>
+                </tr>`;
             }).join('');
         }
+
         function car_clean(t) { return t?.toString().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[.,()\[\]\-\/\*]/g, " ").replace(/\s+/g, " ").trim() || ""; }
         function car_mapActor(n) {
             const a = car_clean(n);
@@ -2111,15 +2524,27 @@
             mostrarToastCopiado(`Copiado: ${t.toUpperCase()}`);
         }
         function car_exportar() { 
-            const fTra = document.getElementById('car-f-tra').value.toUpperCase(), fRes = document.getElementById('car-f-res').value;
-            const filtered = car_data.filter(i => (!fRes || i.res === fRes) && (i.tra.toString().toUpperCase().includes(fTra)));
+            const fTra = (document.getElementById('car-f-tra')?.value || '').toUpperCase();
+            const fRes = document.getElementById('car-f-res')?.value || '';
+            const filtered = car_data.filter(i => {
+                if (fRes && i.res !== fRes) return false;
+                if (fTra && !i.tra.toString().toUpperCase().includes(fTra) && !i.exp.toString().toUpperCase().includes(fTra)) return false;
+                if (car_estadoFiltro === 'pendientes') return !i.com && (!i.cue || i.cue.trim().length <= 3);
+                if (car_estadoFiltro === 'completados') return i.com || (i.cue && i.cue.trim().length > 3);
+                return true;
+            });
             const ws = XLSX.utils.json_to_sheet(filtered.map(i => ({ "EXPTE": i.exp, "TRAMITE": i.tra, "CARATULA": `${car_mapActor(i.act)} C ${i.dem}`, "CUENTA": i.cue, "RESPONSABLE": i.res })));
-            const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Gestión"); XLSX.writeFile(wb, "Judicial_Export_Filtrado.xlsx"); 
+            const wb = XLSX.utils.book_new(); 
+            XLSX.utils.book_append_sheet(wb, ws, "Gestión"); 
+            XLSX.writeFile(wb, "Judicial_Export_Filtrado.xlsx"); 
+            mostrarToastCopiado("Planilla Excel descargada");
         }
 
         // ---------- PROTOCOLOS ----------
         const PRO_SHEET_ID = '1Drfj3oF119iTAs2KqIRsWbknIMP56ABDmIuy75Z5TS4';
         const PRO_SHEET_GID = '1179070570';
+        let pro_ultimosResultados = [];
+        let pro_ultimoTextoTSV = '';
 
         function pro_cargarDatosSheet() {
             const inputInicio = document.getElementById('pro-inicio');
@@ -2191,15 +2616,38 @@
 
         const pro_cargarNumeroInicial = pro_cargarDatosSheet;
 
+        function pro_onFilesChange(files) {
+            const badge = document.getElementById('pro-files-badge');
+            const dropText = document.getElementById('pro-drop-text');
+            if (!files || !files.length) {
+                if (badge) badge.classList.add('hidden');
+                if (dropText) dropText.textContent = "Arrastra tus archivos XLSX aquí o haz click para explorar";
+                return;
+            }
+            if (badge) {
+                badge.textContent = `📁 ${files.length} archivo${files.length > 1 ? 's' : ''} seleccionado${files.length > 1 ? 's' : ''}`;
+                badge.classList.remove('hidden');
+            }
+            if (dropText) {
+                const nombres = Array.from(files).map(f => f.name).join(', ');
+                dropText.textContent = nombres.length > 60 ? nombres.substring(0, 57) + '...' : nombres;
+            }
+        }
+
         async function pro_procesar() {
-            const sId = parseInt(document.getElementById('pro-inicio').value) || 1, files = document.getElementById('pro-files').files;
-            if(!files.length) return alert("Cargue archivos");
+            const sId = parseInt(document.getElementById('pro-inicio').value) || 1;
+            const files = document.getElementById('pro-files').files;
+            if(!files || !files.length) return alert("Por favor seleccione al menos un archivo Excel (.xlsx)");
+
             let dataArr = [];
             const parseDMY = (v) => {
-                if(!v) return null; const str = v.toString(), parts = str.split(/[\/\-\s]/);
+                if(!v) return null; 
+                const str = v.toString(), parts = str.split(/[\/\-\s]/);
                 if(parts.length >= 3) return new Date(parts[2], parts[1]-1, parts[0]);
-                if(typeof v === 'number') return new Date(Math.round((v-25569)*864e5)); return null;
+                if(typeof v === 'number') return new Date(Math.round((v-25569)*864e5)); 
+                return null;
             };
+
             for (let f of files) {
                 const ab = await f.arrayBuffer(), wb = XLSX.read(ab);
                 XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]).forEach(r => {
@@ -2210,13 +2658,79 @@
                     }
                 });
             }
+
             dataArr = dataArr.filter(x => x.dt && !isNaN(x.dt)).sort((a, b) => a.dt - b.dt);
-            if (!dataArr.length) return document.getElementById('pro-status').innerText = "❌ No hay registros.";
-            let txt = dataArr.map((it, ix) => `${it.exp}\t${String(it.dt.getDate()).padStart(2,'0')}/${String(it.dt.getMonth()+1).padStart(2,'0')}/${it.dt.getFullYear()}\t${sId+ix}\t${it.juz}`).join('\n');
-            navigator.clipboard.writeText(txt).then(() => {
-                document.getElementById('pro-status').innerText = `✅ ${dataArr.length} COPIADOS`;
-                mostrarToastCopiado(`${dataArr.length} registros copiados`);
+            if (!dataArr.length) {
+                document.getElementById('pro-status').innerText = "❌ No se encontraron resoluciones válidas.";
+                return;
+            }
+
+            pro_ultimosResultados = dataArr.map((it, ix) => ({
+                exp: it.exp,
+                fechaStr: `${String(it.dt.getDate()).padStart(2,'0')}/${String(it.dt.getMonth()+1).padStart(2,'0')}/${it.dt.getFullYear()}`,
+                numero: sId + ix,
+                juzgado: it.juz
+            }));
+
+            pro_ultimoTextoTSV = pro_ultimosResultados.map(it => `${it.exp}\t${it.fechaStr}\t${it.numero}\t${it.juzgado}`).join('\n');
+
+            navigator.clipboard.writeText(pro_ultimoTextoTSV).then(() => {
+                document.getElementById('pro-status').innerText = `✅ ${dataArr.length} REGISTROS GENERADOS Y COPIADOS`;
+                mostrarToastCopiado(`${dataArr.length} registros copiados para pegar en la planilla`);
             });
+
+            // Renderizar resumen y preview
+            const panelRes = document.getElementById('pro-results-panel');
+            const summaryPills = document.getElementById('pro-summary-pills');
+            const previewBody = document.getElementById('pro-preview-body');
+
+            if (panelRes) panelRes.classList.remove('hidden');
+
+            const countJ1 = pro_ultimosResultados.filter(i => i.juzgado === 'Juzgado 1').length;
+            const countJ2 = pro_ultimosResultados.filter(i => i.juzgado === 'Juzgado 2').length;
+            const rangoInicio = sId;
+            const rangoFin = sId + dataArr.length - 1;
+
+            if (summaryPills) {
+                summaryPills.innerHTML = `
+                    <span class="px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">Total: <b>${dataArr.length}</b></span>
+                    <span class="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">Juzgado 1: <b>${countJ1}</b></span>
+                    <span class="px-2.5 py-1 rounded-md bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800">Juzgado 2: <b>${countJ2}</b></span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">Numeración: <b>#${rangoInicio} a #${rangoFin}</b></span>
+                `;
+            }
+
+            if (previewBody) {
+                previewBody.innerHTML = pro_ultimosResultados.map(r => `
+                    <tr class="hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <td class="p-2 font-bold text-indigo-600 dark:text-indigo-400">${r.exp}</td>
+                        <td class="p-2">${r.fechaStr}</td>
+                        <td class="p-2 font-bold text-slate-900 dark:text-slate-100">${r.numero}</td>
+                        <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${r.juzgado === 'Juzgado 2' ? 'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'}">${r.juzgado}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function pro_copiarNuevamente() {
+            if (!pro_ultimoTextoTSV) return alert("Primero procese los archivos");
+            navigator.clipboard.writeText(pro_ultimoTextoTSV).then(() => {
+                mostrarToastCopiado("📋 Registros copiados al portapapeles");
+            });
+        }
+
+        function pro_exportarExcel() {
+            if (!pro_ultimosResultados.length) return alert("Primero procese los archivos");
+            const ws = XLSX.utils.json_to_sheet(pro_ultimosResultados.map(i => ({
+                "EXPEDIENTE": i.exp,
+                "FECHA FIRMA": i.fechaStr,
+                "NUMERO ASIGNADO": i.numero,
+                "JUZGADO": i.juzgado
+            })));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Protocolos");
+            XLSX.writeFile(wb, "Protocolos_Asignados.xlsx");
+            mostrarToastCopiado("Archivo Excel descargado");
         }
 
         // ==================== MÓDULO 5: PLANILLA FISCAL JUDICIAL ====================
@@ -2437,6 +2951,73 @@
                 pf_valorIntimacion = vIntimacion;
             }
             pf_calcular();
+        }
+
+        async function checkBackendStatus() {
+            const badge = document.getElementById('pf-backend-badge');
+            if (!badge) return;
+            try {
+                const apiUrl = (window.location.protocol === 'file:' || !window.location.port)
+                    ? 'http://localhost:3000/api/config-aranceles'
+                    : '/api/config-aranceles';
+                const resp = await fetch(apiUrl, { method: 'GET', signal: AbortSignal.timeout(2000) });
+                if (resp.ok) {
+                    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="text-emerald-700 dark:text-emerald-300">Servidor SAE Conectado</span>';
+                    badge.title = 'Servidor local activo en localhost:3000. El botón copiar inyecta CF_RTF y CF_HTML nativo para SAE, Word y Excel.';
+                    badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800';
+                    return;
+                }
+            } catch (e) {}
+            badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-500"></span><span class="text-amber-700 dark:text-amber-300">Modo Navegador Web</span>';
+            badge.title = 'Modo cliente web directo. Para portapapeles nativo de Windows (SAE) ejecuta iniciar_servidor.bat';
+            badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800';
+        }
+
+        function pf_setMontoPreset(num) {
+            const input = document.getElementById('pf-monto-reclamado');
+            if (input) {
+                input.value = num.toLocaleString('es-AR');
+                pf_onMontoReclamadoInput(input.value);
+            }
+        }
+
+        function pf_aplicarPlantilla(tipo) {
+            if (tipo === 'apremio_estandar') {
+                pf_setPartePresentada(false);
+                if (document.getElementById('pf-act-escritos')) document.getElementById('pf-act-escritos').value = 1;
+                if (document.getElementById('pf-act-hojas')) document.getElementById('pf-act-hojas').value = 2;
+                if (document.getElementById('pf-act-intimacion-cant')) document.getElementById('pf-act-intimacion-cant').value = 1;
+                pf_setIntimacionValor(1200);
+                pf_calcular();
+                mostrarToastCopiado('⚡ Plantilla Apremio Estándar aplicada (1 Esc, 2 Fojas, 1 Int)');
+            } else if (tipo === 'sentencia_remate') {
+                pf_setPartePresentada(false);
+                if (document.getElementById('pf-act-escritos')) document.getElementById('pf-act-escritos').value = 1;
+                if (document.getElementById('pf-act-hojas')) document.getElementById('pf-act-hojas').value = 4;
+                if (document.getElementById('pf-act-intimacion-cant')) document.getElementById('pf-act-intimacion-cant').value = 1;
+                pf_setIntimacionValor(1200);
+                pf_calcular();
+                mostrarToastCopiado('⚡ Plantilla Sentencia de Remate aplicada (1 Esc, 4 Fojas, 1 Int)');
+            } else if (tipo === 'medida_cautelar') {
+                pf_setPartePresentada(false);
+                if (document.getElementById('pf-act-escritos')) document.getElementById('pf-act-escritos').value = 1;
+                if (document.getElementById('pf-act-hojas')) document.getElementById('pf-act-hojas').value = 3;
+                if (document.getElementById('pf-act-intimacion-cant')) document.getElementById('pf-act-intimacion-cant').value = 1;
+                pf_setIntimacionValor(1200);
+                pf_calcular();
+                mostrarToastCopiado('⚡ Plantilla Medida Cautelar aplicada (1 Esc, 3 Fojas, 1 Int)');
+            } else if (tipo === 'dos_partes_estandar') {
+                pf_setPartePresentada(true);
+                if (document.getElementById('pf-act-escritos')) document.getElementById('pf-act-escritos').value = 1;
+                if (document.getElementById('pf-act-hojas')) document.getElementById('pf-act-hojas').value = 2;
+                if (document.getElementById('pf-act-intimacion-cant')) document.getElementById('pf-act-intimacion-cant').value = 1;
+                if (document.getElementById('pf-dem-escritos')) document.getElementById('pf-dem-escritos').value = 1;
+                if (document.getElementById('pf-dem-hojas')) document.getElementById('pf-dem-hojas').value = 1;
+                if (document.getElementById('pf-dem-apper')) document.getElementById('pf-dem-apper').value = 0;
+                if (document.getElementById('pf-dem-repuesta')) document.getElementById('pf-dem-repuesta').value = 0;
+                pf_calcular();
+                mostrarToastCopiado('⚡ Plantilla Desglose 2 Partes aplicada');
+            }
         }
 
         function pf_limpiarFormulario() {
@@ -3314,6 +3895,10 @@
             section.classList.add('active');
             document.querySelector(`button[onclick*="${id}"]`)?.classList.add('active');
             
+            try {
+                localStorage.setItem('jp_active_tab', id);
+            } catch(e) {}
+
             // Si ingresa a Protocolos, asegurar carga de número de celda I1
             if (id === 'tab-protocolos') {
                 const curVal = document.getElementById('pro-inicio')?.value;
@@ -3327,9 +3912,10 @@
                 tt_renderCalendario();
             }
 
-            // Si ingresa a Planilla Fiscal, asegurar cálculo inicial
+            // Si ingresa a Planilla Fiscal, asegurar cálculo inicial y verificar backend
             if (id === 'tab-planilla-fiscal') {
                 pf_calcular();
+                checkBackendStatus();
             }
 
             // En móviles, colapsar sidebar al cambiar de pestaña
@@ -3364,6 +3950,95 @@
             // Cargar datos de Google Sheets
             tur_actualizarDatos();
             pro_cargarNumeroInicial();
+
+            // Verificar conexión con el backend local (Portapapeles Nativo RTF / Git Sync)
+            checkBackendStatus();
+            setInterval(checkBackendStatus, 30000);
+
+            // Restaurar pestaña activa guardada
+            try {
+                const savedTab = localStorage.getItem('jp_active_tab');
+                if (savedTab && document.getElementById(savedTab)) {
+                    switchMainTab(savedTab);
+                }
+            } catch(e) {}
+
+            // Configurar Drag and Drop interactivo para Cuentas Judiciales y Protocolos
+            const setupDropZone = (zoneId, onDropFiles) => {
+                const zone = document.getElementById(zoneId);
+                if (!zone) return;
+                ['dragenter', 'dragover'].forEach(name => {
+                    zone.addEventListener(name, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        zone.classList.add('drag-zone-active');
+                    });
+                });
+                ['dragleave', 'dragend'].forEach(name => {
+                    zone.addEventListener(name, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        zone.classList.remove('drag-zone-active');
+                    });
+                });
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    zone.classList.remove('drag-zone-active');
+                    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+                        onDropFiles(e.dataTransfer.files);
+                    }
+                });
+            };
+
+            setupDropZone('car-dropzone', (files) => {
+                car_cargar({ target: { files } });
+            });
+
+            setupDropZone('pro-dropzone', (files) => {
+                const fileInput = document.getElementById('pro-files');
+                if (fileInput) fileInput.files = files;
+                pro_onFilesChange(files);
+            });
+
+            // Atajos de Teclado Globales (Productividad)
+            window.addEventListener('keydown', (e) => {
+                // Tecla ESC: Cerrar modales abiertos
+                if (e.key === 'Escape') {
+                    pf_cerrarModalConfig();
+                    const turModal = document.getElementById('tur-password-modal');
+                    if (turModal) turModal.classList.add('hidden');
+                    return;
+                }
+
+                // Alt + 1 a 5: Navegación ultra-rápida de módulos
+                if (e.altKey && !e.ctrlKey && !e.shiftKey) {
+                    const tabMap = {
+                        '1': 'tab-caratulas',
+                        '2': 'tab-protocolos',
+                        '3': 'tab-honorarios-montos',
+                        '4': 'tab-turnos-tarde',
+                        '5': 'tab-planilla-fiscal'
+                    };
+                    if (tabMap[e.key]) {
+                        e.preventDefault();
+                        switchMainTab(tabMap[e.key]);
+                        return;
+                    }
+                }
+
+                // Ctrl + Shift + C: Copiar automáticamente la tabla activa para el SAE
+                if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+                    const activeSec = document.querySelector('.tab-content.active');
+                    if (activeSec && activeSec.id === 'tab-planilla-fiscal') {
+                        e.preventDefault();
+                        pf_copiarTablaHtml();
+                    } else if (activeSec && activeSec.id === 'tab-honorarios-montos') {
+                        e.preventDefault();
+                        hon_copiarDetalle('neto', 'completo');
+                    }
+                }
+            });
         });
     </script>
 </body>
