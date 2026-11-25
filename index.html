@@ -2736,10 +2736,12 @@
             for (let f of files) {
                 const ab = await f.arrayBuffer(), wb = XLSX.read(ab);
                 XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]).forEach(r => {
-                    const esc = (r["ESCRITO"]||"").toString().toUpperCase();
-                    if (esc.includes("SENTENCIA INTERLOCUTORIA") || esc === "FONDO" || esc.includes("SENTENCIA MONITORIA EJECUTIVA")) {
-                        const u = (r["USUARIO FIR."]||"").toString().toLowerCase();
-                        dataArr.push({ exp: r["EXPTE"]||"S/D", dt: parseDMY(r["F.FIRMADO"]), juz: u.includes("ayanicelli")?"Juzgado 2":"Juzgado 1" });
+                    const esc = (r["ESCRITO"]||"").toString().toUpperCase().trim();
+                    if (esc.includes("INTERLOCUTORI") || esc.includes("FONDO") || esc.includes("MONITORI")) {
+                        const u = (r["USUARIO FIR."] || r["USUARIO FIR"] || r["USUARIO"] || r["USUAR"] || "").toString().toLowerCase();
+                        const fFirma = r["F.FIRMADO"] || r["FECHA FIRMADO"] || r["F. FIRMADO"] || r["FECHA"] || r["F.FIRMA"];
+                        const expte = r["EXPTE"] || r["EXPEDIENTE"] || r["NRO EXPTE"] || r["N° EXPTE"] || "S/D";
+                        dataArr.push({ exp: expte, dt: parseDMY(fFirma), juz: u.includes("ayanicelli") ? "Juzgado 2" : "Juzgado 1" });
                     }
                 });
             }
