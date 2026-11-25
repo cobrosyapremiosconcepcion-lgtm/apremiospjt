@@ -873,7 +873,12 @@
                                 <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
                                     <table class="w-full text-sm">
                                         <thead class="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold uppercase">
-                                            <tr><th class="p-3 text-left">Orden</th><th class="p-3 text-left">Nombre</th><th class="p-3 text-left">Día Fijo</th></tr>
+                                            <tr>
+                                                <th class="p-3 text-left">Orden</th>
+                                                <th class="p-3 text-left">Personal Activo</th>
+                                                <th class="p-3 text-left">Días Fijos</th>
+                                                <th class="p-3 text-left">Días Restringidos</th>
+                                            </tr>
                                         </thead>
                                         <tbody id="tur-lista-personal" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
                                     </table>
@@ -2227,14 +2232,44 @@
             document.body.appendChild(script);
         }
 
+        function tur_parseDias(val) {
+            if (val === null || val === undefined || val === '') return [];
+            const str = String(val).toLowerCase().trim();
+            const mapNombres = {
+                'lunes': 1, 'lun': 1, '1': 1,
+                'martes': 2, 'mar': 2, '2': 2,
+                'miercoles': 3, 'miércoles': 3, 'mie': 3, 'mié': 3, '3': 3,
+                'jueves': 4, 'jue': 4, '4': 4,
+                'viernes': 5, 'vie': 5, '5': 5
+            };
+            const parts = str.split(/[,;\syY\-\/]+/);
+            const result = [];
+            for (const p of parts) {
+                const clean = p.trim();
+                if (!clean) continue;
+                if (mapNombres[clean]) {
+                    if (!result.includes(mapNombres[clean])) result.push(mapNombres[clean]);
+                } else {
+                    const num = parseInt(clean, 10);
+                    if (!isNaN(num) && num >= 1 && num <= 5 && !result.includes(num)) {
+                        result.push(num);
+                    }
+                }
+            }
+            return result.sort((a, b) => a - b);
+        }
+
         window.tur_resPersonal = function(data) {
             tur_rawPersonal = data.table.rows.map(r => {
                 if (!r.c || r.c.length < 7) return null;
+                const fijos = tur_parseDias(r.c[4] ? (r.c[4].f || r.c[4].v) : '');
+                const restringidos = tur_parseDias(r.c[5] ? (r.c[5].f || r.c[5].v) : '');
                 return {
-                    orden: r.c[2] ? r.c[2].v : 0,
-                    nombre: r.c[3] ? r.c[3].v : '',
-                    fijo: r.c[4] ? parseInt(r.c[4].v) : null,
-                    restringidos: r.c[5] ? String(r.c[5].v).split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n)) : [],
+                    orden: r.c[2] ? (parseInt(r.c[2].v, 10) || 0) : 0,
+                    nombre: r.c[3] ? String(r.c[3].v).trim() : '',
+                    fijos: fijos,
+                    fijo: fijos.length > 0 ? fijos[0] : null,
+                    restringidos: restringidos,
                     activo: r.c[6] ? r.c[6].v.toString().toLowerCase().trim() : 'no'
                 };
             }).filter(p => p !== null && p.activo === 'si').sort((a,b) => a.orden - b.orden);
@@ -2243,7 +2278,20 @@
                 const elInicio = document.getElementById('tur-inicio');
                 if (elInicio) elInicio.innerHTML = tur_rawPersonal.map(p => `<option value="${p.orden}">${p.nombre}</option>`).join('');
                 const elLista = document.getElementById('tur-lista-personal');
-                if (elLista) elLista.innerHTML = tur_rawPersonal.map(p => `<tr class="border-b border-slate-100 dark:border-slate-800"><td class="p-3">${p.orden}</td><td class="p-3 font-bold">${p.nombre}</td><td class="p-3">${p.fijo ? tur_nombresDias[p.fijo] : '-'}</td></tr>`).join('');
+                if (elLista) elLista.innerHTML = tur_rawPersonal.map(p => {
+                    const fijosHtml = (p.fijos && p.fijos.length > 0)
+                        ? p.fijos.map(d => `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">${tur_nombresDias[d]}</span>`).join(' ')
+                        : `<span class="text-slate-400 font-medium">-</span>`;
+                    const restrHtml = (p.restringidos && p.restringidos.length > 0)
+                        ? p.restringidos.map(d => `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-rose-50 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800">${tur_nombresDias[d]}</span>`).join(' ')
+                        : `<span class="text-slate-400 font-medium">-</span>`;
+                    return `<tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                        <td class="p-3 font-mono text-xs text-slate-500">${p.orden}</td>
+                        <td class="p-3 font-bold text-slate-800 dark:text-slate-100">${p.nombre}</td>
+                        <td class="p-3">${fijosHtml}</td>
+                        <td class="p-3">${restrHtml}</td>
+                    </tr>`;
+                }).join('');
                 datosCargados.personal = true;
                 verificarHabilitarGenerar();
             }
@@ -2279,12 +2327,33 @@
                 return null;
             }).filter(f => f !== null && f !== "");
 
+            // Ordenar feriados detectados de menor a mayor (cronológicamente)
+            tur_feriados = [...new Set(tur_feriados)].sort((a, b) => a.localeCompare(b));
             globalFeriados = [...tur_feriados];
             
             const elFeriados = document.getElementById('tur-lista-feriados');
             if (elFeriados) {
                 elFeriados.innerHTML = tur_feriados.length > 0 
-                    ? tur_feriados.map(f => `<div class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg text-xs font-semibold flex items-center gap-2"><span>📌</span><span>${f}</span></div>`).join('')
+                    ? tur_feriados.map(f => {
+                        const partes = f.split('-');
+                        let diaSemTxt = '';
+                        let fechaLegible = f;
+                        if (partes.length === 3) {
+                            const anio = parseInt(partes[0], 10);
+                            const mes = parseInt(partes[1], 10) - 1;
+                            const dia = parseInt(partes[2], 10);
+                            const dt = new Date(anio, mes, dia, 12, 0, 0);
+                            diaSemTxt = tur_nombresDias[dt.getDay()] || '';
+                            fechaLegible = `${String(dia).padStart(2, '0')}/${String(mes + 1).padStart(2, '0')}/${anio}`;
+                        }
+                        return `<div class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg text-xs font-semibold flex items-center justify-between border border-slate-200/70 dark:border-slate-700/70 hover:border-indigo-400 transition">
+                            <div class="flex items-center gap-2">
+                                <span>📌</span>
+                                <span class="font-bold text-slate-800 dark:text-slate-100 font-mono">${fechaLegible}</span>
+                            </div>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">${diaSemTxt}</span>
+                        </div>`;
+                    }).join('')
                     : '<div class="p-2 text-slate-400 text-sm">No se detectaron feriados.</div>';
             }
             
@@ -2306,17 +2375,33 @@
         function tur_generarCronograma() {
             const mes = parseInt(document.getElementById('tur-mes').value), anio = parseInt(document.getElementById('tur-anio').value), startId = parseInt(document.getElementById('tur-inicio').value);
             const diasMes = new Date(anio, mes, 0).getDate();
-            let fila = [...tur_rawPersonal]; while (fila[0].orden != startId) fila.push(fila.shift());
+            let fila = [...tur_rawPersonal]; while (fila[0] && fila[0].orden != startId) fila.push(fila.shift());
             const tbody = document.getElementById('tur-tabla-cuerpo'); tbody.innerHTML = "";
             for (let d = 1; d <= diasMes; d++) {
                 const fecha = new Date(anio, mes - 1, d), diaSem = fecha.getDay(), iso = `${anio}-${String(mes).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
                 if (diaSem === 0 || diaSem === 6 || tur_feriados.includes(iso)) continue;
                 let asignadosHoy = [];
-                fila.filter(p => p.fijo === diaSem).forEach(p => { if (asignadosHoy.length < 2) asignadosHoy.push(p); });
+                // 1. Asignación prioritaria de días fijos (anula cualquier otra restricción)
+                fila.filter(p => (p.fijos && p.fijos.includes(diaSem)) || p.fijo === diaSem).forEach(p => {
+                    if (asignadosHoy.length < 2 && !asignadosHoy.includes(p)) {
+                        asignadosHoy.push(p);
+                    }
+                });
+                // 2. Completar cupos restantes con rotación ordinaria respetando restricciones
                 for (let i = 0; i < fila.length && asignadosHoy.length < 2; i++) {
-                    if (!asignadosHoy.includes(fila[i]) && !fila[i].restringidos.includes(diaSem)) asignadosHoy.push(fila[i]);
+                    const cand = fila[i];
+                    if (!asignadosHoy.includes(cand) && !(cand.restringidos && cand.restringidos.includes(diaSem))) {
+                        asignadosHoy.push(cand);
+                    }
                 }
-                asignadosHoy.forEach(p => { let idx = fila.indexOf(p); if (idx > -1) { fila.splice(idx, 1); fila.push(p); } });
+                // 3. Mover los asignados de hoy al final de la fila rotativa
+                asignadosHoy.forEach(p => {
+                    let idx = fila.indexOf(p);
+                    if (idx > -1) {
+                        fila.splice(idx, 1);
+                        fila.push(p);
+                    }
+                });
                 const tr = document.createElement('tr'); tr.className = 'border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40';
                 tr.innerHTML = `<td class="p-4 font-bold">${String(d).padStart(2,'0')}/${String(mes).padStart(2,'0')}</td><td class="p-4">${tur_nombresDias[diaSem]}</td><td class="p-4">${tur_renderSelect(asignadosHoy[0]?.nombre)}</td><td class="p-4">${tur_renderSelect(asignadosHoy[1]?.nombre)}</td>`;
                 tbody.appendChild(tr);
