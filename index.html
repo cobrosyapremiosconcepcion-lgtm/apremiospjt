@@ -2652,7 +2652,7 @@
                 const ab = await f.arrayBuffer(), wb = XLSX.read(ab);
                 XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]).forEach(r => {
                     const esc = (r["ESCRITO"]||"").toString().toUpperCase();
-                    if(["FONDO", "SENTENCIA INTERLOCUTORIA NOTIFICACION INDIVIDUAL", "SENTENCIA MONITORIA EJECUTIVA"].includes(esc)) {
+                    if (esc.includes("SENTENCIA INTERLOCUTORIA") || esc === "FONDO" || esc.includes("SENTENCIA MONITORIA EJECUTIVA")) {
                         const u = (r["USUARIO FIR."]||"").toString().toLowerCase();
                         dataArr.push({ exp: r["EXPTE"]||"S/D", dt: parseDMY(r["F.FIRMADO"]), juz: u.includes("ayanicelli")?"Juzgado 2":"Juzgado 1" });
                     }
